@@ -577,7 +577,7 @@ for k, s in [("mur", "Maçonnerie / cloison (coupée)"), ("doublage", "Doublage 
     leg(y, k, s); y += 4.9
 
 y += 4
-T(XR, y, "À VALIDER AVANT MISE À JOUR IFC", 8.5, VERT, fontproperties=FP_MEDIUM); y += 6
+T(XR, y, "CHOIX INTÉGRÉS À LA MAQUETTE V4", 8.5, VERT, fontproperties=FP_MEDIUM); y += 6
 for s in ["Le mur du fond passe du claustra V3 aux\nniches cintrées (lames bois en fond de niche)",
           "Le bureau du fond et ses 3 chaises sont\nremplacés par la banquette de la niche centrale",
           "2 rayonnages supprimés (zone agent, niche est),\ncompensés par les niches et l’arbre à livres",
@@ -586,7 +586,7 @@ for s in ["Le mur du fond passe du claustra V3 aux\nniches cintrées (lames bois
     y += 4.0 * (s.count("\n") + 1) + 1.8
 
 fig.add_artist(plt.Line2D([X0, X1], [1 - 270 / 297] * 2, color=GRIS, lw=.4))
-T(X0, 273, "Base : maquette DECIMO_ESQ_V3.ifc (niveau N00 _ RDC) — proposition V4 non encore reportée dans la maquette.", 6.2, GRIS)
+T(X0, 273, "Maquette : DECIMO_ESQ_V4.ifc (niveau N00 _ RDC) — proposition V4 reportée, matériaux et textures K&Démi appliqués.", 6.2, GRIS)
 T(X0, 278, "Document d’esquisse — dimensions et surfaces indicatives, à vérifier sur site.", 6.2, GRIS)
 T(X1, 278, "K&Démi  ·  PLAN RDC — ESQ V4  ·  Octobre 2026", 6.2, VERT, ha="right")
 

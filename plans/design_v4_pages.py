@@ -41,7 +41,7 @@ def drawing_axes(fig, x_mm, y_top_mm, xlim, ylim, scale):
 
 def footer(fig, ref):
     fig.add_artist(plt.Line2D([236 / 420, 404 / 420], [1 - 270 / 297] * 2, color=GRIS, lw=.4))
-    T(fig, 236, 273, "Proposition V4 — à valider avant report dans la maquette DECIMO_ESQ_V3.ifc.", 6.2, GRIS)
+    T(fig, 236, 273, "Proposition V4 — reportée dans la maquette DECIMO_ESQ_V4.ifc.", 6.2, GRIS)
     T(fig, 236, 278, "Document d’esquisse — dimensions indicatives, à vérifier sur site.", 6.2, GRIS)
     T(fig, 404, 278, "K&Démi  ·  " + ref, 6.2, VERT, ha="right")
 
@@ -259,7 +259,7 @@ for s in ["Un portail terre cuite signale l’entrée ; il intègre l’enseigne
           "Les claustras ne ferment que les baies d’éclairage :\nl’arc A et la « pilule » B (coin lecture), la pilule C (accueil).",
           "Claustra terre cuite à motif d’anneaux : ombre, ventilation\net intimité, en écho à la référence fournie.",
           "Jardinières maçonnées au pied des baies, éclairage LED\nrasant en tableau des arcs et en pied de jardinière.",
-          "La pergola est relevée à +2,90 (au lieu de +2,65) pour\ndégager l’arc de l’entrée (sommet à 2,80)."]:
+          "La pergola est relevée à +2,90 (au lieu de +2,65) pour\ndégager l’arc de l’entrée (sommet à 2,80) ; poutre côté\nfaçade reculée à 30 cm, lames dégagées autour du portail."]:
     T(fig, 236, y, "—", 7.2, GRIS); T(fig, 241, y, s, 7.2, linespacing=1.3); y += 4.3 * (s.count("\n") + 1) + 2.6
 y += 3
 T(fig, 236, y, "INTÉRIEUR — PRINCIPES", 8.5, VERT, fontproperties=FP_MEDIUM); y += 7
@@ -358,10 +358,10 @@ for s in ["Deux familles de matières, chaudes et locales : la terre cuite\nen f
           "Lumière chaude 2700 K intégrée aux formes cintrées,\nsans luminaire apparent hors rails existants."]:
     T(fig, 236, y, "—", 7.2, GRIS); T(fig, 241, y, s, 7.2, linespacing=1.3); y += 4.3 * (s.count("\n") + 1) + 2.6
 y += 3
-T(fig, 236, y, "REPORT DANS LA MAQUETTE IFC (ÉTAPE SUIVANTE)", 8.5, VERT, fontproperties=FP_MEDIUM); y += 7
+T(fig, 236, y, "REPORT DANS LA MAQUETTE IFC — FAIT (DECIMO_ESQ_V4.ifc)", 8.5, VERT, fontproperties=FP_MEDIUM); y += 7
 for s in ["Chaque matière devient un IfcMaterial associé aux éléments\net un style de surface (couleur, réflectance) lisible par les\nvisionneuses ; les textures image sont jointes en option.",
           "Murs, sols et menuiseries existants reçoivent la palette ;\nles nouveaux éléments (arbre, niches, portail, claustras,\njardinières) sont modélisés avec leur matière.",
-          "Les noms en terre cuite sont les styles qui seront créés."]:
+          "Les noms en terre cuite sont les styles créés dans la maquette ;\nles textures sont livrées dans le dossier textures/."]:
     T(fig, 236, y, "—", 7.2, GRIS); T(fig, 241, y, s, 7.2, linespacing=1.3); y += 4.3 * (s.count("\n") + 1) + 2.6
 footer(fig, "MATÉRIAUX — ESQ V4  ·  Octobre 2026")
 fig.savefig(OUT + "_p3.pdf"); fig.savefig(OUT + "_p3.png", dpi=170)
