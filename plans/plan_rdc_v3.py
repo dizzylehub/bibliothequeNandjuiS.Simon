@@ -141,11 +141,11 @@ for k in ("4350630", "4350631"):
 WALL_EDIT = {   # tag : (ajouts, retraits) en boîtes (x0, y0, x1, y1)
     "4350608": ([(2.91, 6.40, 3.09, 7.39)], [(2.88, 5.30, 3.12, 6.14)]),   # porte WC 2 bouchée, baie vers dégagement
     "4350621": ([(1.80, 5.04, 2.79, 5.16)], []),                            # porte WC 1 bouchée
-    "4350620": ([], [(1.98, 6.22, 2.81, 6.38)]),                            # nouvelle porte du WC
+    "4350620": ([], [(1.90, 6.22, 2.83, 6.38)]),                            # nouvelle porte du WC
 }
 NEW_WALLS = [
     box(1.76, 5.16, 1.88, 6.24).difference(box(1.74, 5.32, 1.90, 6.08)),  # cloison rangement / dégagement
-    box(2.955, 2.82, 3.045, 4.13),                                         # cloison pleine (dos du M01)
+    box(2.955, 2.82, 3.045, 4.07), box(2.955, 5.00, 3.045, 5.04),                                         # cloison pleine (dos du M01)
 ]
 POCKET = box(3.09, 0.09, 3.23, 0.99)                                       # caisson de la porte à galandage
 
@@ -240,7 +240,7 @@ def rect(x0, y0, x1, y1, **kw):
     ax.add_patch(Rectangle((x0, y0), x1 - x0, y1 - y0, **kw))
 
 # M01 — console vinyles 40 cm contre la cloison (3 modules, 2 platines)
-for i, (y0, y1) in enumerate([(1.86, 2.60), (2.60, 3.35), (3.35, 4.10)]):
+for i, (y0, y1) in enumerate([(1.86, 2.58), (2.58, 3.30), (3.30, 4.02)]):
     rect(3.09, y0, 3.49, y1, fc="white", ec=NOIR, lw=lw_cut * .55, zorder=5)
     if i:
         ax.add_patch(plt.Circle((3.29, (y0 + y1) / 2), 0.15, fc="white", ec=NOIR, lw=lw_fine, zorder=5))
@@ -260,7 +260,7 @@ TAGS.setdefault("P01", []).append(Point(2.27, 1.18))
 pc = np.array([6.18, 2.85])
 for a in np.linspace(0, 360, 9)[:-1] + 12:
     r = np.radians(a)
-    tip = pc + 0.36 * np.array([np.cos(r), np.sin(r)])
+    tip = pc + 0.32 * np.array([np.cos(r), np.sin(r)])
     mid = pc + 0.2 * np.array([np.cos(r), np.sin(r)])
     nrm = 0.07 * np.array([-np.sin(r), np.cos(r)])
     ax.add_patch(MPoly([pc, mid + nrm, tip, mid - nrm], closed=True, fc="white", ec=NOIR, lw=lw_hair, zorder=5))
@@ -279,8 +279,8 @@ def door(hinge, r, a0, a1, leaf_end):
     ax.add_patch(Arc(hinge, 2 * r, 2 * r, theta1=a0, theta2=a1, color=NOIR, lw=lw_hair, zorder=6))
     ax.plot([hinge[0], leaf_end[0]], [hinge[1], leaf_end[1]], color=NOIR, lw=lw_mid, zorder=6)
 door((0.92, 0.09), 0.91, 0, 90, (0.92, 1.0))           # entrée
-door((2.81, 6.30), 0.83, 180, 270, (2.81, 5.47))       # WC, ouvrant vers le dégagement
-door((3.00, 4.96), 0.83, 180, 270, (2.17, 4.96))       # salle de réunion (déplacée)
+door((2.83, 6.30), 0.93, 180, 270, (2.83, 5.37))       # WC, ouvrant vers le dégagement
+door((3.00, 5.00), 0.93, 180, 270, (2.07, 5.00))       # salle de réunion (déplacée)
 # porte coulissante du rangement
 rect(1.90, 5.30, 1.93, 6.10, fc="white", ec=NOIR, lw=lw_mid, zorder=6)
 
@@ -384,10 +384,10 @@ cote((-0.09, 7.62), (6.69, 7.62), 0.25, "6,78")
 cote((6.69, -0.09), (6.69, 7.59), 0.35, "7,68", vertical=True)
 cote((6.69, -2.75), (6.69, -0.09), 0.35, "2,66", vertical=True)
 # cote du M01 (40 cm)
-ax.plot([3.09, 3.49], [4.22, 4.22], color=GRIS, lw=lw_fine, zorder=8)
+ax.plot([3.09, 3.49], [4.14, 4.14], color=GRIS, lw=lw_fine, zorder=8)
 for xx in (3.09, 3.49):
-    ax.plot([xx - .03, xx + .03], [4.19, 4.25], color=GRIS, lw=lw_mid, zorder=8)
-ax.text(3.29, 4.26, "40", fontsize=5, color=GRIS, ha="center", va="bottom", zorder=8)
+    ax.plot([xx - .03, xx + .03], [4.11, 4.17], color=GRIS, lw=lw_mid, zorder=8)
+ax.text(3.29, 4.18, "40", fontsize=5, color=GRIS, ha="center", va="bottom", zorder=8)
 
 sx, sy = XMIN + 0.1, YMIN + 0.05
 for i in range(4):
@@ -504,7 +504,7 @@ T(XR + 22 / 420, 205, "Deux nappes de lames bois croisées, à la\n"
   "Le claustra du mur du fond reprend la même\nlame et la même loi d’espacement.", 6.8, linespacing=1.3)
 
 fig.add_artist(plt.Line2D([X0, X1], [1 - 270 / 297] * 2, color=GRIS, lw=.4))
-T(X0, 273, "Base : maquette DECIMO_ESQ_V2.ifc (niveau N00 _ RDC), modifiée selon les remarques du 14/10/2026 — maquette Revit à mettre à jour.", 6.2, GRIS)
+T(X0, 273, "Base : maquette DECIMO_ESQ_V3.ifc (niveau N00 _ RDC), issue de la V2 + remarques du 14/10/2026 — à reporter dans le projet Revit.", 6.2, GRIS)
 T(X0, 278, "Document d’esquisse — dimensions et surfaces indicatives, à vérifier sur site.", 6.2, GRIS)
 T(X1, 278, "PLAN RDC — ESQ V3  ·  Octobre 2026", 6.2, VERT, ha="right")
 
