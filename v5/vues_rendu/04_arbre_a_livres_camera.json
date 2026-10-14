@@ -1,0 +1,74 @@
+{
+  "vue": "04_arbre_a_livres",
+  "description": "Arbre à livres et oculus indigo, contre-plongée",
+  "source_ifc": "v5/DECIMO_ESQ_V5.ifc",
+  "source_sha256": "985f48d48b54ac23238c42774d7b8b63669e23f919ac7345ce9bac62e21082bc",
+  "repere": "monde IFC, mètres, z vers le haut, origine angle intérieur sud-ouest du RDC (sol fini = 0)",
+  "camera": {
+    "position_m": [
+      3.4,
+      3.25,
+      1.2
+    ],
+    "cible_m": [
+      4.75,
+      5.61,
+      2.25
+    ],
+    "haut": [
+      0,
+      0,
+      1
+    ],
+    "resolution_px": [
+      2560,
+      1600
+    ],
+    "projection": "perspective",
+    "fov_vertical_deg": 62.0,
+    "fov_horizontal_deg": 87.744,
+    "focale_equivalente_24x36_mm": 18.72,
+    "near_m": 0.05,
+    "far_m": 200
+  },
+  "eclairage": {
+    "shadows": true,
+    "sun_dir": [
+      -0.3,
+      -0.7,
+      0.65
+    ],
+    "sky": [
+      0.98,
+      0.95,
+      0.9
+    ],
+    "ground": [
+      0.86,
+      0.8,
+      0.72
+    ],
+    "sun_col": [
+      1.0,
+      0.9,
+      0.76
+    ],
+    "fill_dir": [
+      0.15,
+      -1.0,
+      0.25
+    ],
+    "fill_k": 0.22,
+    "exposure": 0.92,
+    "emissive": 1.25,
+    "background": [
+      0.95,
+      0.93,
+      0.9
+    ]
+  },
+  "masques": [
+    "sol_ext"
+  ],
+  "script": "python3 v5/scripts/vues_rendu.py"
+}

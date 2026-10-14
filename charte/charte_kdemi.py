@@ -11,7 +11,8 @@ from matplotlib.font_manager import FontProperties
 from matplotlib.patches import PathPatch, Rectangle
 from matplotlib.path import Path
 
-FD = "/tmp/claude-0/-home-user/5dfc2a2e-f67b-5d7c-bd12-e0811e213d4e/scratchpad/fonts/"
+import os
+FD = os.environ.get("KDEMI_FONTS", os.path.join(os.path.dirname(os.path.abspath(__file__)), "polices")) + os.sep
 F_TITRE = FD + "dm-serif-display-latin-400-normal.ttf"
 F_TITRE_I = FD + "dm-serif-display-latin-400-italic.ttf"
 F_LIGHT = FD + "jost-latin-300-normal.ttf"
