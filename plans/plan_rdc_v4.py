@@ -12,15 +12,12 @@ from shapely.geometry import Polygon, LineString, box, MultiPolygon
 from shapely.ops import unary_union, polygonize
 
 IFC = "/home/user/bibliothequeNandjuiS.Simon/DECIMO_ESQ_V2.ifc"
-LOGO = "/root/.claude/skills/synced/68b949f7-29fd-4b06-8f9e-f06c81c76d86_30805531-b9b3-4d6e-85e6-49dfe06bdd23/charte-kd/assets/Logo KDA.jpg"
-FONT = "/tmp/claude-0/-home-user/5dfc2a2e-f67b-5d7c-bd12-e0811e213d4e/scratchpad/fonts/Questrial-Regular.ttf"
 OUT = sys.argv[1]
 
-font_manager.fontManager.addfont(FONT)
-plt.rcParams["font.family"] = font_manager.FontProperties(fname=FONT).get_name()
-plt.rcParams["pdf.fonttype"] = 42
-
-NOIR, GRIS, VERT, GCLAIR = "#0B0C12", "#66747C", "#7AB648", "#F2F2F2"
+sys.path.insert(0, "/tmp/claude-0/-home-user/5dfc2a2e-f67b-5d7c-bd12-e0811e213d4e/scratchpad")
+from charte_kdemi import *
+NOIR, GRIS, VERT, GCLAIR = ENCRE, TAUPE, TERRE_CUITE, SABLE_CLAIR
+TAG, DEG = IROKO, OLIVE
 H = 1.10                      # hauteur de coupe (m)
 SCALE = 50                    # 1/50
 XMIN, XMAX, YMIN, YMAX = -1.3, 7.3, -3.25, 8.05   # cadrage (m)
@@ -176,7 +173,7 @@ ax = fig.add_axes([left_mm / 420, bot_mm / 297, W_mm / 420, H_mm / 297])
 ax.set_xlim(XMIN, XMAX); ax.set_ylim(YMIN, YMAX); ax.set_aspect("equal"); ax.axis("off")
 frame = box(XMIN, YMIN, XMAX, YMAX)
 lw_cut, lw_mid, lw_fine, lw_hair = 1.1, 0.45, 0.25, 0.15
-POCHE = "#3A3F44"
+POCHE = POCHE
 BOIS = "#B9A07E"   # bois des lames (couleur de projet, usage limité aux lames)
 
 walls = {}
@@ -220,7 +217,7 @@ for eid, (e, v, t) in meshes.items():
     if tg == "4350700":   # bâtiment mitoyen
         g = footprint(v, t).intersection(frame)
         draw_geom(ax, g, fc="white", ec=GRIS, lw=lw_fine, hatch="////", zorder=0)
-        ax.text(g.centroid.x, 3.6, "BATIMENT\nMITOYEN", rotation=90, ha="center", va="center",
+        ax.text(g.centroid.x, 3.6, "BÂTIMENT\nMITOYEN", rotation=90, ha="center", va="center",
                 fontsize=6.5, color=GRIS, zorder=5, bbox=dict(fc="white", ec="none", pad=1.5))
         continue
     if tg in GLASS:
@@ -337,7 +334,7 @@ for x0, x1 in ((0.35, 2.95), (5.05, 6.45)):
             ax.add_patch(MPoly([(xx, -0.27), (xx + 0.15 * np.cos(a - .35), -0.27 + 0.15 * np.sin(a - .35)),
                                 (xx + 0.18 * np.cos(a), -0.27 + 0.18 * np.sin(a)),
                                 (xx + 0.15 * np.cos(a + .35), -0.27 + 0.15 * np.sin(a + .35))],
-                               closed=True, fc="white", ec=VERT, lw=lw_hair, zorder=5))
+                               closed=True, fc="white", ec=DEG, lw=lw_hair, zorder=5))
 
 # Arbre à livres (rayonnage circulaire Ø 0,90, noyau Ø 0,40, canopée Ø 2,60 en plafond)
 TREE = np.array([4.75, 5.61])
@@ -352,7 +349,7 @@ for k in range(48):
     a = np.radians(k * 7.5)
     ax.plot([TREE[0] + .24 * np.cos(a), TREE[0] + .42 * np.cos(a)],
             [TREE[1] + .24 * np.sin(a), TREE[1] + .42 * np.sin(a)], color=NOIR, lw=lw_hair * .7, zorder=6)
-ax.text(TREE[0], TREE[1] + 1.18, "CANOPEE Ø 2,60 (PLAFOND)", fontsize=4.3, color=GRIS, ha="center", va="center",
+ax.text(TREE[0], TREE[1] + 1.18, "CANOPÉE Ø 2,60 (PLAFOND)", fontsize=4.3, color=GRIS, ha="center", va="center",
         zorder=8, bbox=dict(fc="white", ec="none", pad=0.3))
 TAGS.setdefault("L01", []).append(Point(*TREE))
 
@@ -376,18 +373,18 @@ for xx in (3.65, 5.35):
     ax.plot([xx, xx], [0.40, 4.20], color=GRIS, lw=lw_hair, ls=(0, (3, 2)), zorder=6)
 
 # Dégagements : sas d'entrée et cotes de passage
-ax.add_patch(plt.Circle((4.10, 0.85), 0.75, fc="none", ec=VERT, lw=0.6, ls=(0, (3, 2)), zorder=7))
-ax.text(4.10, 0.85, "Ø 1,50", fontsize=5.5, color=VERT, ha="center", va="center", zorder=8,
+ax.add_patch(plt.Circle((4.10, 0.85), 0.75, fc="none", ec=DEG, lw=0.6, ls=(0, (3, 2)), zorder=7))
+ax.text(4.10, 0.85, "Ø 1,50", fontsize=5.5, color=DEG, ha="center", va="center", zorder=8,
         bbox=dict(fc="white", ec="none", pad=0.4))
 
 def passage(p, q, txt, side=1, size=5.2):
     p, q = np.array(p), np.array(q)
-    ax.annotate("", xy=q, xytext=p, arrowprops=dict(arrowstyle="<|-|>", color=VERT, lw=0.6, mutation_scale=5,
+    ax.annotate("", xy=q, xytext=p, arrowprops=dict(arrowstyle="<|-|>", color=DEG, lw=0.6, mutation_scale=5,
                                                     shrinkA=0, shrinkB=0), zorder=8)
     m = (p + q) / 2
     vert = abs(q[0] - p[0]) < abs(q[1] - p[1])
     ax.text(m[0] + (0.07 * side if vert else 0), m[1] + (0 if vert else 0.06 * side), txt, fontsize=size,
-            color=VERT, rotation=90 if vert else 0, ha="center", va="center", zorder=8,
+            color=DEG, rotation=90 if vert else 0, ha="center", va="center", zorder=8,
             bbox=dict(fc="white", ec="none", pad=0.3))
 
 passage((3.09, 5.61), (4.30, 5.61), "1,21")
@@ -418,13 +415,13 @@ while y > -2.45:
 segB = [[(-0.05, y), (6.65, y)] for y in ya]
 ax.add_collection(LineCollection(segB, colors=BOIS, lw=0.25, alpha=.6, zorder=1))
 ax.add_collection(LineCollection(segA, colors=BOIS, lw=0.4, alpha=.8, zorder=1))
-ax.text(6.6, -3.10, "PERGOLA BOIS PARAMETRIQUE — PROJECTION", fontsize=5.5, ha="right", color=GRIS)
+ax.text(6.6, -3.10, "PERGOLA BOIS PARAMÉTRIQUE — PROJECTION", fontsize=5.5, ha="right", color=GRIS)
 
 # Repères mobilier
 for code, pts in TAGS.items():
     for c in pts:
         ax.text(c.x, c.y, code, fontsize=4.6, ha="center", va="center", color="white", zorder=9,
-                bbox=dict(boxstyle="circle,pad=0.18", fc=VERT, ec="none"))
+                bbox=dict(boxstyle="circle,pad=0.18", fc=TAG, ec="none"))
 
 # Locaux
 def room(x, y, nom, surf, size=8.5, inline=False, rot=0):
@@ -454,7 +451,7 @@ room(1.55, -0.70, "Terrasse couverte", m2(terr.area))
 
 ax.add_patch(FancyArrowPatch((3.82, -1.55), (3.82, 0.55), arrowstyle="-|>", mutation_scale=9, color=VERT, lw=1.2, zorder=9))
 ax.add_patch(FancyArrowPatch((4.42, 0.55), (4.42, -1.55), arrowstyle="-|>", mutation_scale=9, color=GRIS, lw=1.2, zorder=9))
-ax.text(3.74, -0.80, "ENTREE", fontsize=6, ha="right", va="center", color=VERT, zorder=9, bbox=dict(fc="white", ec="none", pad=0.5))
+ax.text(3.74, -0.80, "ENTRÉE", fontsize=6, ha="right", va="center", color=VERT, zorder=9, bbox=dict(fc="white", ec="none", pad=0.5))
 ax.text(4.50, -0.80, "SORTIE", fontsize=6, ha="left", va="center", color=GRIS, zorder=9, bbox=dict(fc="white", ec="none", pad=0.5))
 ax.add_patch(FancyArrowPatch((3.75, 5.72), (3.12, 5.72), arrowstyle="-|>", mutation_scale=6, color=VERT, lw=.8, zorder=9))
 
@@ -490,15 +487,14 @@ ax.text(sx + 4, sy + 0.14, "4 m", fontsize=5.5, ha="center", color=GRIS)
 
 
 # --- cartouche (charte K&D) --------------------------------------------------
-logo = plt.imread(LOGO)
-lh = 60 * logo.shape[0] / logo.shape[1]
-lax = fig.add_axes([16 / 420, (297 - 12 - lh) / 297, 60 / 420, lh / 297]); lax.imshow(logo); lax.axis("off")
+fig.add_artist(Rectangle((228 / 420, 0), 192 / 420, 1, transform=fig.transFigure, fc=SABLE_CLAIR, ec="none", zorder=-5))
+draw_logo(fig, 16, 11, 15)
 
 X0, X1, XR = 236 / 420, 404 / 420, 326 / 420
 C1R = 316 / 420
 def T(x, y_mm, s, size, color=NOIR, **kw):
     return fig.text(x, 1 - y_mm / 297, s, fontsize=size, color=color, va="top", **kw)
-T(X0, 16, "BIBLIOTHEQUE DECIMO", 22, GRIS)
+T(X0, 12.5, "Bibliothèque Decimo", 25, NOIR, fontproperties=FP_TITRE)
 T(X0, 27, "Proposition d’aménagement V4 — arbre à livres et façade cintrée", 12, VERT)
 T(X0, 35, "Plan du rez-de-chaussée  ·  Esquisse V4 (sur base V3)  ·  Échelle 1/50 (A3)  ·  Coupe à +1,10 m", 8.5, GRIS)
 fig.add_artist(plt.Line2D([X0, X1], [1 - 42 / 297] * 2, color=VERT, lw=1.2))
@@ -512,7 +508,7 @@ PRINCIPES = [
     "Façade : baies cintrées à claustra terre cuite\n(A, B coin lecture ; C accueil) et jardinières",
     "Terrasse : groupe de tables est décalé de 1 m\npour dégager un axe d’entrée de 2,34 m",
 ]
-T(X0, 49, "PRINCIPES D’AMENAGEMENT", 9, VERT)
+T(X0, 49, "PRINCIPES D’AMÉNAGEMENT", 8.5, VERT, fontproperties=FP_MEDIUM)
 y = 56
 for i, s in enumerate(PRINCIPES, 1):
     fig.text(X0 + 2 / 420, 1 - (y + 1.3) / 297, str(i), fontsize=6, color="white", ha="center", va="center",
@@ -521,7 +517,7 @@ for i, s in enumerate(PRINCIPES, 1):
     y += 4.15 * (s.count("\n") + 1) + 2.2
 
 y += 2
-T(X0, y, "CONTROLE ERGONOMIQUE", 9, VERT); y += 6
+T(X0, y, "CONTRÔLE ERGONOMIQUE", 8.5, VERT, fontproperties=FP_MEDIUM); y += 6
 ROWS = [("Passage principal", "min. 0,90", "0,92"), ("Tour de l’arbre à livres", "min. 0,90", "0,90 à 1,21"),
         ("Entrée (2 UP)", "min. 1,40", "1,50"), ("Vantail principal", "min. 0,90", "0,90"),
         ("Aire de manœuvre derrière l’entrée", "Ø 1,50", "Ø 1,50"),
@@ -533,7 +529,7 @@ T(C1R, y + 0.4, "Proposé", 7, "white", ha="right"); y += 6.4
 for k, (a, b, c) in enumerate(ROWS):
     if k % 2:
         fig.add_artist(Rectangle((X0 - 1 / 420, 1 - (y + 3.6) / 297), (C1R - X0) + 2 / 420, 4.6 / 297,
-                                 transform=fig.transFigure, fc=GCLAIR, ec="none"))
+                                 transform=fig.transFigure, fc="#EBDFCC", ec="none"))
     T(X0, y, a, 6.8); T(290 / 420, y, b, 6.8, GRIS, ha="right"); T(C1R, y, c, 6.8, ha="right")
     y += 4.6
 T(X0, y + 1.5, "Cotes en mètres, mesurées au nu des éléments finis.", 6.2, GRIS)
@@ -543,17 +539,17 @@ LIB = {"A01": "Fauteuil", "B01": "Rayonnage 800", "B02": "Banquette", "C01": "Ch
        "T02": "Table ronde", "P01": "Pouf", "V01": "Plante en pot",
        "L01": "Arbre à livres (Ø 0,90, canopée)", "N01": "Niche cintrée bibliothèque",
        "N02": "Niche cintrée banquette"}
-T(XR, 49, "MOBILIER", 9, VERT)
+T(XR, 49, "MOBILIER", 8.5, VERT, fontproperties=FP_MEDIUM)
 y = 56
 for code in sorted(TAGS):
     fig.text(XR + 2 / 420, 1 - (y + 1.1) / 297, code, fontsize=5.3, color="white", ha="center", va="center",
-             bbox=dict(boxstyle="circle,pad=0.2", fc=VERT, ec="none"))
+             bbox=dict(boxstyle="circle,pad=0.2", fc=TAG, ec="none"))
     T(XR + 7 / 420, y, LIB.get(code, code), 7.2)
     T(X1, y, f"× {len(TAGS[code])}", 7.2, GRIS, ha="right")
     y += 4.7
 
 y += 5
-T(XR, y, "LEGENDE", 9, VERT); y += 6.5
+T(XR, y, "LÉGENDE", 8.5, VERT, fontproperties=FP_MEDIUM); y += 6.5
 def leg(y, kind, txt):
     x = XR + 1 / 420; w = 8 / 420; h = 2.6 / 297; yy = 1 - (y + 2.8) / 297
     if kind == "mur":
@@ -570,7 +566,7 @@ def leg(y, kind, txt):
     elif kind == "proj":
         fig.add_artist(plt.Line2D([x, x + w], [yy + h / 2] * 2, color=GRIS, lw=.5, ls=(0, (3, 2))))
     elif kind == "deg":
-        fig.add_artist(plt.Line2D([x, x + w], [yy + h / 2] * 2, color=VERT, lw=.8))
+        fig.add_artist(plt.Line2D([x, x + w], [yy + h / 2] * 2, color=DEG, lw=.8))
     elif kind == "mit":
         fig.add_artist(Rectangle((x, yy), w, h, transform=fig.transFigure, fc="white", ec=GRIS, lw=.3, hatch="////"))
     T(XR + 11 / 420, y, txt, 6.8)
@@ -581,7 +577,7 @@ for k, s in [("mur", "Maçonnerie / cloison (coupée)"), ("doublage", "Doublage 
     leg(y, k, s); y += 4.9
 
 y += 4
-T(XR, y, "A VALIDER AVANT MISE A JOUR IFC", 9, VERT); y += 6
+T(XR, y, "À VALIDER AVANT MISE À JOUR IFC", 8.5, VERT, fontproperties=FP_MEDIUM); y += 6
 for s in ["Le mur du fond passe du claustra V3 aux\nniches cintrées (lames bois en fond de niche)",
           "Le bureau du fond et ses 3 chaises sont\nremplacés par la banquette de la niche centrale",
           "2 rayonnages supprimés (zone agent, niche est),\ncompensés par les niches et l’arbre à livres",
@@ -592,7 +588,7 @@ for s in ["Le mur du fond passe du claustra V3 aux\nniches cintrées (lames bois
 fig.add_artist(plt.Line2D([X0, X1], [1 - 270 / 297] * 2, color=GRIS, lw=.4))
 T(X0, 273, "Base : maquette DECIMO_ESQ_V3.ifc (niveau N00 _ RDC) — proposition V4 non encore reportée dans la maquette.", 6.2, GRIS)
 T(X0, 278, "Document d’esquisse — dimensions et surfaces indicatives, à vérifier sur site.", 6.2, GRIS)
-T(X1, 278, "PLAN RDC — ESQ V4  ·  Octobre 2026", 6.2, VERT, ha="right")
+T(X1, 278, "K&Démi  ·  PLAN RDC — ESQ V4  ·  Octobre 2026", 6.2, VERT, ha="right")
 
 fig.savefig(OUT + ".pdf"); fig.savefig(OUT + ".png", dpi=200)
 print("ok", {k: len(v) for k, v in TAGS.items()})

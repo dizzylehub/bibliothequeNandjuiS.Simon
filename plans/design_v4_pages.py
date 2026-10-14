@@ -8,16 +8,13 @@ from matplotlib import font_manager
 from matplotlib.patches import Rectangle, PathPatch, Circle, Polygon as MPoly
 from matplotlib.path import Path
 
-LOGO = "/root/.claude/skills/synced/68b949f7-29fd-4b06-8f9e-f06c81c76d86_30805531-b9b3-4d6e-85e6-49dfe06bdd23/charte-kd/assets/Logo KDA.jpg"
-FONT = "/tmp/claude-0/-home-user/5dfc2a2e-f67b-5d7c-bd12-e0811e213d4e/scratchpad/fonts/Questrial-Regular.ttf"
 REF1 = "/tmp/claude-0/-home-user/5dfc2a2e-f67b-5d7c-bd12-e0811e213d4e/images/1.webp"
 REF2 = "/tmp/claude-0/-home-user/5dfc2a2e-f67b-5d7c-bd12-e0811e213d4e/images/2.png"
 OUT = sys.argv[1]
-font_manager.fontManager.addfont(FONT)
-plt.rcParams["font.family"] = font_manager.FontProperties(fname=FONT).get_name()
-plt.rcParams["pdf.fonttype"] = 42
-
-NOIR, GRIS, VERT, GCLAIR = "#0B0C12", "#66747C", "#7AB648", "#F2F2F2"
+sys.path.insert(0, "/tmp/claude-0/-home-user/5dfc2a2e-f67b-5d7c-bd12-e0811e213d4e/scratchpad")
+from charte_kdemi import *
+NOIR, GRIS, VERT, GCLAIR = ENCRE, TAUPE, TERRE_CUITE, SABLE_CLAIR
+TAG, DEG = IROKO, OLIVE
 # couleurs de projet (matériaux)
 ENDUIT_BLANC, TERRA, TERRA_F, CLAUSTRA_FOND = "#F3EFE6", "#B4583E", "#8E3F2B", "#3B2A24"
 IROKO, IROKO_C, ENDUIT_SABLE, ACIER, VITRE, LED = "#9A6B43", "#B8875A", "#E6D6BF", "#1E1E1E", "#CFE3EA", "#F2C46D"
@@ -28,9 +25,8 @@ rng = np.random.default_rng(7)
 
 def page():
     fig = plt.figure(figsize=(420 * MM, 297 * MM))
-    logo = plt.imread(LOGO)
-    lh = 60 * logo.shape[0] / logo.shape[1]
-    lax = fig.add_axes([16 / 420, (297 - 12 - lh) / 297, 60 / 420, lh / 297]); lax.imshow(logo); lax.axis("off")
+    fig.add_artist(Rectangle((228 / 420, 0), 192 / 420, 1, transform=fig.transFigure, fc=SABLE_CLAIR, ec="none", zorder=-5))
+    draw_logo(fig, 16, 11, 15)
     return fig
 
 def T(fig, x_mm, y_mm, s, size, color=NOIR, **kw):
@@ -47,10 +43,10 @@ def footer(fig, ref):
     fig.add_artist(plt.Line2D([236 / 420, 404 / 420], [1 - 270 / 297] * 2, color=GRIS, lw=.4))
     T(fig, 236, 273, "Proposition V4 — à valider avant report dans la maquette DECIMO_ESQ_V3.ifc.", 6.2, GRIS)
     T(fig, 236, 278, "Document d’esquisse — dimensions indicatives, à vérifier sur site.", 6.2, GRIS)
-    T(fig, 404, 278, ref, 6.2, VERT, ha="right")
+    T(fig, 404, 278, "K&Démi  ·  " + ref, 6.2, VERT, ha="right")
 
 def header(fig, sub, line):
-    T(fig, 236, 16, "BIBLIOTHEQUE DECIMO", 22, GRIS)
+    T(fig, 236, 12.5, "Bibliothèque Decimo", 25, NOIR, fontproperties=FP_TITRE)
     T(fig, 236, 27, sub, 12, VERT)
     T(fig, 236, 35, line, 8.5, GRIS)
     fig.add_artist(plt.Line2D([236 / 420, 404 / 420], [1 - 42 / 297] * 2, color=VERT, lw=1.2))
@@ -130,13 +126,13 @@ header(fig, "Façade et mur du fond — élévations de principe",
        "Esquisse V4  ·  Façade sud du RDC au 1/50  ·  Mur du fond de la salle de lecture au 1/25 (A3)")
 
 # ---- façade sud, 1/50 ----
-T(fig, 22, 38, "ELEVATION FACADE SUD — RDC  ·  1/50", 8.5, VERT)
+T(fig, 22, 38, "ÉLÉVATION FAÇADE SUD — RDC  ·  1/50", 8.5, VERT, fontproperties=FP_MEDIUM)
 ax = drawing_axes(fig, 22, 42, (-0.45, 7.05), (-0.30, 3.95), 50)
 ax.add_patch(Rectangle((-0.45, -0.30), 0.36, 4.25, fc="white", ec=GRIS, lw=lw_fine, hatch="////", zorder=1))
 ax.text(-0.27, 1.8, "MITOYEN", rotation=90, fontsize=5, color=GRIS, ha="center", va="center", zorder=2,
         bbox=dict(fc="white", ec="none", pad=0.6))
 ax.add_patch(Rectangle((-0.09, 3.30), 6.78, 0.65, fc=GCLAIR, ec=GRIS, lw=lw_fine, zorder=1))
-ax.text(3.3, 3.62, "ETAGE EXISTANT (NON MODIFIE)", fontsize=5, color=GRIS, ha="center", va="center", zorder=2)
+ax.text(3.3, 3.62, "ÉTAGE EXISTANT (NON MODIFIÉ)", fontsize=5, color=GRIS, ha="center", va="center", zorder=2)
 ax.add_patch(Rectangle((-0.09, 0.0), 6.78, 3.30, fc=ENDUIT_BLANC, ec=NOIR, lw=lw_mid, zorder=2))
 ax.plot([-0.45, 7.05], [0, 0], color=NOIR, lw=1.0, zorder=10)
 ax.add_patch(Rectangle((-0.09, -0.10), 6.78, 0.10, fc=GRES, ec=NOIR, lw=lw_fine, zorder=9))
@@ -163,7 +159,7 @@ for k in np.arange(-1.6, 1.7, 0.15):
 for xx in (4.18, 4.32):
     ax.plot([xx, xx], [0.95, 1.20], color=ACIER, lw=1.4, zorder=7)                # poignées
 ax.text(4.10, 3.02, "DECIMO", fontsize=10, color="white", ha="center", va="center", zorder=7)
-ax.text(4.10, 3.19, "BIBLIOTHEQUE", fontsize=4.2, color="white", ha="center", va="center", zorder=7)
+ax.text(4.10, 3.19, "BIBLIOTHÈQUE", fontsize=4.2, color="white", ha="center", va="center", zorder=7)
 # jardinières et végétation
 for x0, x1 in ((0.35, 2.95), (5.05, 6.45)):
     ax.add_patch(Rectangle((x0, 0.0), x1 - x0, 0.45, fc=ENDUIT_BLANC, ec=NOIR, lw=lw_mid, zorder=8))
@@ -198,11 +194,11 @@ callout(ax, (3.6, 2.4), (5.80, 3.08), "Portail enduit terre cuite, angle arrondi
 callout(ax, (6.0, 0.25), (6.30, 0.80), "Jardinière maçonnée", ha="center")
 
 # ---- mur du fond, 1/25 ----
-T(fig, 22, 136, "ELEVATION INTERIEURE — MUR DU FOND ET ARBRE A LIVRES  ·  1/25", 8.5, VERT)
+T(fig, 22, 136, "ÉLÉVATION INTÉRIEURE — MUR DU FOND ET ARBRE À LIVRES  ·  1/25", 8.5, VERT, fontproperties=FP_MEDIUM)
 bx = drawing_axes(fig, 22, 140, (2.80, 6.85), (-0.12, 3.40), 25)
-bx.add_patch(Rectangle((2.91, -0.12), 0.18, 3.52, fc="#3A3F44", ec=NOIR, lw=lw_mid, zorder=2))
-bx.add_patch(Rectangle((6.51, -0.12), 0.18, 3.52, fc="#3A3F44", ec=NOIR, lw=lw_mid, zorder=2))
-bx.add_patch(Rectangle((3.09, 3.30), 3.42, 0.10, fc="#3A3F44", ec=NOIR, lw=lw_mid, zorder=2))
+bx.add_patch(Rectangle((2.91, -0.12), 0.18, 3.52, fc=POCHE, ec=NOIR, lw=lw_mid, zorder=2))
+bx.add_patch(Rectangle((6.51, -0.12), 0.18, 3.52, fc=POCHE, ec=NOIR, lw=lw_mid, zorder=2))
+bx.add_patch(Rectangle((3.09, 3.30), 3.42, 0.10, fc=POCHE, ec=NOIR, lw=lw_mid, zorder=2))
 bx.add_patch(Rectangle((3.09, -0.12), 3.42, 0.12, fc=GRES, ec=NOIR, lw=lw_fine, zorder=2))
 bx.add_patch(Rectangle((3.09, 0.0), 3.42, 3.30, fc=ENDUIT_SABLE, ec=NOIR, lw=lw_fine, zorder=1))
 NICHES = [(3.20, 4.10, 1.95, "biblio"), (4.18, 5.43, 1.80, "banc"), (5.51, 6.41, 1.95, "biblio")]
@@ -257,7 +253,7 @@ callout(bx, (CX + 0.40, 1.20), (5.95, 1.65), "Arbre à livres :\n7 plateaux tour
 
 # ---- texte de la page 2 ----
 y = 50
-T(fig, 236, y, "FACADE — PRINCIPES", 9, VERT); y += 7
+T(fig, 236, y, "FAÇADE — PRINCIPES", 8.5, VERT, fontproperties=FP_MEDIUM); y += 7
 for s in ["Un portail terre cuite signale l’entrée ; il intègre l’enseigne\nDECIMO et une double porte vitrée cintrée en acier noir.",
           "Entrée et sortie fluides : 1,50 m de passage (0,90 + 0,60),\nvantaux ouvrant vers l’extérieur, seuil plat, aire Ø 1,50.",
           "Les claustras ne ferment que les baies d’éclairage :\nl’arc A et la « pilule » B (coin lecture), la pilule C (accueil).",
@@ -266,14 +262,14 @@ for s in ["Un portail terre cuite signale l’entrée ; il intègre l’enseigne
           "La pergola est relevée à +2,90 (au lieu de +2,65) pour\ndégager l’arc de l’entrée (sommet à 2,80)."]:
     T(fig, 236, y, "—", 7.2, GRIS); T(fig, 241, y, s, 7.2, linespacing=1.3); y += 4.3 * (s.count("\n") + 1) + 2.6
 y += 3
-T(fig, 236, y, "INTERIEUR — PRINCIPES", 9, VERT); y += 7
+T(fig, 236, y, "INTÉRIEUR — PRINCIPES", 8.5, VERT, fontproperties=FP_MEDIUM); y += 7
 for s in ["L’arbre à livres, inspiré de la référence, est placé au fond :\nc’est le seul endroit où l’on garde 0,90 m de passage tout autour.",
           "Sa canopée en bois cintré s’évase de Ø 0,90 à Ø 2,60 et\nporte l’éclairage ; 2,40 m libres sous la canopée.",
           "Le mur du fond devient 3 niches cintrées : 2 bibliothèques\net une banquette de lecture à fond en lames bois.",
           "Les arcs des niches répondent à ceux de la façade :\nune seule écriture cintrée, du dehors au dedans.",
           "Les rails lumineux s’arrêtent avant la canopée."]:
     T(fig, 236, y, "—", 7.2, GRIS); T(fig, 241, y, s, 7.2, linespacing=1.3); y += 4.3 * (s.count("\n") + 1) + 2.6
-footer(fig, "ELEVATIONS — ESQ V4  ·  Octobre 2026")
+footer(fig, "ÉLÉVATIONS — ESQ V4  ·  Octobre 2026")
 fig.savefig(OUT + "_p2.pdf"); fig.savefig(OUT + "_p2.png", dpi=170)
 plt.close(fig)
 
@@ -315,18 +311,18 @@ def tex_led(n=200):
     return c1 * (1 - d[..., None]) + c2 * d[..., None]
 
 MATS = [
-    ("Enduit à la chaux blanc cassé", "Façade RDC, jardinières", "Taloché fin, mat", "KDA - Enduit chaux blanc", lambda: tex_noise(ENDUIT_BLANC, 0.02)),
-    ("Enduit terre cuite", "Portail d’entrée", "Teinté masse, mat", "KDA - Enduit terre cuite", lambda: tex_noise(TERRA, 0.035, seed=2)),
-    ("Claustra terre cuite", "Baies cintrées A, B, C", "Motif anneaux, 20 x 20 cm", "KDA - Claustra terre cuite", None),
-    ("Acier thermolaqué noir", "Menuiseries, porte d’entrée", "Noir mat, profils fins", "KDA - Acier noir mat", lambda: tex_noise(ACIER, 0.015, seed=4)),
-    ("Iroko huilé", "Arbre à livres, niches, comptoir, M01", "Huile naturelle, teinte miel", "KDA - Bois iroko huilé", lambda: tex_wood(IROKO)),
-    ("Enduit chaux sable", "Murs intérieurs, doublage des niches", "Ciré, aspect tadelakt", "KDA - Enduit chaux sable", lambda: tex_noise(ENDUIT_SABLE, 0.025, seed=5)),
-    ("Grès cérame sable 60 x 60", "Sol intérieur et terrasse", "Mat, R10 en terrasse", "KDA - Grès cérame sable", lambda: tex_tiles(GRES)),
-    ("Tissu terre cuite", "Coussins de la banquette", "Bouclette, non feu M1", "KDA - Tissu terre cuite", lambda: tex_weave(TISSU)),
-    ("Végétal", "Jardinières de façade, plante", "Essences locales", "KDA - Végétal", lambda: tex_noise(VEGETAL, 0.06, seed=6)),
-    ("LED 2700 K", "Arcs, niches, canopée, jardinières", "Rubans et spots, IRC > 90", "KDA - Lumière chaude", tex_led),
+    ("Enduit à la chaux blanc cassé", "Façade RDC, jardinières", "Taloché fin, mat", "KDEMI - Enduit chaux blanc", lambda: tex_noise(ENDUIT_BLANC, 0.02)),
+    ("Enduit terre cuite", "Portail d’entrée", "Teinté masse, mat", "KDEMI - Enduit terre cuite", lambda: tex_noise(TERRA, 0.035, seed=2)),
+    ("Claustra terre cuite", "Baies cintrées A, B, C", "Motif anneaux, 20 x 20 cm", "KDEMI - Claustra terre cuite", None),
+    ("Acier thermolaqué noir", "Menuiseries, porte d’entrée", "Noir mat, profils fins", "KDEMI - Acier noir mat", lambda: tex_noise(ACIER, 0.015, seed=4)),
+    ("Iroko huilé", "Arbre à livres, niches, comptoir, M01", "Huile naturelle, teinte miel", "KDEMI - Bois iroko huilé", lambda: tex_wood(IROKO)),
+    ("Enduit chaux sable", "Murs intérieurs, doublage des niches", "Ciré, aspect tadelakt", "KDEMI - Enduit chaux sable", lambda: tex_noise(ENDUIT_SABLE, 0.025, seed=5)),
+    ("Grès cérame sable 60 x 60", "Sol intérieur et terrasse", "Mat, R10 en terrasse", "KDEMI - Grès cérame sable", lambda: tex_tiles(GRES)),
+    ("Tissu terre cuite", "Coussins de la banquette", "Bouclette, non feu M1", "KDEMI - Tissu terre cuite", lambda: tex_weave(TISSU)),
+    ("Végétal", "Jardinières de façade, plante", "Essences locales", "KDEMI - Végétal", lambda: tex_noise(VEGETAL, 0.06, seed=6)),
+    ("LED 2700 K", "Arcs, niches, canopée, jardinières", "Rubans et spots, IRC > 90", "KDEMI - Lumière chaude", tex_led),
 ]
-T(fig, 22, 38, "PALETTE MATERIAUX", 9, VERT)
+T(fig, 22, 38, "PALETTE MATÉRIAUX", 8.5, VERT, fontproperties=FP_MEDIUM)
 cols, cw, chh, gx, gy = 5, 38, 30, 4, 25
 for i, (nom, usage, fin, ifc, tex) in enumerate(MATS):
     r_, c_ = divmod(i, cols)
@@ -344,7 +340,7 @@ for i, (nom, usage, fin, ifc, tex) in enumerate(MATS):
     T(fig, x, y + chh + 14.2, ifc, 5.6, VERT)
 
 y0 = 44 + 2 * (chh + gy) + 4
-T(fig, 22, y0, "REFERENCES FOURNIES", 9, VERT)
+T(fig, 22, y0, "RÉFÉRENCES FOURNIES", 8.5, VERT, fontproperties=FP_MEDIUM)
 for k, (pth, cap, w) in enumerate([(REF1, "Intérieur : arbre à livres, canopée bois, niches cintrées", 50),
                                     (REF2, "Façade : baies cintrées à claustra terre cuite, portail", 98)]):
     img = plt.imread(pth) if not pth.endswith(".webp") else np.asarray(__import__("PIL.Image", fromlist=["Image"]).open(pth).convert("RGB"))
@@ -355,18 +351,18 @@ for k, (pth, cap, w) in enumerate([(REF1, "Intérieur : arbre à livres, canopé
     T(fig, x, y0 + 6 + hmm + 2.5, cap, 6.2, GRIS)
 
 y = 50
-T(fig, 236, y, "INTENTION", 9, VERT); y += 7
+T(fig, 236, y, "INTENTION", 8.5, VERT, fontproperties=FP_MEDIUM); y += 7
 for s in ["Deux familles de matières, chaudes et locales : la terre cuite\nen façade, l’iroko et l’enduit sable à l’intérieur.",
           "La terre cuite passe du claustra au portail ; à l’intérieur,\nelle revient en touches (coussins, dos de livres).",
           "L’iroko, essence africaine durable, fédère le mobilier sur\nmesure : arbre à livres, niches, comptoir, console M01.",
           "Lumière chaude 2700 K intégrée aux formes cintrées,\nsans luminaire apparent hors rails existants."]:
     T(fig, 236, y, "—", 7.2, GRIS); T(fig, 241, y, s, 7.2, linespacing=1.3); y += 4.3 * (s.count("\n") + 1) + 2.6
 y += 3
-T(fig, 236, y, "REPORT DANS LA MAQUETTE IFC (ETAPE SUIVANTE)", 9, VERT); y += 7
+T(fig, 236, y, "REPORT DANS LA MAQUETTE IFC (ÉTAPE SUIVANTE)", 8.5, VERT, fontproperties=FP_MEDIUM); y += 7
 for s in ["Chaque matière devient un IfcMaterial associé aux éléments\net un style de surface (couleur, réflectance) lisible par les\nvisionneuses ; les textures image sont jointes en option.",
           "Murs, sols et menuiseries existants reçoivent la palette ;\nles nouveaux éléments (arbre, niches, portail, claustras,\njardinières) sont modélisés avec leur matière.",
-          "Les noms en vert sont les styles qui seront créés."]:
+          "Les noms en terre cuite sont les styles qui seront créés."]:
     T(fig, 236, y, "—", 7.2, GRIS); T(fig, 241, y, s, 7.2, linespacing=1.3); y += 4.3 * (s.count("\n") + 1) + 2.6
-footer(fig, "MATERIAUX — ESQ V4  ·  Octobre 2026")
+footer(fig, "MATÉRIAUX — ESQ V4  ·  Octobre 2026")
 fig.savefig(OUT + "_p3.pdf"); fig.savefig(OUT + "_p3.png", dpi=170)
 print("ok")
