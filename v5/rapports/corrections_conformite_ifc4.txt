@@ -1,0 +1,6 @@
+Corrections non géométriques appliquées aux données V4 pour la conformité IFC4
+- IfcImageTexture x10 : chemin replacé dans URLReference (défaut de migration), relatif à v5/
+- 1Xbo9Rxj54lBdGQdAKCQT2 (Cloison rangement / dégagement) : association redondante au IfcMaterialLayerSet retirée (le IfcMaterialLayerSetUsage du même jeu de couches est conservé)
+- 23COPw6uz2Jumi0TgCM4LE (Cloison pleine salle de réunion) : association redondante au IfcMaterialLayerSet retirée (le IfcMaterialLayerSetUsage du même jeu de couches est conservé)
+- 3$G0ftT9Z5CKjD5jrTo22_ (PORTE BOIS KDA:DECIMO - WC 930) : IfcDoorStyle (IFC2X3) converti en IfcDoorType, même GlobalId et mêmes RepresentationMaps
+- 2YRjpGSOPYGCAYO1Y$zuSj (PORTE BOIS KDA:DECIMO - WC 930) : IfcDoorStyle (IFC2X3) converti en IfcDoorType, même GlobalId et mêmes RepresentationMaps
