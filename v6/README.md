@@ -1,38 +1,44 @@
-# Option C — dossier d’esquisse V6 et calque provisoire sur l’IFC V5
+# Bibliothèque Nandjui — Option C, V6
 
-## Dossier de présentation
+## Fichiers de livraison
 
-La planche de synthèse en cinq pages est disponible en [PDF A3 paysage](DOSSIER_ESQUISSE_OPTION_C_V6.pdf). Elle présente le site photographié, la référence IFC V5, un plan d’aménagement de principe, une coupe schématique, l’ambiance et les vérifications à mener. Les aperçus PNG sont dans `apercus/`.
+- [Pack complet à télécharger (ZIP)](PACK_LIVRAISON_OPTION_C_V6.zip)
+- [Dossier de présentation et de conception, PDF A3 (10 planches)](DOSSIER_PROJET_OPTION_C_V6.pdf)
+- [Maquette IFC4 éditable](DECIMO_ESQ_V6_OPTION_C.ifc)
+- [Aperçu du plan d’aménagement (PNG)](apercus_projet_v6/page_02.png)
+- [Aperçus PNG des planches](apercus_projet_v6/)
+- [Repérage photographique](A05_reperage_photos.pdf) et [version PNG](A05_reperage_photos.png)
+- [Avis technique préliminaire](avis_technique_preliminaire.md)
+- [Note de direction artistique et revue du dossier](NOTE_DIRECTION_ARTISTIQUE_ET_REVUE_PLANCHES_V6.md)
+- [Différentiel IFC V5 → V6](rapport_diff_ifc_v5_v6.md)
+- [Rapport de validation IFC](validation_ifc_v6.txt)
+- [Repérage des photos d’état des lieux](rapport_reperage_photos.md)
+- [Image d’ambiance conceptuelle de la pièce bleue](A06_vue_ambiance_piece_bleue_concept.png)
 
-Le plan conserve l’enveloppe générale de l’IFC V5 à titre de référence; ses cloisons intérieures, son mobilier et ses zones de programme sont schématiques. L’emplacement de la salle vitrée dans la pièce bleue est une hypothèse à recaler sur un relevé coté. La vue d’ambiance `A06_vue_ambiance_piece_bleue_concept.png` est une image conceptuelle, pas un relevé ni un rendu exact de l’existant.
+Le dossier présente le plan d’aménagement, le plan de plafond et d’éclairage repris de la maquette, deux coupes, l’élévation d’entrée, des élévations intérieures, une axonométrie, des vues axonométriques de mobilier et une planche de matières et notes. Les vues de maquette sont générées depuis l’IFC V6. L’image d’ambiance conceptuelle est séparée et ne sert pas de document de mesure.
 
-Le dossier a été relu avec cinq rôles d’analyse IA : conception d’espace, direction artistique, BIM/IFC, ingénierie technique et mise en page du dossier. Ces rôles ont vérifié la cohérence du programme et les incertitudes visibles dans les photos; ils ne constituent pas des visas d’architecte, d’ingénieur ni une validation structurelle.
+## Proposition retenue
 
-### Statut et suite
+L’Option C reprend la disposition validée : accueil-café près de l’entrée avec un seul poste de service, salle de réunion vitrée côté gauche dans la pièce désignée en bleu, bibliothèque et rayonnages droits au nord et à l’est, petit coworking et terrasse couverte. L’arbre à livres central est retiré. Un écran de confidentialité WC, un volume haut de réserve et la prolongation de terrasse figurent comme options à vérifier.
 
-La V6 est prête pour discussion de principe, mais pas pour travaux. La prochaine étape de conception est un relevé sur place qui relie explicitement la pièce bleue aux espaces V5 et mesure les hauteurs, les ouvertures, la mezzanine/volume haut, les WC et la terrasse extérieure. À partir de ce relevé, il sera possible de figer le plan, puis de mettre à jour la géométrie IFC et les coupes.
+L’IFC V6 part de `v5/DECIMO_ESQ_V5.ifc`, que le script ne modifie pas. Il conserve l’enveloppe et les éléments fixes du modèle de référence et ajoute/remplace du mobilier et des éléments explicitement identifiés comme hypothèses. Les espaces IFC reprennent encore les emprises V5 : les surfaces affichées décrivent donc la maquette de référence et ne constituent pas un relevé de l’existant. La correspondance de la pièce bleue avec l’espace IFC 03 reste à relever sur place.
 
-Le PDF est régénéré par `scripts/generer_dossier_provisoire.py`.
+## Statut et vérifications à faire
 
----
+La maquette IFC4 a été validée avec IfcOpenShell : aucune erreur ni aucun avertissement EXPRESS, et 224 géométries sur 224 contrôlées. Ce contrôle vérifie la structure et la géométrie IFC, pas la conformité réglementaire, les collisions détaillées ni la constructibilité.
 
-## Calque IFC Option C
+Le dossier constitue une proposition de conception coordonnée au stade esquisse développée. Il ne peut pas servir directement à construire. Les dimensions du site et les hauteurs réelles ne sont pas établies par les photos. Avant les plans d’exécution, relever sur place l’enveloppe, les niveaux, les portes, les baies, la pièce bleue, les WC et leurs évacuations, le volume haut, ainsi que les limites et pentes de la terrasse extérieure. Faire vérifier par les professionnels compétents la structure et les charges du rangement haut, les dégagements et l’écran WC, l’accessibilité, l’éclairage, la ventilation, les réseaux et les règles locales. Les 27 luminaires et réseaux présents dans la V5 sont conservés comme référence, sans recalage ni complément propre à la V6. Les vues A08 illustrent les objets IFC, sans détails d’assemblage ni fixations.
 
-`DECIMO_ESQ_V6_OPTION_C_PROVISOIRE.ifc` est une copie de travail de `v5/DECIMO_ESQ_V5.ifc`. Elle ajoute un groupe IFC **Option C** et des propriétés `KDEMI_Option_C_Provisoire` aux espaces concernés. Ces propriétés consignent le programme demandé et ce qu'il reste à relever.
+Le retour WC laisse 1,00 m de passage dans la géométrie IFC contre environ 1,03 m dans le modèle V5; débattement de porte et largeur finie restent à contrôler. Le comptoir et l’assise sont des gabarits de mobilier, à ajuster après relevé et test ergonomique. La plateforme haute, l’extension de terrasse et les finitions sont des hypothèses et non des ouvrages validés.
 
-Les 45 photos de l'état des lieux sont maintenant disponibles sous `photos/` et ont fait l'objet d'un premier repérage visuel. Elles confirment notamment une pièce bleue allongée, une porte au fond et un volume haut derrière une séparation. Elles ne donnent pas de cotes fiables ni de preuve structurelle; voir `rapport_reperage_photos.md`.
+## Régénération
 
-La planche illustrée A05 est disponible en [PDF](A05_reperage_photos.pdf) et en [PNG](A05_reperage_photos.png).
+Depuis la racine du dépôt :
 
-La géométrie V5 n'a pas été retouchée : les 231 produits et leurs GlobalId sont conservés; les 225 représentations géométriques ont les mêmes sommets en coordonnées monde que la source. Cette première adaptation est donc un calque de programme dans l'IFC, pas une maquette d'exécution ni un déplacement de cloisons. Le repérage photo améliore les hypothèses, mais ne permet pas encore d'identifier sans ambiguïté les espaces V5 correspondants.
+```bash
+python3 v6/scripts/generer_ifc_v6.py
+python3 v5/scripts/valider_ifc.py v6/DECIMO_ESQ_V6_OPTION_C.ifc
+python3 v6/scripts/generer_dossier_projet_v6.py
+```
 
-| Référence V5 | Intention de l'Option C consignée dans l'IFC | À confirmer |
-|---|---|---|
-| 01 — Salle de lecture, 24,07 m² | Bibliothèque avec davantage de rayonnages au nord-est et coworking léger | Implantation et dégagements autour de l'accueil-café |
-| 03 — Salle de réunion, 7,21 m² | Salle vitrée dans la pièce désignée en bleu par la maîtrise d'ouvrage | La pièce bleue du site ne correspond pas encore à une zone IFC repérée; aucune cloison déplacée |
-| 07 — WC, 2,87 m² | WC arrière à réaménager; étudier la mezzanine signalée comme réserve | Position réelle, appareils et évacuations; la mezzanine n'existe pas dans la V5 |
-| 08 — Terrasse couverte, 15,74 m² | Conserver la partie couverte et étudier le prolongement jusqu'au dallage au-delà du garde-corps | Limites, niveaux, garde-corps et capacité du dallage |
-
-Les cotes de la V5 restent des cotes de maquette d'esquisse. Le relevé photo et les hauteurs réelles sont requis avant de créer les nouveaux volumes, déplacer la salle vitrée ou redessiner les sanitaires et les réseaux. Le script reproductible est `scripts/creer_option_c_ifc.py`; il lit la V5 et écrit uniquement dans `v6/`.
-
-Validation effectuée avec IfcOpenShell 0.9.0 : IFC4, aucune erreur ni aucun avertissement EXPRESS, 225/225 produits géométriques valides. Comparaison indépendante : 231/231 produits conservés et 225/225 représentations inchangées.
+Les rôles de conception d’espace, direction artistique, BIM/IFC, ingénierie technique et mise en page ont été utilisés comme relectures par IA. Ce ne sont pas des visas professionnels ni des validations de chantier.
