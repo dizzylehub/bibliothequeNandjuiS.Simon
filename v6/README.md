@@ -3,9 +3,9 @@
 ## Fichiers de livraison
 
 - [Pack complet à télécharger (ZIP)](PACK_LIVRAISON_OPTION_C_V6.zip)
-- [Dossier de présentation et de conception, PDF A3 (10 planches)](DOSSIER_PROJET_OPTION_C_V6.pdf)
+- [Dossier de présentation et de conception, PDF A3 (11 planches)](DOSSIER_PROJET_OPTION_C_V6.pdf)
 - [Maquette IFC4 éditable](DECIMO_ESQ_V6_OPTION_C.ifc)
-- [Aperçu du plan d’aménagement (PNG)](apercus_projet_v6/page_02.png)
+- [Aperçu du plan d’aménagement (PNG)](apercus_projet_v6/page_03.png)
 - [Aperçus PNG des planches](apercus_projet_v6/)
 - [Repérage photographique](A05_reperage_photos.pdf) et [version PNG](A05_reperage_photos.png)
 - [Avis technique préliminaire](avis_technique_preliminaire.md)
@@ -15,7 +15,7 @@
 - [Repérage des photos d’état des lieux](rapport_reperage_photos.md)
 - [Image d’ambiance conceptuelle de la pièce bleue](A06_vue_ambiance_piece_bleue_concept.png)
 
-Le dossier présente le plan d’aménagement, le plan de plafond et d’éclairage repris de la maquette, deux coupes, l’élévation d’entrée, des élévations intérieures, une axonométrie, des vues axonométriques de mobilier et une planche de matières et notes. Les vues de maquette sont générées depuis l’IFC V6. L’image d’ambiance conceptuelle est séparée et ne sert pas de document de mesure.
+Le PDF A3 rassemble 11 planches : lecture photographique et processus, analyse du site et parcours (A00), plan RDC (A01), plan plafond/lumière et usages (A02), deux coupes (A03–A04), élévations (A05–A06), axonométrie (A07), détails de mobilier (A08), palette, nomenclature et validations (T00). Les vues de maquette sont générées depuis l’IFC V6. L’image d’ambiance conceptuelle est séparée et ne sert pas de document de mesure.
 
 ## Proposition retenue
 

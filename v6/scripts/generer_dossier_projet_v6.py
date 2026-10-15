@@ -22,7 +22,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.collections import LineCollection
-from matplotlib.patches import Polygon as MplPolygon
+from matplotlib.patches import Polygon as MplPolygon, Arc
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import numpy as np
 from PIL import Image
@@ -117,7 +117,7 @@ def classify(obj):
 
 def in_project_view(obj):
     """Écarte le contexte IFC des logements voisins, hors du lot présenté."""
-    if obj["class"] == "IfcBuildingElementProxy":
+    if obj["class"] == "IfcBuildingElementProxy" and obj["old"]:
         return False
     v = obj["verts"]
     lo, hi = v.min(axis=0), v.max(axis=0)
@@ -214,7 +214,7 @@ def add_legend(fig):
     fig.text(.89, .865, "HYPOTHÈSE", color=ORANGE, fontsize=7, weight="bold", style="italic")
 
 
-def draw_plan(fig, ax, objects, cut_z=1.0):
+def draw_plan(fig, ax, objects, cut_z=1.0, legend=True, space_labels=True):
     objects = [o for o in objects if in_project_view(o)]
     section_plot(ax, objects, 2, cut_z, 0, 1, f"Plan du RDC · coupe horizontale à z={cut_z:.2f} m (IFC V6)", projection=True, cut_z=cut_z)
     # Color/projection of modeled furniture helps distinguish table/shelf positions when below cut.
@@ -224,8 +224,10 @@ def draw_plan(fig, ax, objects, cut_z=1.0):
             if hull is not None:
                 p = hull.centroid
                 label = obj["name"].split("—")[-1].strip()
-                ax.text(p.x, p.y, label[:25], fontsize=5.5, ha="center", va="center", color=MID, zorder=5,
-                        bbox={"facecolor": WHITE, "edgecolor": "none", "alpha": .65, "pad": 1})
+                # Exclure les espaces hors emprise intérieure (terrasse / extérieurs) du cartouche plan.
+                if space_labels and 0 <= p.x <= 7 and 0 <= p.y <= 7.5:
+                    ax.text(p.x, p.y, label[:25], fontsize=5.5, ha="center", va="center", color=MID, zorder=5,
+                            bbox={"facecolor": WHITE, "edgecolor": "none", "alpha": .65, "pad": 1})
             continue
         if obj["old"] or obj["class"] not in ("IfcFurnishingElement", "IfcFurniture"):
             continue
@@ -233,7 +235,8 @@ def draw_plan(fig, ax, objects, cut_z=1.0):
         if hull is not None:
             x, y = hull.exterior.xy
             ax.fill(x, y, facecolor=ORANGE, edgecolor=ORANGE, alpha=.09, linewidth=.8, zorder=1)
-    add_legend(fig)
+    if legend:
+        add_legend(fig)
 
 
 def draw_lighting(ax, objects):
@@ -503,6 +506,324 @@ def create_pages(model, objects, failures, scale):
     return figlist
 
 
+# Gabarit architectural développé : feuille blanche, dessin principal à gauche,
+# panneau de lecture à droite. Les dimensions sont toujours explicitement liées à l’IFC.
+def arch_frame(fig, code, title, subtitle):
+    fig.patch.set_facecolor(WHITE)
+    fig.text(.035,.955,"K&DÉMI   /   BIBLIOTHÈQUE DECIMO",fontsize=12,weight="bold",color=INK)
+    fig.text(.035,.923,f"{code}   {title}",fontsize=15,weight="bold",color=ORANGE)
+    fig.text(.035,.899,subtitle,fontsize=7.2,color=MID)
+    fig.add_artist(plt.Line2D([.035,.965],[.88,.88],transform=fig.transFigure,color=INK,lw=.6))
+    fig.add_artist(plt.Line2D([.705,.705],[.06,.88],transform=fig.transFigure,color=INK,lw=.65))
+    fig.add_artist(plt.Line2D([.035,.965],[.052,.052],transform=fig.transFigure,color=INK,lw=.45))
+    fig.text(.035,.029,"ESQUISSE V6 · IFC V6 / IFC V5 · LES VALEURS DE MAQUETTE NE SONT PAS UN RELEVÉ DE SITE",fontsize=6.2,color=MID)
+    fig.text(.965,.029,code,fontsize=7,ha="right",color=ORANGE,weight="bold")
+    fig.text(.725,.845,"BIBLIOTHÈQUE DECIMO",fontsize=8.2,weight="bold",color=INK)
+    fig.text(.725,.824,"Option C · Abidjan",fontsize=7,color=MID)
+
+
+def panel_title(fig,y,title):
+    fig.text(.725,y,title.upper(),fontsize=7.1,weight="bold",color=ORANGE)
+
+
+def panel_text(fig,y,text,size=7.1,color=INK):
+    fig.text(.725,y,text,fontsize=size,color=color,va="top",linespacing=1.36,wrap=True)
+
+
+def north_arrow(ax,x,y):
+    ax.annotate("N",(x,y),xytext=(x,y-.55),ha="center",va="top",fontsize=8,weight="bold",color=INK,arrowprops={"arrowstyle":"-|>","lw":.8,"color":INK})
+
+
+def dimension(ax,p1,p2,label,offset=(0,0),color=MID,fs=6.5):
+    x1,y1=p1; x2,y2=p2; ox,oy=offset
+    a=(x1+ox,y1+oy); b=(x2+ox,y2+oy)
+    ax.annotate("",b,a,arrowprops={"arrowstyle":"<->","lw":.65,"color":color,"shrinkA":0,"shrinkB":0})
+    ax.plot([x1,a[0]],[y1,a[1]],color=color,lw=.45); ax.plot([x2,b[0]],[y2,b[1]],color=color,lw=.45)
+    ax.text((a[0]+b[0])/2,(a[1]+b[1])/2,label,fontsize=fs,color=color,ha="center",va="bottom",bbox={"facecolor":WHITE,"edgecolor":"none","pad":.7})
+
+
+def add_scale_person(ax,x,y,height=1.7,color=MID):
+    """Gabarit conventionnel affiché comme repère graphique, jamais comme relevé."""
+    r=height*.047
+    ax.add_patch(plt.Circle((x,y+height-r),r,fill=False,ec=color,lw=.65,zorder=8))
+    ax.plot([x,x],[y+height-2*r,y+height*.42],color=color,lw=.8,zorder=8)
+    ax.plot([x-height*.16,x+height*.16],[y+height*.70,y+height*.70],color=color,lw=.8,zorder=8)
+    ax.plot([x,x-height*.13],[y+height*.42,y],color=color,lw=.8,zorder=8)
+    ax.plot([x,x+height*.13],[y+height*.42,y],color=color,lw=.8,zorder=8)
+
+
+def hatching(rect, ax, hatch="////"):
+    ax.add_patch(plt.Rectangle((rect[0],rect[1]),rect[2],rect[3],facecolor="#F5F3EE",edgecolor="#A9ADA8",lw=.45,hatch=hatch,zorder=0))
+
+
+def make_arch_pages(model,objects,failures,scale):
+    local=[o for o in objects if in_project_view(o)]
+    new=[o for o in objects if not o["old"] and in_project_view(o)]
+    hypotheses=[o for o in new if classify(o)=="hypothesis"]
+    walls=[o for o in local if o["class"].startswith("IfcWall")]
+    wallverts=np.concatenate([o["verts"] for o in walls]) if walls else np.concatenate([o["verts"] for o in local])
+    xmin,ymin,zmin=wallverts.min(0); xmax,ymax,zmax=wallverts.max(0)
+    pages=[]
+    fmt=(16.54,11.69)
+
+    # 00 — éditorial, état des lieux et quatre temps de conception.
+    fig=plt.figure(figsize=fmt); arch_frame(fig,"00","Lire le lieu avant de dessiner","Repères photographiques et démarche de conception · les photos restent des documents de l’existant.")
+    photos=[
+      ("photos/interieur/WhatsApp Image 2026-10-13 at 6.12.46 PM (4).jpeg","01 · SEUIL / grille et accès visibles"),
+      ("photos/interieur/WhatsApp Image 2026-10-13 at 6.12.46 PM (22).jpeg","02 · PIÈCE BLEUE / identité à confirmer sur plan"),
+      ("photos/LE SITE/WhatsApp Image 2026-10-13 at 5.50.23 PM (5).jpeg","03 · ABORD / arbre et chemin vus en photo"),
+    ]
+    for i,(fpath,label) in enumerate(photos):
+        x=.04+i*.215; ax=fig.add_axes([x,.43,.205,.34]); im=Image.open(ROOT/fpath).convert("RGB"); ax.imshow(im); ax.set_axis_off()
+        ax.text(.02,.96,label,transform=ax.transAxes,fontsize=6.2,color=INK,va="top",bbox={"facecolor":WHITE,"edgecolor":"none","alpha":.88,"pad":2})
+        ax.text(.02,.04,"PHOTO D’ÉTAT DES LIEUX · NON COTÉE",transform=ax.transAxes,fontsize=5.3,color=INK,bbox={"facecolor":WHITE,"edgecolor":"none","alpha":.86,"pad":1.5})
+    # quatre étapes, dessinées comme une séquence plutôt qu’une liste de principes.
+    stages=[("01","OBSERVER","Photos, seuil, pièce bleue, ombre de l’arbre."),("02","CONSERVER","Grilles, enveloppe et réseaux existants à relever."),("03","IMPLANTER","Accueil, salle, rayonnages et parcours de lecture."),("04","VÉRIFIER","Cotes, structure, lumière et limites de terrasse.")]
+    for i,(n,t,d) in enumerate(stages):
+        x=.05+i*.16
+        fig.text(x,.32,n,fontsize=15,weight="bold",color=ORANGE)
+        fig.text(x,.28,t,fontsize=7.2,weight="bold",color=INK)
+        fig.text(x,.245,d,fontsize=6.5,color=MID,wrap=True)
+        if i<3: fig.text(x+.13,.293,"→",fontsize=14,color=ORANGE)
+    fig.text(.05,.13,"INTENTION",fontsize=7.2,weight="bold",color=ORANGE)
+    fig.text(.05,.095,"Un lieu clair et traversant :\ncomptoir visible dès l’entrée · pièce bleue\ntransformée en salle vitrée · rayonnages\nlinéaires · usages calmes dans la grande salle.\nJardin et limites extérieures à documenter.",fontsize=7.2,color=INK,linespacing=1.35)
+    panel_title(fig,.77,"Statut des documents"); panel_text(fig,.742,"NOIR / GRIS\nEnveloppe et mobilier conservés de la maquette V5.\n\nORANGE\nAjouts de mobilier et éléments projetés V6.\n\nORANGE TIRETÉ\nHypothèse ou emprise optionnelle portée par l’IFC.\n\nPHOTOGRAPHIE\nObservation visuelle; aucune cote ni limite foncière n’en est déduite.",6.7)
+    pages.append(fig)
+
+    # A00 — analyse du site et parcours, schéma explicitement sans échelle.
+    fig=plt.figure(figsize=fmt); arch_frame(fig,"A00","Analyse du site et parcours","Lecture photo + diagrammes d’usage · schéma non topographique, sans limites cadastrales ni distances mesurées.")
+    for i,(fpath,label) in enumerate([
+      ("photos/LE SITE/WhatsApp Image 2026-10-13 at 5.50.23 PM (5).jpeg","Arbre existant observé; position exacte à relever."),
+      ("photos/interieur/WhatsApp Image 2026-10-13 at 6.12.46 PM (4).jpeg","Entrée photographiée; seuil et passage à mesurer."),
+    ]):
+        ax=fig.add_axes([.045+i*.32,.52,.30,.28]); ax.imshow(Image.open(ROOT/fpath).convert("RGB")); ax.set_axis_off()
+        ax.text(.02,.02,label,transform=ax.transAxes,fontsize=6,color=INK,bbox={"facecolor":WHITE,"alpha":.9,"edgecolor":"none","pad":2})
+        ax.text(.03,.94,"OBSERVÉ EN PHOTO",transform=ax.transAxes,fontsize=6,color=ORANGE,weight="bold",bbox={"facecolor":WHITE,"alpha":.9,"edgecolor":"none","pad":2})
+    # schéma d'accès intérieur depuis le plan IFC : flèches de parcours = intention, pas circulation réglementaire.
+    ax=fig.add_axes([.06,.10,.58,.35]); draw_plan(fig,ax,local,cut_z=1.0,legend=False,space_labels=False)
+    ax.set_xlim(-.35,6.9); ax.set_ylim(-.35,7.75)
+    for a,b,n in [((3.3,.18),(1.65,.45),"1"),((1.65,.45),(1.8,3.5),"2"),((1.8,3.5),(4.7,3.0),"3")]:
+        ax.annotate("",b,a,arrowprops={"arrowstyle":"-|>","lw":1.6,"color":ORANGE,"linestyle":"--","connectionstyle":"arc3,rad=-.12"})
+        ax.text(*b,n,fontsize=7,weight="bold",color=WHITE,ha="center",va="center",bbox={"boxstyle":"circle,pad=.28","fc":ORANGE,"ec":"none"},zorder=10)
+    panel_title(fig,.77,"Lire les séquences"); panel_text(fig,.742,"1 · ENTRER\nRepérer le comptoir depuis le seuil.\n\n2 · S’ORIENTER\nTraverser vers salle vitrée ou rayonnages.\n\n3 · S’INSTALLER\nChoisir lecture, table de travail ou terrasse.\n\nLes flèches décrivent des parcours de projet. Les dégagements, l’accessibilité et la sécurité restent à valider après relevé.")
+    panel_title(fig,.44,"À relever sur place"); panel_text(fig,.412,"Limites et niveaux extérieurs · seuil · pièce bleue · ombres et écoulement des eaux.",6.5)
+    site=fig.add_axes([.715,.055,.26,.27]); site.set_xlim(0,1); site.set_ylim(0,1); site.set_aspect("auto"); site.axis("off")
+    site.text(.5,.98,"SITE EXTÉRIEUR · SCHÉMA NON COTÉ",ha="center",va="top",fontsize=4.8,color=ORANGE,weight="bold")
+    # Relation spatiale illustrative, sans orientation ni limites parcellaires : bâtiment au nord,
+    # seuil et garde-corps à relever, puis dallages et cheminement observés / projetés.
+    site.add_patch(plt.Rectangle((.04,.64),.48,.25,fc="#F1F0EB",ec=INK,lw=.7)); site.text(.28,.78,"LOCAL · IFC",ha="center",va="center",fontsize=5.0,color=INK)
+    site.add_patch(plt.Rectangle((.04,.48),.48,.15,fc="#DED9CF",ec=MID,lw=.6)); site.text(.28,.555,"TERRASSE COUVERTE\nexistante · IFC V5",ha="center",va="center",fontsize=4.4,color=INK)
+    site.plot([.025,.55],[.455,.455],color=MID,lw=1.2,ls="--")
+    site.text(.29,.425,"CLÔTURE / GARDE-CORPS À CONFIRMER",ha="center",va="top",fontsize=4.0,color=MID)
+    site.add_patch(plt.Rectangle((.56,.48),.38,.15,fc="#E36A3D",ec=ORANGE,lw=.8,ls="--",alpha=.23)); site.text(.75,.555,"EXTENSION\noption V6",ha="center",va="center",fontsize=4.4,color=ORANGE)
+    site.add_patch(plt.Rectangle((.05,.10),.37,.23,fc="#D8D4CC",ec=MID,lw=.55)); site.text(.235,.215,"DALLAGE EXISTANT\nobservé en photo",ha="center",va="center",fontsize=4.2,color=INK)
+    site.add_patch(plt.Rectangle((.43,.10),.51,.32,fc="#DCE5D5",ec="#91A287",lw=.55,alpha=.75)); site.text(.68,.28,"PELOUSE",ha="center",va="center",fontsize=4.7,color=INK)
+    site.plot([.16,.24,.31,.28],[.05,.11,.24,.47],color=ORANGE,lw=1.0,ls=(0,(2,1)))
+    site.annotate("",xy=(.28,.47),xytext=(.28,.35),arrowprops={"arrowstyle":"-|>","color":ORANGE,"lw":.9})
+    site.text(.12,.045,"PARCOURS",ha="center",va="center",fontsize=4.0,color=ORANGE)
+    fig.text(.06,.075,"Arbre et chemin : observations photographiques; symboles et parcours non géolocalisés.",fontsize=6.2,color=MID)
+    pages.append(fig)
+
+    # A01 — plan coté de maquette avec nomenclature et statut de chaque couche.
+    fig=plt.figure(figsize=fmt); arch_frame(fig,"A01","Plan RDC · implantation Option C","Géométrie issue de l’IFC V6 · cotes d’emprise de maquette uniquement, à contrôler au relevé.")
+    ax=fig.add_axes([.035,.09,.65,.77]); draw_plan(fig,ax,local,cut_z=1.0,legend=False)
+    ax.set_xlim(-.55,7.05); ax.set_ylim(-.35,7.85)
+    dimension(ax,(xmin,ymin),(xmax,ymin),f"{xmax-xmin:.2f} m · emprise IFC",offset=(0,-.28))
+    dimension(ax,(xmin,ymin),(xmin,ymax),f"{ymax-ymin:.2f} m · emprise IFC",offset=(-.28,0))
+    # Repères de coupe reportés sur le plan; la ligne pointillée indique le plan de coupe.
+    ax.plot([2.0,2.0],[.1,5.0],color=ORANGE,lw=.85,ls=(0,(4,2)),zorder=8)
+    ax.plot([.1,6.5],[4.35,4.35],color="#8D593D",lw=.85,ls=(0,(4,2)),zorder=8)
+    for x,y,label,col in [(2,5.05,"A",ORANGE),(2,.1,"A",ORANGE),(.05,4.35,"B","#8D593D"),(6.55,4.35,"B","#8D593D")]:
+        ax.text(x,y,label,fontsize=6.5,weight="bold",color=WHITE,ha="center",va="center",bbox={"boxstyle":"circle,pad=.24","fc":col,"ec":"none"},zorder=9)
+    north_arrow(ax,6.65,7.25)
+    panel_title(fig,.77,"Programme / repères"); panel_text(fig,.742,"01  Grande salle · coworking et lecture\n02  Accueil-café · poste unique\n03  Pièce bleue présumée · salle vitrée\n04–07  Locaux de service hérités V5\n08  Terrasse couverte héritée de la maquette",6.4)
+    panel_title(fig,.48,"Légende")
+    legend=[("#242824","Existant IFC V5"),(ORANGE,"Mobilier / ajout V6"),(ORANGE,"Hypothèse V6 · tirets")]
+    for i,(c,l) in enumerate(legend):
+        yy=.45-i*.03; fig.add_artist(plt.Line2D([.728,.755],[yy,yy],transform=fig.transFigure,color=c,lw=1.5,ls="--" if i==2 else "-")); fig.text(.762,yy-.008,l,fontsize=6.4,color=INK)
+    panel_title(fig,.33,"Terrasse / limite à vérifier"); panel_text(fig,.302,f"Emprise des murs IFC : {xmax-xmin:.2f} × {ymax-ymin:.2f} m.\n\nTERRASSE COUVERTE EXISTANTE → CLÔTURE / GARDE-CORPS À CONFIRMER ET À RELEVER → DALLAGE EXTÉRIEUR OPTIONNEL V6.\n\nAucune cote de parcelle ou distance extérieure n’est connue.",6.0)
+    pages.append(fig)
+
+    # A02 — plan réfléchi et diagramme de zonage / usages.
+    fig=plt.figure(figsize=fmt); arch_frame(fig,"A02","Plafond, lumière et logique des usages","Plan réfléchi de maquette V5/V6; les zones colorées et parcours sont des diagrammes de conception, sans recaler les équipements.")
+    ax=fig.add_axes([.045,.10,.63,.75]); draw_lighting(ax,local); ax.set_xlim(-.35,7.05); ax.set_ylim(-.35,7.8)
+    for (x,y,w,h),label,col,a in [((.1,.1,2.7,2.25),"ACCUEIL",ORANGE,.12),((.1,2.55,2.8,2.55),"SALLE VITRÉE",BLUE,.25),((3.1,.1,3.4,7.25),"LECTURE / COWORKING",BROWN,.08)]:
+        ax.add_patch(plt.Rectangle((x,y),w,h,fc=col,ec=col,lw=.8,alpha=a,zorder=1)); ax.text(x+w/2,y+h/2,label,fontsize=6.4,color=INK,ha="center",va="center",weight="bold",zorder=6,bbox={"fc":WHITE,"ec":"none","alpha":.85,"pad":1.5})
+    ax.annotate("",(1.45,.45),(3.3,.1),arrowprops={"arrowstyle":"-|>","lw":1.2,"color":ORANGE,"linestyle":"--"})
+    ax.annotate("",(4.8,3.3),(1.45,.45),arrowprops={"arrowstyle":"-|>","lw":1.2,"color":ORANGE,"linestyle":"--","connectionstyle":"arc3,rad=-.15"})
+    # Symboles orange : intention de lumière, séparée des points gris de l’IFC hérité.
+    for x,y in [(3.8,1.0),(5.2,1.0),(3.8,2.5),(5.2,2.5),(4.6,4.8),(1.2,1.1)]:
+        ax.add_patch(plt.Circle((x,y),.13,fill=False,ec=ORANGE,lw=1.05,ls=(0,(3,2)),zorder=8))
+        ax.plot([x-.08,x+.08],[y,y],color=ORANGE,lw=.6,zorder=8); ax.plot([x,x],[y-.08,y+.08],color=ORANGE,lw=.6,zorder=8)
+    panel_title(fig,.77,"Deux statuts graphiques")
+    panel_text(fig,.742,"POINT GRIS · appareil présent dans l’IFC V5, position héritée et non vérifiée.\n\nCERCLE ORANGE TIRETÉ · intention de lumière V6, position indicative non modélisée dans l’IFC.",6.2)
+    panel_title(fig,.51,"Scénario de conception")
+    panel_text(fig,.482,"Lumière générale diffuse dans la grande salle; accent au comptoir et lumière de tâche aux tables. Les symboles ne fixent ni quantité, ni circuit, ni niveau d’éclairement.",6.2)
+    panel_title(fig,.27,"À coordonner")
+    panel_text(fig,.242,"Faux plafond · retombées · climatisation / condensats · circuits et protections · ventilation · lumière naturelle.",6.0)
+    pages.append(fig)
+
+    # A04/A05 — grandes coupes composites avec niveaux, hachures et personnage conventionnel.
+    reserve=next((o for o in hypotheses if "plateforme" in o["name"].lower()),None)
+    for code,axis,val,u,v,title,sub in [
+      ("A03",0,2.0,1,2,"Coupe A–A · accueil et salle","Coupe verticale réelle du maillage IFC, position x = 2,00 m (à relever sur site)."),
+      ("A04",1,4.35,0,2,"Coupe B–B transversale · pièce bleue et réserve","Coupe transversale réelle du maillage IFC à y = 4,35 m; plateforme orange tiretée = hypothèse V6."),
+    ]:
+        fig=plt.figure(figsize=fmt); arch_frame(fig,code,title,sub)
+        ax=fig.add_axes([.045,.14,.63,.69]); section_plot(ax,local,axis,val,u,v,"Coupe IFC V6 · existant, projet et hypothèse")
+        if axis==0:
+            ax.set_xlim(-.55,7.85); ax.set_ylim(-.18,3.58)
+            # Hachures de coupe schématiques sur plancher haut et murs périphériques, séparées du trait IFC.
+            hatching((-.08,3.28,6.74,.18),ax,"///"); ax.plot([-.08,6.66],[3.28,3.28],color=INK,lw=.8,zorder=7)
+            hatching((-.08,0,.16,3.28),ax,"///"); hatching((6.53,0,.16,3.28),ax,"///")
+            levelxs=[.0,6.58]
+            add_scale_person(ax,6.05,0,1.70)
+            dimension(ax,(6.18,0),(6.18,1.70),"1,70 m · gabarit indicatif",offset=(.23,0),fs=5.6)
+            ax.text(.18,3.36,"NIVEAU HAUT IFC V5 · +3,30 m · HYPOTHÈSE DE MODÈLE",fontsize=6.2,color=MID)
+            ax.text(.2,.08,"±0,00 RDC IFC · niveau de modèle, non relevé",fontsize=6.0,color=MID)
+            ax.axhline(0,color=MID,lw=.45,ls=(0,(2,2)),zorder=6); ax.axhline(3.3,color=MID,lw=.45,ls=(0,(2,2)),zorder=6)
+            dimension(ax,(6.78,0),(6.78,3.3),"3,30 m · modèle",offset=(.26,0),fs=6.0)
+            ax.annotate("D01 · comptoir V6",xy=(.48,.7),xytext=(1.15,1.18),fontsize=5.2,color=ORANGE,arrowprops={"arrowstyle":"->","lw":.6,"color":ORANGE},bbox={"fc":WHITE,"ec":"none","alpha":.9})
+            ax.annotate("D02 · table réunion V6",xy=(3.55,.76),xytext=(4.35,1.08),fontsize=5.2,color=ORANGE,arrowprops={"arrowstyle":"->","lw":.6,"color":ORANGE},bbox={"fc":WHITE,"ec":"none","alpha":.9})
+            panel_title(fig,.77,"Éléments traversés"); panel_text(fig,.742,"Le plan coupe le comptoir et la table de réunion dans leur géométrie V6. Les traits noirs décrivent le modèle hérité; les traits orange décrivent les ajouts V6.",6.5)
+            panel_title(fig,.48,"Niveaux à confirmer"); panel_text(fig,.452,"±0,00 et +3,30 m sont des niveaux de modèle, pas des cotes de chantier. Épaisseur et appuis de la dalle haute restent à vérifier par relevé et avis structure.",6.4)
+            # Principe de cloison vitrée demandé au programme, absent de la géométrie IFC V6.
+            panel_title(fig,.26,"Interface salle vitrée · intention")
+            inset=fig.add_axes([.735,.105,.22,.125]); inset.set_xlim(0,1); inset.set_ylim(0,1); inset.axis("off")
+            inset.add_patch(plt.Rectangle((.08,.10),.84,.72,fc="none",ec=ORANGE,lw=.85,ls="--"))
+            inset.plot([.50,.50],[.10,.82],color=ORANGE,lw=.55,ls="--"); inset.plot([.08,.92],[.10,.10],color=INK,lw=1.1)
+            inset.add_patch(Arc((.50,.10),.35,.35,theta1=0,theta2=90,color=ORANGE,lw=.6,ls="--"))
+            inset.text(.5,.48,"verre clair",ha="center",fontsize=5.7,color=MID)
+            fig.text(.735,.075,"SCHÉMA NON COTÉ · cloison et porte non modélisées dans l’IFC V6.",fontsize=5.5,color=MID,wrap=True)
+        else:
+            ax.set_xlim(-.35,7.05); ax.set_ylim(-.18,3.58)
+            hatching((-.08,3.28,6.74,.18),ax,"///"); ax.plot([-.08,6.66],[3.28,3.28],color=INK,lw=.8,zorder=7)
+            hatching((-.08,0,.16,3.28),ax,"///"); hatching((6.53,0,.16,3.28),ax,"///")
+            add_scale_person(ax,5.4,0,1.70)
+            if reserve is not None:
+                ax.annotate("PLATEFORME · HYPOTHÈSE V6\nface inf. +2,08 / sup. +2,28 m",xy=(1.6,2.18),xytext=(3.5,2.55),fontsize=6.2,color=ORANGE,arrowprops={"arrowstyle":"->","color":ORANGE,"lw":.7},bbox={"fc":WHITE,"ec":"none","alpha":.85})
+            ax.text(.2,.08,"±0,00 RDC IFC · niveau de modèle, non relevé",fontsize=6.0,color=MID)
+            ax.text(.18,3.36,"NIVEAU HAUT IFC V5 · +3,30 m · À CONFIRMER",fontsize=6.2,color=MID)
+            ax.axhline(0,color=MID,lw=.45,ls=(0,(2,2)),zorder=6); ax.axhline(3.3,color=MID,lw=.45,ls=(0,(2,2)),zorder=6)
+            dimension(ax,(6.73,0),(6.73,3.3),"3,30 m · modèle",offset=(.25,0),fs=6.0)
+            panel_title(fig,.77,"Hypothèse de réserve"); panel_text(fig,.742,"La plateforme est un objet IFC de projet, pas un plancher validé. L’IFC ne montre ni escalier, ni garde-corps, ni appuis vérifiés. Aucun stockage ni accès n’est présumé.",6.5)
+            panel_title(fig,.48,"À obtenir"); panel_text(fig,.452,"Relevé altimétrique et structurel · avis d’un BET · stratégie d’accès et de protection · validation de la correspondance de la pièce bleue avec l’espace 03.",6.4)
+            # Zoom 1: interface de réserve, dimensions uniquement issues du maillage.
+            panel_title(fig,.25,"Zoom / objet IFC V6")
+            axin=fig.add_axes([.735,.105,.22,.145],projection="3d"); draw_component(axin,reserve) if reserve is not None else axin.set_axis_off()
+            fig.text(.735,.075,"Plateforme hypothétique · appuis, accès et garde-corps non définis.",fontsize=5.5,color=MID,wrap=True)
+        fig.text(.06,.09,"Silhouette conventionnelle 1,70 m pour lecture graphique uniquement · aucune personne ni hauteur humaine relevée.",fontsize=5.8,color=MID)
+        pages.append(fig)
+
+    # A05 — façade (état de référence) avec note claire de non-intervention V6.
+    fig=plt.figure(figsize=fmt); arch_frame(fig,"A05","Élévation sur rue · état existant","Élévation héritée de l’IFC V5; aucune transformation de façade n’est modélisée en V6.")
+    ax=fig.add_axes([.04,.11,.64,.74]); section_plot(ax,local,1,float(ymin+.05),0,2,"Élévation sud · projection de la maquette")
+    ax.set_xlim(-.7,7.4); ax.set_ylim(-.3,4.0)
+    # arbre d'alignement seulement repéré d'après photo, sans géolocalisation ni gabarit coté.
+    ax.text(0.02,.88,"ARBRES ET ABORDS NON MODÉLISÉS / À RELEVER",transform=ax.transAxes,fontsize=6.2,color=MID,bbox={"fc":WHITE,"ec":"none","alpha":.9})
+    panel_title(fig,.77,"État de référence"); panel_text(fig,.742,"Les baies et arches visibles sont celles de la maquette V5. Leur conformité à l’existant photographié et les dimensions de l’entrée restent à vérifier.",6.5)
+    panel_title(fig,.50,"Aucune intervention V6"); panel_text(fig,.472,"Grilles, enseigne, menuiseries, seuil, arbres et mobilier extérieur ne sont pas modifiés par cette proposition IFC.",6.5)
+    pages.append(fig)
+
+    # A06 — élévations intérieures avec rayonnages cotés depuis l'IFC.
+    fig=plt.figure(figsize=fmt); arch_frame(fig,"A06","Élévations intérieures · rayonnages","Élévations au droit des objets V6; dimensions de maquette, pas dimensions de fabrication.")
+    ax1=fig.add_axes([.045,.51,.63,.31]); section_plot(ax1,local,1,6.83,0,2,"Nord · rayonnage droit V6")
+    ax2=fig.add_axes([.045,.13,.63,.31]); section_plot(ax2,local,0,6.30,1,2,"Est · rayonnage droit V6")
+    panel_title(fig,.77,"Dimensions de maquette")
+    r_n=next((o for o in new if "rayonnage droit nord" in o["name"].lower()),None)
+    r_e=next((o for o in new if "rayonnage droit est" in o["name"].lower()),None)
+    def dims(o):
+        d=o["verts"].max(0)-o["verts"].min(0); return d
+    if r_n is not None:
+        d=dims(r_n); panel_text(fig,.742,f"Nord-est · enveloppe IFC {d[0]:.2f} × {d[1]:.2f} × {d[2]:.2f} m.\n\nEst : rayonnage V6 prolongé contre le mur.\n\nAppuis, fixations, charge admissible et profondeur utile ne sont pas définis par la géométrie.",6.4)
+    panel_title(fig,.48,"Coordination")
+    panel_text(fig,.452,"Relever niches, prises et passages. Vérifier la stabilité et l’ancrage au support. Contrôler l’accessibilité aux ouvrages et l’emprise des portes.",6.4)
+    pages.append(fig)
+
+    # A07 — axonométrie intérieure/extérieure + schéma de situation non cadastral.
+    fig=plt.figure(figsize=fmt); arch_frame(fig,"A07","Axonométrie d’implantation","Enveloppe filaire + mobilier IFC · la bande extérieure orange est une option de dallage, non une limite de propriété.")
+    ax=fig.add_axes([.025,.12,.66,.72],projection="3d"); draw_axon(ax,local,False)
+    # Repères d’objets du projet dans l’axo; positions pointées depuis les maillages V6.
+    for number,start,end in [
+      ("1",(1.6,.5,1.1),(1.0,-1.1,2.1)),
+      ("2",(4.7,6.8,1.8),(5.4,7.65,2.7)),
+      ("3",(6.3,5.2,1.6),(6.9,4.5,2.5)),
+      ("4",(1.6,4.5,2.2),(.2,5.4,3.0)),
+      ("5",(3.2,-3.2,.1),(2.7,-3.95,1.2)),
+    ]:
+        ax.plot([start[0],end[0]],[start[1],end[1]],[start[2],end[2]],color=ORANGE,lw=.7)
+        ax.scatter([start[0]],[start[1]],[start[2]],s=9,color=ORANGE)
+        ax.text(end[0],end[1],end[2],number,color=WHITE,fontsize=5,weight="bold",bbox={"boxstyle":"circle,pad=.25","fc":ORANGE,"ec":"white","lw":.4})
+    panel_title(fig,.77,"Séquence d’implantation")
+    panel_text(fig,.742,"Entrée et accueil → salle vitrée à gauche → lecture / coworking à droite → terrasse existante et extension optionnelle.",6.5)
+    site_ax=fig.add_axes([.735,.39,.23,.24]); site_ax.set_aspect("equal"); site_ax.axis("off")
+    site_ax.add_patch(plt.Rectangle((.18,.18),.58,.62,fc="#F0F0ED",ec=INK,lw=.8))
+    site_ax.add_patch(plt.Rectangle((.18,.02),.58,.16,fc="#E36A3D",ec=ORANGE,lw=.8,alpha=.25,linestyle="--"))
+    site_ax.text(.47,.5,"LOT /\nLOCAL\nIFC",ha="center",va="center",fontsize=7,color=INK,weight="bold")
+    site_ax.text(.47,.1,"EXTENSION\nOPTION",ha="center",va="center",fontsize=6,color=ORANGE)
+    # tree icon with explicit documentary status; its location is schematic.
+    site_ax.add_patch(plt.Circle((.86,.23),.08,fill=False,ec=MID,lw=.8)); site_ax.plot([.86,.86],[.12,.21],color=MID,lw=.8)
+    site_ax.text(.86,.07,"arbre vu\nen photo*",ha="center",fontsize=5.5,color=MID)
+    site_ax.text(.45,.92,"SCHÉMA SANS ÉCHELLE",ha="center",fontsize=6,color=ORANGE,weight="bold")
+    panel_title(fig,.30,"Repères sur l’axo"); panel_text(fig,.272,"1 Comptoir V6 · 2 Rayonnage nord · 3 Rayonnage est · 4 Plateforme haute hypothétique · 5 Dallage extérieur optionnel. Le retour WC optionnel apparaît sur A01/A08.",6.0)
+    fig.text(.74,.09,"*Position de l’arbre non géolocalisée.",fontsize=5.8,color=MID)
+    pages.append(fig)
+
+    # A08 — détails utiles, vues réelles, enveloppes mesurées dans IFC et principe à développer.
+    fig=plt.figure(figsize=fmt); arch_frame(fig,"A08","Détails de conception · mobilier","Vues rapprochées des objets IFC et repères dimensionnels issus de leurs maillages; non exécutoires.")
+    specs=[
+      (next((o for o in new if "comptoir accueil" in o["name"].lower()),None),"D01 · COMPTOIR ACCUEIL"),
+      (next((o for o in new if "table de réunion" in o["name"].lower()),None),"D02 · TABLE DE RÉUNION"),
+      (r_n,"D03 · RAYONNAGE NORD-EST"),
+      (next((o for o in new if "retour opaque wc" in o["name"].lower()),None),"D04 · ÉCRAN WC / OPTION"),
+    ]
+    boxes=[(.055,.51,.30,.30),(.37,.51,.30,.30),(.055,.13,.30,.30),(.37,.13,.30,.30)]
+    for (obj,label),rect in zip(specs,boxes):
+        if obj is None: continue
+        ax=fig.add_axes(rect,projection="3d"); draw_component(ax,obj)
+        fig.text(rect[0],rect[1]+rect[3]+.008,label,fontsize=6.7,weight="bold",color=INK)
+        d=dims(obj)
+        fig.text(rect[0],rect[1]-.026,f"Enveloppe IFC (L × P × H) : {d[0]:.2f} × {d[1]:.2f} × {d[2]:.2f} m",fontsize=5.8,color=ORANGE)
+        fig.text(rect[0],rect[1]-.047,"Géométrie de principe · raccords, sections, fixations et tolérances à définir.",fontsize=5.5,color=MID)
+    panel_title(fig,.77,"Principes constructifs à développer")
+    panel_text(fig,.742,"Comptoir · corps menuisé, plinthe protégée, plateau résistant à l’eau; réservations café et alimentation non positionnées.\n\nRayonnage · tablettes répétitives et ancrage à dimensionner selon support et charges.\n\nÉcran WC · retour opaque optionnel dans l’IFC; une finition ajourée est une variante de conception, non modélisée.\n\nTable · plateau et piètements sont des volumes de maquette, sans assemblage fabricant.",6.0)
+    panel_title(fig,.33,"Statut des cotes")
+    panel_text(fig,.302,"Ces longueurs sont les limites des maillages IFC, pas des mesures prises sur site. Vérifier les jeux, débattements, passage libre et support avant fabrication.",6.0)
+    principle=fig.add_axes([.735,.105,.22,.115]); principle.set_xlim(0,1); principle.set_ylim(0,1); principle.axis("off")
+    principle.add_patch(plt.Rectangle((.08,.66),.84,.16,fc="#9A7050",ec=INK,lw=.65))
+    principle.add_patch(plt.Rectangle((.08,.28),.84,.36,fc="#EEEAE3",ec=INK,lw=.65,hatch="xx"))
+    principle.plot([.1,.9],[.18,.18],color=INK,lw=1.0)
+    principle.annotate("",(.93,.66),(.93,.82),arrowprops={"arrowstyle":"<->","lw":.55,"color":ORANGE})
+    principle.text(.04,.02,"PRINCIPE DE PLATEAU / CAISSON / PLINTHE · SCHÉMA SANS COTES",fontsize=4.8,color=MID)
+    pages.append(fig)
+
+    # T00 — palette, nomenclature et points ouverts.
+    fig=plt.figure(figsize=fmt); arch_frame(fig,"T00","Palette, nomenclature et validations","Matières indicatives · quantités = comptage d’objets IFC, pas métrés de fabrication.")
+    sw=[("Bois / mobilier",BROWN),("Enduit clair","#EDE9DF"),("Terre cuite",ORANGE),("Métal sombre",INK),("Verre",BLUE)]
+    for i,(label,c) in enumerate(sw):
+        x=.05+i*.122; ax=fig.add_axes([x,.73,.105,.09]); ax.set_facecolor(c); ax.set_xticks([]); ax.set_yticks([])
+        for sp in ax.spines.values(): sp.set_color(INK)
+        fig.text(x,.705,label,fontsize=5.8,color=INK)
+    # nomenclature concise par famille V6
+    table_ax=fig.add_axes([.05,.16,.62,.48]); table_ax.axis("off")
+    rows=[("01","Comptoir accueil-café","1","IFC V6 / projet"),("02","Siège du poste accueil","1","IFC V6 / projet"),("03","Table réunion 6 places","1","IFC V6 / projet"),("04","Sièges de réunion","1 ensemble","IFC V6 / projet"),("05","Rayonnages droits nord et est","2","IFC V6 / projet"),("06","Retour opaque WC","1","IFC V6 / option à valider"),("07","Plateforme réserve haute","1","IFC V6 / hypothèse structure"),("08","Dallage extension terrasse","1","IFC V6 / emprise optionnelle"),("09","Luminaires hérités","27","IFC V5 / non recalés")]
+    yy=.655
+    for j,row in enumerate(rows):
+        color="#F4F3F0" if j%2==0 else WHITE
+        table_ax.add_patch(plt.Rectangle((0,yy-.045),1,.045,transform=table_ax.transAxes,fc=color,ec="none"))
+        table_ax.text(.02,yy-.029,row[0],transform=table_ax.transAxes,fontsize=6.2,color=ORANGE,weight="bold")
+        table_ax.text(.09,yy-.029,row[1],transform=table_ax.transAxes,fontsize=6.1,color=INK)
+        table_ax.text(.66,yy-.029,row[2],transform=table_ax.transAxes,fontsize=6.1,color=INK)
+        table_ax.text(.76,yy-.029,row[3],transform=table_ax.transAxes,fontsize=5.7,color=MID)
+        yy-=.05
+    panel_title(fig,.77,"Avant APS / fabrication")
+    panel_text(fig,.742,"1 · Relever l’enveloppe, les baies, les seuils et niveaux.\n2 · Confirmer pièce bleue ↔ IFC 03.\n3 · Recalculer éclairage, ventilation, prises et évacuations.\n4 · Faire vérifier plateforme, charges et accès par un BET.\n5 · Confirmer limites, pentes et eaux de terrasse.\n6 · Échantillonner les finitions et consulter les menuisiers.",6.0)
+    panel_title(fig,.40,"Contrôles IFC")
+    panel_text(fig,.372,f"{len(objects)} géométries calculées; {len(new)} produits V6 ajoutés; {len(failures)} échec(s) de calcul.\n\nLa validation IFC contrôle le fichier, pas la conformité réglementaire ni la constructibilité.",6.0)
+    pages.append(fig)
+    return pages
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--ifc", type=Path, default=V6_IFC, help="IFC V6 à lire (par défaut: v6/DECIMO_ESQ_V6_OPTION_C.ifc)")
@@ -512,12 +833,12 @@ def main():
     if args.check_only:
         print(f"IFC: {args.ifc}; produits géométriques: {len(objects)}; nouveaux V6: {sum(not o['old'] for o in objects)}; échecs: {len(failures)}")
         return
-    figs = create_pages(model, objects, failures, scale)
+    figs = make_arch_pages(model, objects, failures, scale)
     PREVIEW.mkdir(exist_ok=True)
     with PdfPages(OUT) as pdf:
         for i, fig in enumerate(figs, 1):
             pdf.savefig(fig, bbox_inches=None)
-            fig.savefig(PREVIEW / f"page_{i:02d}.png", dpi=90, facecolor=fig.get_facecolor())
+            fig.savefig(PREVIEW / f"page_{i:02d}.png", dpi=150, facecolor=fig.get_facecolor())
             plt.close(fig)
     print(f"PDF: {OUT}")
     print(f"Planches générées: {len(figs)}; géométries: {len(objects)}; V6: {sum(not o['old'] for o in objects)}; échecs: {len(failures)}")
