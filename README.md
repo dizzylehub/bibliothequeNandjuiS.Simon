@@ -1,5 +1,7 @@
 # Bibliothèque Nandjui D. Simon
 
+**[V8 — plan de travail et deux directions (en cours)](v8/README.md)**
+
 **[Voir la proposition V7 en images, directement sur GitHub](v7/VOIR_LE_DOSSIER.md)**
 
 Une bibliothèque habitée : lire et travailler le jour, se retrouver autour du café et sur la terrasse le soir.
