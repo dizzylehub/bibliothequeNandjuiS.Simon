@@ -1,0 +1,364 @@
+<title>Café-bibliothèque Nandjui</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@500;700&display=swap">
+<style>
+/* Mise en page : une feuille de projet A3 lue à l'écran ; colonne de texte étroite, planches pleine largeur, repères de phase comme un cartouche. */
+:root{
+  --papier:#f7f8f6;      /* blanc du papier de la charte */
+  --encre:#26302e;       /* gris-vert du béton du site */
+  --doux:#5d6966;
+  --filet:#d5dcd9;
+  --bleu:#9cc9d3;        /* bleu de la pièce bleue */
+  --bleu-fonce:#2f6f80;
+  --feuille:#3f7a4a;     /* badamier */
+  --ocre:#b8742f;        /* latérite du sol devant l'arbre */
+  --carte:#ffffff;
+  --mur:#26302e;
+  --font-titre:"DM Serif Display", Georgia, "Times New Roman", serif;
+  --font-texte:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-util:"Manrope", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --papier:#151b1a;--encre:#e4ebe8;--doux:#a3b0ac;--filet:#33403d;--bleu:#3b7686;--bleu-fonce:#8fd0df;
+  --feuille:#79b884;--ocre:#dd9a55;--carte:#1d2524;--mur:#cfd8d5;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --papier:#151b1a;--encre:#e4ebe8;--doux:#a3b0ac;--filet:#33403d;--bleu:#3b7686;--bleu-fonce:#8fd0df;
+  --feuille:#79b884;--ocre:#dd9a55;--carte:#1d2524;--mur:#cfd8d5;color-scheme:dark}
+body{background:var(--papier);color:var(--encre);font:400 16px/1.6 var(--font-texte)}
+.page{max-width:1080px;margin:0 auto;padding-block:40px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:56px}
+h1,h2,h3{text-wrap:balance;margin:0}
+h1{font:400 clamp(2.2rem,6vw,3.6rem)/1.05 var(--font-titre)}
+h2{font:400 clamp(1.6rem,3.6vw,2.2rem)/1.15 var(--font-titre)}
+h3{font:600 1.05rem/1.35 var(--font-texte)}
+p{margin:0}
+.prose{max-width:68ch;display:grid;gap:14px}
+.etiquette{font:700 .72rem/1 var(--font-util);letter-spacing:.12em;text-transform:uppercase;color:var(--doux)}
+.cartouche{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-bottom:2px solid var(--encre);padding-bottom:20px}
+.cartouche dl{display:grid;grid-template-columns:auto auto;gap:4px 14px;margin:0;font:500 .8rem/1.3 var(--font-util);color:var(--doux)}
+.cartouche dt{text-transform:uppercase;letter-spacing:.08em}
+.cartouche dd{margin:0;color:var(--encre)}
+.chapo{font-size:1.12rem;color:var(--doux);max-width:62ch}
+section{display:grid;gap:22px}
+.entete{display:grid;gap:8px}
+.photos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.photos figure{margin:0;display:grid;gap:6px}
+.photos img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+figcaption{font:500 .78rem/1.35 var(--font-util);color:var(--doux)}
+.constats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.constats div{display:grid;gap:6px;align-content:start;border-top:1px solid var(--filet);padding-top:12px;min-width:0}
+.statut{display:inline-block;font:700 .66rem/1 var(--font-util);letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border:1px solid currentColor;border-radius:2px;justify-self:start}
+.s-fait{color:var(--feuille)} .s-hyp{color:var(--ocre)} .s-bloq{color:#c0392b}
+.alerte{border:2px solid #c0392b;padding:18px 20px;display:grid;gap:8px;max-width:76ch;background:var(--carte)}
+.alerte h3{color:#c0392b}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--filet)}
+th{font:700 .72rem/1.2 var(--font-util);letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td:first-child{font-weight:600;white-space:nowrap}
+.termes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px}
+.termes div{display:grid;gap:2px;min-width:0}
+.termes b{font-weight:600}
+.termes .retenu b{color:var(--bleu-fonce)}
+.directions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.direction{background:var(--carte);border:1px solid var(--filet);padding:24px;display:grid;gap:16px;align-content:start;min-width:0}
+.direction .lettre{font:400 3.2rem/1 var(--font-titre);color:var(--bleu-fonce)}
+.direction.b .lettre{color:var(--feuille)}
+.etsi{font:italic 400 1.35rem/1.3 var(--font-titre)}
+.direction ul{margin:0;padding-left:18px;display:grid;gap:6px}
+.nuancier{display:flex;flex-wrap:wrap;gap:8px}
+.nuancier span{display:flex;align-items:center;gap:6px;font:500 .75rem/1 var(--font-util);color:var(--doux)}
+.nuancier i{width:18px;height:18px;border-radius:50%;border:1px solid var(--filet);display:inline-block}
+.schema{width:100%;height:auto;display:block}
+.schema text{font-family:var(--font-util);font-size:9px;fill:var(--encre)}
+.schema .petit{font-size:7.5px;fill:var(--doux)}
+.phases{display:grid;gap:0;counter-reset:ph}
+.phase{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;padding:20px 0;border-top:1px solid var(--filet)}
+.phase .num{font:400 2rem/1 var(--font-titre);color:var(--bleu-fonce)}
+.phase .num small{display:block;font:700 .68rem/1.3 var(--font-util);letter-spacing:.08em;text-transform:uppercase;color:var(--doux);margin-top:6px}
+.phase .corps{display:grid;gap:8px;min-width:0}
+.porte{font:700 .74rem/1.3 var(--font-util);color:var(--ocre);letter-spacing:.04em}
+.roles{display:flex;flex-wrap:wrap;gap:6px}
+.roles span{font:700 .7rem/1 var(--font-util);padding:5px 8px;background:var(--papier);border:1px solid var(--filet);border-radius:2px}
+.questions{display:grid;gap:12px;max-width:76ch;padding-left:22px;margin:0}
+.revue{display:grid;gap:10px;max-width:76ch}
+.revue li{margin-left:18px}
+footer{font:500 .8rem/1.5 var(--font-util);color:var(--doux);border-top:1px solid var(--filet);padding-top:16px;max-width:90ch}
+@media (max-width:760px){
+  .photos{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .constats,.directions,.termes{grid-template-columns:1fr}
+  .cartouche{grid-template-columns:1fr}
+  .phase{grid-template-columns:1fr;gap:8px}
+}
+</style>
+
+<div class="page">
+
+<header class="cartouche">
+  <div class="entete">
+    <span class="etiquette">L’équipe architecturale · plan de travail établi par Guillaume (G-K)</span>
+    <h1>Café-bibliothèque de Madame Nandjui</h1>
+    <p class="chapo">Une bibliothèque personnelle ouverte au quartier : on y vient lire, on y boit un café, et le soir la cour devant le local devient un lieu de musique et de rencontre en famille.</p>
+  </div>
+  <dl>
+    <dt>Version</dt><dd>V8 · indice 0</dd>
+    <dt>Stade</dt><dd>Cadrage + directions</dd>
+    <dt>Date</dt><dd>15 octobre 2026</dd>
+    <dt>Lieu</dt><dd>Abidjan, rez-de-chaussée</dd>
+    <dt>Base</dt><dd>Dépôt V2 → V7, 45 photos</dd>
+  </dl>
+</header>
+
+<section>
+  <div class="entete">
+    <span class="etiquette">1 · Ce que l’équipe a lu</span>
+    <h2>Le lieu tel qu’il est aujourd’hui</h2>
+  </div>
+  <div class="photos">
+    <figure><img alt="Façade du local avec muret, grille et dallage" src="{{IMG_front}}"><figcaption>Façade, muret à grille et dallage fissuré devant l’entrée.</figcaption></figure>
+    <figure><img alt="Grande pièce blanche profonde avec petite fenêtre haute au fond" src="{{IMG_long}}"><figcaption>Grande salle blanche, profonde, éclairée par une seule baie haute au fond.</figcaption></figure>
+    <figure><img alt="Pièce bleue avec rangement haut et porte au fond" src="{{IMG_blue}}"><figcaption>Pièce bleue : volume haut chargé de cartons, porte du fond avec marches.</figcaption></figure>
+    <figure><img alt="Dallage extérieur et grand arbre au-delà du muret" src="{{IMG_tree}}"><figcaption>Au-delà du muret : dallage, pelouse et un grand arbre (badamier probable).</figcaption></figure>
+  </div>
+  <div class="constats">
+    <div><span class="statut s-fait">Constaté sur photo</span><h3>Un local de pied d’immeuble</h3><p>Rez-de-chaussée d’un immeuble d’habitation R+3. Entrée vitrée sous grille ouvrante, fenêtre grillagée, porte métallique grise, soubassement bleu. Une ancienne inscription peinte « Restauration » et un horaire 8 h–18 h sur la vitre trahissent un commerce antérieur.</p></div>
+    <div><span class="statut s-fait">Constaté sur photo</span><h3>Deux ambiances intérieures</h3><p>Une grande salle blanche au carrelage gris, très profonde et sombre ; une pièce bleue au carrelage brique avec un volume de rangement haut au-dessus d’une cloison et une porte au fond. Réseaux en applique, fils nus, supports de climatiseurs.</p></div>
+    <div><span class="statut s-hyp">À confirmer</span><h3>L’extérieur à privatiser</h3><p>Le muret enclôt un petit parvis dallé. Au-delà s’étendent un dallage, une pelouse, de la terre battue et un grand arbre, au cœur d’un espace qui paraît commun à la résidence. Son statut (copropriété, voirie, mairie) conditionne tout le projet du soir.</p></div>
+  </div>
+  <div class="prose">
+    <p><b>Travail déjà présent dans le dépôt.</b> Sept versions se sont succédé : V2 à V4 (plans, arbre à livres, façade cintrée), V5 (IFC, lots techniques, dossier A3 « Decimo »), V6 (repérage photo, avis technique) puis V7 (IFC coordonné, dossier de 22 planches). La V7 fixe un programme que nous reprenons comme acquis : accueil-café à gauche de l’entrée, salle de réunion vitrée dans la pièce bleue, WC au fond derrière un écran, réserve haute à étudier, rayonnages à droite, formes droites et fabrication locale, retrait de l’arbre à livres intérieur.</p>
+    <p><b>Ce qui manque à toutes ces versions</b>, c’est un relevé. L’enveloppe de 6,78 × 7,68 m et les 43,55 m² viennent d’une maquette héritée, jamais contrôlée sur place. Votre croquis de relevé est donc la pièce qui fait passer le projet du principe à la cote.</p>
+  </div>
+  <div class="alerte" role="note">
+    <h3>Pièce bloquante : le croquis de relevé</h3>
+    <p>Votre croquis coté à la main n’est ni dans le dépôt ni dans les fichiers joints à cette conversation. Déposez une photo ou un scan dans <code>photos/releve/</code> (ou joignez-le ici). Tant qu’il manque, les directions ci-dessous restent des schémas de principe tracés sur l’emprise de la V7, sans cote.</p>
+  </div>
+</section>
+
+<section>
+  <div class="entete">
+    <span class="etiquette">2 · Nommer le lieu</span>
+    <h2>Book coffee, library café : le bon terme</h2>
+  </div>
+  <div class="termes">
+    <div class="retenu"><b>Café-bibliothèque</b><span>Terme recommandé en français. On lit sur place des livres qui ne sont pas à vendre, et l’on y sert un café. En anglais, l’équivalent est <i>library café</i>.</span></div>
+    <div><b>Book café / book coffee</b><span>Courant dans l’usage et sur les réseaux, compris par tous. Utile en signature ou en accroche, moins précis comme dénomination.</span></div>
+    <div><b>Café littéraire</b><span>Désigne plutôt des rencontres, lectures et débats. Il convient aux soirées, pas au lieu tout entier.</span></div>
+    <div><b>Café-librairie</b><span>À éviter : il suppose la vente de livres, ce qui n’est pas le projet de Madame Nandjui.</span></div>
+  </div>
+  <p class="prose">Pour la cour du soir, nous proposons de parler de <b>« cour »</b> ou de <b>« jardin du soir »</b> plutôt que de « lounge ». Le mot ancre le lieu dans l’habitude ivoirienne de la cour familiale.</p>
+</section>
+
+<section>
+  <div class="entete">
+    <span class="etiquette">3 · Direction artistique · Dizzy · à valider par vous</span>
+    <h2>Deux gestes fondateurs</h2>
+    <p class="chapo">Les deux directions gardent le programme acquis. Elles diffèrent par l’histoire racontée et par la manière d’investir l’extérieur. Les schémas sont des diagrammes de principe sur l’emprise V7, non cotés.</p>
+  </div>
+  <div class="directions">
+
+    <article class="direction a">
+      <div class="lettre">A</div>
+      <span class="etiquette">Le salon de Madame</span>
+      <p class="etsi">Et si l’on entrait dans la bibliothèque de Madame Nandjui comme on entre chez elle ?</p>
+      <svg class="schema" viewBox="0 0 330 560" role="img" aria-label="Schéma de principe de la direction A">
+        <rect x="38" y="18" width="248" height="280" fill="var(--carte)" stroke="var(--mur)" stroke-width="5"/>
+        <rect x="40" y="20" width="104" height="92" fill="var(--filet)"/>
+        <rect x="40" y="114" width="104" height="90" fill="var(--bleu)"/>
+        <rect x="40" y="206" width="104" height="90" fill="var(--carte)"/>
+        <line x1="146" y1="20" x2="146" y2="296" stroke="var(--mur)" stroke-width="4"/>
+        <rect x="268" y="176" width="18" height="30" fill="var(--mur)"/>
+        <!-- mur de la collection : U continu -->
+        <path d="M152 30 H278 V170 M278 212 V290" fill="none" stroke="var(--ocre)" stroke-width="9"/>
+        <path d="M152 30 V120" fill="none" stroke="var(--ocre)" stroke-width="9"/>
+        <!-- salon : fauteuils et tapis -->
+        <rect x="170" y="150" width="78" height="70" rx="4" fill="none" stroke="var(--bleu-fonce)" stroke-dasharray="3 3"/>
+        <circle cx="185" cy="165" r="9" fill="var(--bleu-fonce)"/><circle cx="234" cy="165" r="9" fill="var(--bleu-fonce)"/>
+        <circle cx="185" cy="206" r="9" fill="var(--bleu-fonce)"/><circle cx="234" cy="206" r="9" fill="var(--bleu-fonce)"/>
+        <rect x="200" y="178" width="20" height="14" fill="var(--ocre)"/>
+        <rect x="168" y="240" width="72" height="24" fill="var(--ocre)" opacity=".55"/>
+        <!-- buffet-café -->
+        <rect x="56" y="232" width="20" height="54" fill="var(--ocre)"/>
+        <text x="84" y="252">buffet-café</text>
+        <text x="64" y="62">WC · réserve</text>
+        <text x="58" y="160">petit salon bleu</text>
+        <text x="170" y="140">salon de lecture</text>
+        <text x="160" y="50" class="petit">mur de la collection</text>
+        <text x="168" y="278" class="petit">table d’hôtes</text>
+        <!-- façade et véranda -->
+        <rect x="38" y="298" width="248" height="88" fill="var(--papier)" stroke="var(--filet)"/>
+        <rect x="150" y="294" width="40" height="8" fill="var(--papier)"/>
+        <text x="58" y="330">véranda · lecture à l’ombre</text>
+        <rect x="56" y="345" width="90" height="12" fill="var(--ocre)" opacity=".6"/>
+        <line x1="20" y1="390" x2="310" y2="390" stroke="var(--mur)" stroke-width="3"/>
+        <text x="22" y="384" class="petit">muret + grille</text>
+        <!-- la cour -->
+        <rect x="40" y="410" width="160" height="22" fill="var(--ocre)"/>
+        <path d="M40 404 Q80 396 120 404 T200 404" fill="none" stroke="var(--ocre)" stroke-dasharray="2 4"/>
+        <text x="40" y="450">la cour du soir · grande table familiale</text>
+        <circle cx="262" cy="470" r="48" fill="var(--feuille)" opacity=".25"/>
+        <circle cx="262" cy="470" r="5" fill="var(--feuille)"/>
+        <text x="236" y="530" class="petit">arbre existant</text>
+        <text x="40" y="548" class="petit">emprise extérieure à confirmer</text>
+      </svg>
+      <p>Le lieu se lit comme une maison. On franchit une véranda, on salue Madame au buffet, on s’installe au salon. La bibliothèque personnelle est exposée comme une collection de famille, sur un mur continu qui enveloppe la grande salle. Le soir, la cour accueille une longue table familiale sous des guirlandes de lumière.</p>
+      <ul>
+        <li><b>Le mur de la collection</b> : rayonnage en U, du sol au plafond, avec des niches-vitrines pour les livres rares et les objets de Madame.</li>
+        <li><b>Le buffet-café</b> : un comptoir dessiné comme un meuble de famille en bois massif plutôt que comme un bar.</li>
+        <li><b>Le petit salon bleu</b> : la pièce bleue garde sa couleur ; elle devient la salle de réunion et le club de lecture.</li>
+        <li><b>Assises de salon</b> : fauteuils, lampes de lecture, tapis tissés et coussins en pagne ; une table d’hôtes près de la façade.</li>
+        <li><b>La cour</b> : banc maçonné le long du muret, grande table, lumière basse et chaude, musique douce.</li>
+      </ul>
+      <div class="nuancier"><span><i style="background:#8a5a32"></i>bois d’iroko</span><span><i style="background:#9cc9d3"></i>bleu existant</span><span><i style="background:#c9a227"></i>laiton</span><span><i style="background:#efe7da"></i>chaux claire</span><span><i style="background:#2b4c7e"></i>pagne indigo</span></div>
+      <p><b>Caractère</b> : intime, chaleureux, rassurant. Le lieu ressemble à sa propriétaire. <b>Risque</b> : rester sage si le mobilier est banal ; tout repose sur la qualité du mur de la collection.</p>
+    </article>
+
+    <article class="direction b">
+      <div class="lettre">B</div>
+      <span class="etiquette">Sous le badamier</span>
+      <p class="etsi">Et si le lieu poussait depuis le grand arbre de dehors ?</p>
+      <svg class="schema" viewBox="0 0 330 560" role="img" aria-label="Schéma de principe de la direction B">
+        <rect x="38" y="18" width="248" height="280" fill="var(--carte)" stroke="var(--mur)" stroke-width="5"/>
+        <rect x="40" y="20" width="104" height="92" fill="var(--filet)"/>
+        <rect x="40" y="114" width="104" height="90" fill="var(--bleu)"/>
+        <rect x="40" y="206" width="104" height="90" fill="var(--carte)"/>
+        <line x1="146" y1="20" x2="146" y2="296" stroke="var(--mur)" stroke-width="4"/>
+        <rect x="268" y="176" width="18" height="30" fill="var(--mur)"/>
+        <!-- le ruban : de la salle jusqu'à l'arbre -->
+        <path d="M160 30 H276 V170 M276 212 V300 V350 H230 V400 Q245 430 262 432" fill="none" stroke="var(--feuille)" stroke-width="9" stroke-linejoin="round"/>
+        <!-- tables de lecture -->
+        <rect x="178" y="80" width="60" height="26" fill="var(--ocre)" opacity=".7"/>
+        <rect x="178" y="130" width="60" height="26" fill="var(--ocre)" opacity=".7"/>
+        <rect x="56" y="232" width="20" height="54" fill="var(--feuille)"/>
+        <text x="84" y="252">comptoir-vitrine</text>
+        <text x="64" y="62">WC · réserve</text>
+        <text x="58" y="160">salle bleue</text>
+        <text x="170" y="196">salle de lecture</text>
+        <text x="174" y="48" class="petit">ruban de livres</text>
+        <!-- façade-lanterne -->
+        <line x1="40" y1="298" x2="286" y2="298" stroke="var(--ocre)" stroke-width="5" stroke-dasharray="6 3"/>
+        <text x="58" y="316" class="petit">façade-lanterne · claustra de livres</text>
+        <rect x="38" y="300" width="248" height="86" fill="none" stroke="var(--filet)"/>
+        <text x="58" y="340">terrasse couverte</text>
+        <text x="182" y="372" class="petit">banc-ruban</text>
+        <line x1="20" y1="390" x2="310" y2="390" stroke="var(--mur)" stroke-width="3"/>
+        <text x="22" y="384" class="petit">muret ouvert</text>
+        <!-- arbre et scène -->
+        <circle cx="262" cy="470" r="60" fill="var(--feuille)" opacity=".25"/>
+        <circle cx="262" cy="470" r="5" fill="var(--feuille)"/>
+        <path d="M212 470 A50 50 0 0 1 262 420" fill="none" stroke="var(--feuille)" stroke-width="7"/>
+        <path d="M200 470 A62 62 0 0 1 262 408" fill="none" stroke="var(--feuille)" stroke-width="7" opacity=".6"/>
+        <rect x="60" y="430" width="96" height="60" fill="var(--ocre)" opacity=".35"/>
+        <text x="66" y="456">scène des soirs</text>
+        <text x="66" y="470" class="petit">plancher bois démontable</text>
+        <text x="224" y="548" class="petit">gradins sous l’arbre</text>
+        <text x="40" y="548" class="petit">emprise extérieure à confirmer</text>
+      </svg>
+      <p>L’arbre à palabres devient l’origine du projet. Un seul ruban de bois porte les livres : il part du fond de la salle, longe les murs, traverse la façade en vitrine visible depuis la rue, puis se transforme dehors en banc et en gradins tournés vers l’arbre. Le soir, la façade s’allume comme une lanterne et une petite scène accueille la musique.</p>
+      <ul>
+        <li><b>Le ruban de livres</b> : modules droits répétés (pas de courbe à fabriquer) qui changent de rôle en avançant : rayonnage, vitrine, banc, gradin.</li>
+        <li><b>La façade-lanterne</b> : les grilles de sécurité redessinées en claustra métallique au motif de dos de livres, éclairée de l’intérieur la nuit.</li>
+        <li><b>Le comptoir-vitrine</b> : la machine à café visible depuis la rue ; le soir il sert jus, bissap et café.</li>
+        <li><b>La scène des soirs</b> : plancher bois démontable, guirlandes dans l’arbre, sonorisation légère avec horaires.</li>
+        <li><b>Le muret ouvert</b> : une partie du muret devient assise, pour relier le parvis et la cour.</li>
+      </ul>
+      <div class="nuancier"><span><i style="background:#3f7a4a"></i>vert badamier</span><span><i style="background:#b8742f"></i>latérite</span><span><i style="background:#1f2423"></i>acier noir</span><span><i style="background:#f2b544"></i>lumière ambre</span><span><i style="background:#e9ecea"></i>béton clair</span></div>
+      <p><b>Caractère</b> : généreux, festif, visible depuis le quartier. Le lieu devient un repère. <b>Risque</b> : dépend fortement de l’autorisation d’occuper l’extérieur et du voisinage ; le bruit du soir est à maîtriser.</p>
+    </article>
+  </div>
+  <p class="prose">Dizzy recommande de choisir l’une des deux, ou un mélange explicite : par exemple l’intérieur de A avec la cour et la façade-lanterne de B. Une fois votre choix fait, Désiré développe les deux esquisses d’aménagement ou celle retenue.</p>
+</section>
+
+<section>
+  <div class="entete">
+    <span class="etiquette">4 · Plan de travail · coordination G-K</span>
+    <h2>Six phases, quatre validations</h2>
+    <p class="chapo">Chaque phase se termine par un contrôle de Josiane. Les validations marquées « Porte » vous reviennent : rien ne passe au stade suivant sans elles.</p>
+  </div>
+  <div class="phases">
+    <div class="phase"><div class="num">0<small>Cadrage</small></div><div class="corps">
+      <h3>Rassembler et fixer les acquis</h3>
+      <p>Lecture du dépôt et des photos (fait). Réception de votre croquis de relevé. Réponses aux questions de la section 5. Registre des décisions et des hypothèses.</p>
+      <div class="roles"><span>G-K</span><span>Josiane</span></div>
+      <p class="porte">Porte 0 · croquis reçu, programme confirmé</p>
+    </div></div>
+    <div class="phase"><div class="num">1<small>Direction</small></div><div class="corps">
+      <h3>Choisir le geste fondateur</h3>
+      <p>Dizzy approfondit la direction choisie : récit, croquis d’intention, planche d’univers (matières, lumière, son), pistes de nom et de logo. Fabrice prépare les premières pistes d’identité.</p>
+      <div class="roles"><span>Dizzy</span><span>Fabrice</span><span>Josiane</span></div>
+      <p class="porte">Porte 1 · direction validée par vous</p>
+    </div></div>
+    <div class="phase"><div class="num">2<small>Base</small></div><div class="corps">
+      <h3>Numériser le relevé</h3>
+      <p>Manadja redessine votre croquis en plan de l’existant coté et recale l’IFC (murs, ouvertures, poteau, hauteurs). Le Génie liste les réseaux visibles, le volume haut et les points à mesurer. Les écarts avec la maquette V7 sont tracés.</p>
+      <div class="roles"><span>Manadja</span><span>Le Génie</span><span>Josiane</span></div>
+      <p class="porte">Contrôle interne · plan de l’existant cohérent avec les photos</p>
+    </div></div>
+    <div class="phase"><div class="num">3<small>Esquisse</small></div><div class="corps">
+      <h3>Aménager l’intérieur et la cour</h3>
+      <p>Désiré dessine le plan d’aménagement, l’implantation du mobilier et les fiches des meubles signatures (mur de la collection ou ruban, comptoir, assises). Manadja modélise en IFC. Le Génie vérifie passages, charges des rayonnages et faisabilité de la cour.</p>
+      <div class="roles"><span>Désiré Akai</span><span>Manadja</span><span>Le Génie</span><span>Josiane</span></div>
+      <p class="porte">Porte 2 · esquisse validée par vous</p>
+    </div></div>
+    <div class="phase"><div class="num">4<small>Technique</small></div><div class="corps">
+      <h3>Rendre le projet constructible</h3>
+      <p>Le Génie produit les plans techniques : électricité et éclairage (intérieur et cour), plomberie du comptoir café, ventilation et climatisation, sonorisation légère, détails de la façade, du mobilier et de l’ombrage extérieur. Manadja coordonne plans, coupes, élévations et nomenclatures.</p>
+      <div class="roles"><span>Le Génie</span><span>Manadja</span><span>Désiré Akai</span><span>Josiane</span></div>
+      <p class="porte">Contrôle interne · plans cohérents avec l’IFC</p>
+    </div></div>
+    <div class="phase"><div class="num">5<small>Dossier</small></div><div class="corps">
+      <h3>Présenter le projet à Madame Nandjui</h3>
+      <p>Fabrice produit l’identité, les vues 3D tirées de la maquette, les ambiances jour et soir, le dossier PDF A3 et sa version PowerPoint modifiable, et une page web de présentation. Josiane relit l’ensemble ; G-K livre.</p>
+      <div class="roles"><span>Fabrice Sawegnon</span><span>Josiane</span><span>G-K</span></div>
+      <p class="porte">Porte 3 · dossier validé avant présentation à la cliente</p>
+    </div></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Livrable</th><th>Responsable</th><th>Contenu</th><th>Contrôle</th></tr></thead>
+      <tbody>
+        <tr><td>Analyse du site</td><td>G-K, Le Génie</td><td>Constats photo, programme, contraintes, statut de l’extérieur</td><td>Faits et hypothèses séparés</td></tr>
+        <tr><td>Planches de direction</td><td>Dizzy</td><td>Récit, croquis, univers, identité</td><td>Validation de votre part</td></tr>
+        <tr><td>Plan de l’existant</td><td>Manadja</td><td>Plan coté depuis votre croquis, IFC recalé</td><td>Concordance croquis, photos et IFC</td></tr>
+        <tr><td>Plans d’aménagement</td><td>Désiré Akai</td><td>Plan meublé, coupes, élévations, fiches mobilier</td><td>Passages, usages, cotes</td></tr>
+        <tr><td>Plans techniques</td><td>Le Génie</td><td>Électricité, éclairage, plomberie café, CVC, son, détails</td><td>Hypothèses et calculs explicités</td></tr>
+        <tr><td>Maquette IFC</td><td>Manadja</td><td>Existant + projet, objets nommés, export validé</td><td>Validation IFC4 sans erreur</td></tr>
+        <tr><td>Visuels et dossier</td><td>Fabrice Sawegnon</td><td>Vues 3D, ambiances jour et soir, PDF A3, PPTX, page web</td><td>Images fidèles à la maquette, légendées</td></tr>
+        <tr><td>Revue qualité</td><td>Josiane</td><td>Revue à chaque porte, bilan final</td><td>Corrections vérifiées</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="entete">
+    <span class="etiquette">5 · Vos réponses font avancer l’équipe</span>
+    <h2>Questions à trancher</h2>
+  </div>
+  <ol class="questions">
+    <li><b>Le croquis de relevé.</b> Pouvez-vous le déposer (photo ou scan) ? C’est la seule pièce bloquante.</li>
+    <li><b>La direction.</b> A, B, ou un mélange (lequel) ? Souhaitez-vous voir les deux développées en esquisse avant de choisir ?</li>
+    <li><b>La salle de réunion louable</b> dans la pièce bleue reste-t-elle au programme, ou devient-elle un salon de lecture ou de musique ?</li>
+    <li><b>L’extérieur.</b> Qui gère l’espace devant le muret (syndic, copropriété, mairie) ? Madame Nandjui a-t-elle déjà un accord, même oral ?</li>
+    <li><b>Le café.</b> Café et boissons froides seulement, ou aussi petite restauration ? Cela décide de l’évier, de l’eau chaude et de la puissance électrique.</li>
+    <li><b>Les soirées.</b> Fréquence, horaire de fin, musique enregistrée ou concerts acoustiques ? L’immeuble au-dessus est habité.</li>
+    <li><b>Le budget</b>, même en fourchette, et la charte graphique à appliquer (K&amp;Démi comme les versions précédentes, ou une identité propre au lieu).</li>
+  </ol>
+</section>
+
+<section>
+  <div class="entete">
+    <span class="etiquette">6 · Relecture de Josiane sur ce plan</span>
+    <h2>Points de vigilance</h2>
+  </div>
+  <ul class="revue">
+    {{REVUE_JOSIANE}}
+  </ul>
+</section>
+
+<footer>
+  Statut : document de cadrage et de direction artistique, stade pré-esquisse. Les schémas A et B sont tracés sur l’emprise de la maquette V7 (6,78 × 7,68 m), qui n’est pas un relevé. Photos : <code>photos/</code> du dépôt, état du 13 octobre 2026. Les membres de l’équipe sont des rôles de travail d’une IA définis par vous ; ils ne remplacent ni un architecte inscrit à l’Ordre, ni un bureau d’études agréé, ni les autorisations administratives. L’essence de l’arbre est à confirmer.
+</footer>
+</div>
