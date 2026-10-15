@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from commun import (RACINE, V5_IFC, DESSINS, VUES, RAPPORTS, Z_FP_SOUS, Z_FP_DESSUS, Z_DALLE_SOUS, Z_DALLE_DESSUS,  # noqa
                     ARBRE, R_OCULUS, INDIGO, POCHE)
 sys.path.insert(0, os.path.join(RACINE, "charte"))
-from charte_kdemi import (draw_logo, FP_TITRE, FP_MEDIUM, FP_LIGHT, ENCRE, TAUPE, TERRE_CUITE, IROKO, SABLE,  # noqa
+from charte_kdemi import (draw_lockup, FP_NOM, FP_TITRE, FP_MEDIUM, FP_LIGHT, ENCRE, TAUPE, TERRE_CUITE, IROKO, SABLE,  # noqa
                           SABLE_CLAIR, BLANC_CHAUX, OLIVE)
 from scene import charger, role, triangles  # noqa
 import dessin2d as D  # noqa
@@ -53,7 +53,7 @@ class Planche:
         self.fig.add_artist(Rectangle((px / W, 0), (W - px) / W, 1, transform=self.fig.transFigure,
                                       fc=SABLE_CLAIR, ec="none", zorder=-5))
         x = px + 8
-        draw_logo(self.fig, x, 9, 11)
+        draw_lockup(self.fig, x, 9, 46, fond="clair")
         self.T(x, 30, "Bibliothèque Decimo", 19, ENCRE, fontproperties=FP_TITRE)
         self.T(x, 41, titre, 9.5, TERRE_CUITE)
         self.T(x, 47.5, ligne, 6.3, TAUPE)
@@ -114,7 +114,8 @@ class Planche:
             self.T(x0, y, a.upper(), 5.0, TAUPE, fontproperties=FP_MEDIUM)
             self.T(x0 + 17, y, b, 5.9, ENCRE)
         self.T(x0, 284, "Esquisse : cotes et surfaces indicatives, existant V4 à relever sur site.", 5.4, TAUPE)
-        self.T(x1, 289, f"K&Démi  ·  {self.num}  ·  ESQ V5  ·  {DATE}", 5.6, TERRE_CUITE, ha="right")
+        self.T(x0, 288.85, "K&Démi", 6.0, ENCRE, fontproperties=FP_NOM)
+        self.T(x1, 289, f"{self.num}  ·  ESQ V5  ·  {DATE}", 5.6, TERRE_CUITE, ha="right")
 
     def axes(self, x_mm, y_top_mm, xlim, ylim, ech):
         w = (xlim[1] - xlim[0]) * 1000 / ech

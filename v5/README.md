@@ -54,6 +54,15 @@ Repère : celui de la V4. L'origine est l'angle intérieur sud-ouest du gros œu
 - Les propriétés (`KDEMI_Esquisse.Repere`, `KDEMI_Existant.Statut`, psets standards) et les `IfcSpace` sont conservés.
 - La V5 native reste la référence pour les autres logiciels (BlenderBIM/Bonsai, ArchiCAD, Solibri).
 
+## Charte des cartouches
+
+Les planches A01 à A08 utilisent le logo K&Démi v3 A (`charte/logo_v3/`), tracé en vectoriel à partir du SVG par `draw_lockup()` (`charte/charte_kdemi.py`). Les règles sont les suivantes :
+- on utilise toujours le lockup, avec le nom à côté du symbole ;
+- sa largeur imprimée est de 46 mm, et la fonction refuse toute largeur sous 30 mm ;
+- on prend la version mono sur le panneau sable clair, et la version inverse sur fond sombre.
+
+Le nom « K&Démi » est composé en Manrope. Jost reste la police du texte et DM Serif Display celle des titres. Les polices (licence OFL) sont dans `charte/polices/`.
+
 ## Limites
 
 - Esquisse : cotes et surfaces indicatives. L'existant V4 est lui-même une maquette d'esquisse, à relever sur site.
