@@ -1,4 +1,22 @@
-# Option C — calque provisoire sur la maquette IFC V5
+# Option C — dossier d’esquisse V6 et calque provisoire sur l’IFC V5
+
+## Dossier de présentation
+
+La planche de synthèse en cinq pages est disponible en [PDF A3 paysage](DOSSIER_ESQUISSE_OPTION_C_V6.pdf). Elle présente le site photographié, la référence IFC V5, un plan d’aménagement de principe, une coupe schématique, l’ambiance et les vérifications à mener. Les aperçus PNG sont dans `apercus/`.
+
+Le plan conserve l’enveloppe générale de l’IFC V5 à titre de référence; ses cloisons intérieures, son mobilier et ses zones de programme sont schématiques. L’emplacement de la salle vitrée dans la pièce bleue est une hypothèse à recaler sur un relevé coté. La vue d’ambiance `A06_vue_ambiance_piece_bleue_concept.png` est une image conceptuelle, pas un relevé ni un rendu exact de l’existant.
+
+Le dossier a été relu avec cinq rôles d’analyse IA : conception d’espace, direction artistique, BIM/IFC, ingénierie technique et mise en page du dossier. Ces rôles ont vérifié la cohérence du programme et les incertitudes visibles dans les photos; ils ne constituent pas des visas d’architecte, d’ingénieur ni une validation structurelle.
+
+### Statut et suite
+
+La V6 est prête pour discussion de principe, mais pas pour travaux. La prochaine étape de conception est un relevé sur place qui relie explicitement la pièce bleue aux espaces V5 et mesure les hauteurs, les ouvertures, la mezzanine/volume haut, les WC et la terrasse extérieure. À partir de ce relevé, il sera possible de figer le plan, puis de mettre à jour la géométrie IFC et les coupes.
+
+Le PDF est régénéré par `scripts/generer_dossier_provisoire.py`.
+
+---
+
+## Calque IFC Option C
 
 `DECIMO_ESQ_V6_OPTION_C_PROVISOIRE.ifc` est une copie de travail de `v5/DECIMO_ESQ_V5.ifc`. Elle ajoute un groupe IFC **Option C** et des propriétés `KDEMI_Option_C_Provisoire` aux espaces concernés. Ces propriétés consignent le programme demandé et ce qu'il reste à relever.
 
