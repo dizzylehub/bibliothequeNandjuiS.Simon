@@ -247,18 +247,23 @@ def croquis_A1():
     s.poly([P(3.15, YB, 0), P(6.75, YB, 0), P(6.75, YB, 3), P(3.15, YB, 3)], w=1.6)
     s.wash([P(3.15, 0.0, 0), P(6.75, 0.0, 0), P(6.75, YB, 0), P(3.15, YB, 0)], "#d9cbb4", 0.35)
     # ouverture vers l'accueil, puis vitrage du salon bleu, puis mur WC
-    s.line(P(3.15, 2.75, 0), P(3.15, 2.75, 3.0), w=1.6)
-    s.wash([P(3.15, 2.8, 0), P(3.15, 5.25, 0), P(3.15, 5.25, 3.0), P(3.15, 2.8, 3.0)], AMBRE, 0.18)
-    for y in (2.8, 3.62, 4.43, 5.25):
-        s.line(P(3.15, y, 0), P(3.15, y, 2.75), w=1.3, col=INK)
-    s.line(P(3.15, 2.8, 2.75), P(3.15, 5.25, 2.75), w=1.3, col=INK)
-    s.line(P(3.15, 2.8, 0.05), P(3.15, 5.25, 0.05), w=1.0, col=INK)
+    s.wash([P(3.1, 2.3, 0), P(3.1, 5.1, 0), P(3.1, 5.1, 3.0), P(3.1, 2.3, 3.0)], AMBRE, 0.18)
+    for y in (2.3, 3.2, 4.05, 5.1):
+        s.line(P(3.1, y, 0), P(3.1, y, 2.75), w=1.3, col=INK)
+    s.line(P(3.1, 2.3, 2.75), P(3.1, 5.1, 2.75), w=1.3, col=INK)
+    s.line(P(3.1, 2.3, 0.05), P(3.1, 5.1, 0.05), w=1.0, col=INK)
+    # baie vitrée sud de la salle de réunion, côté accueil
+    for x in (0.0, 0.75, 1.5, 2.25, 3.1):
+        s.line(P(x, 2.3, 0), P(x, 2.3, 2.75), w=1.0, col=INK, op=0.7)
+    s.line(P(0.0, 2.3, 2.75), P(3.1, 2.3, 2.75), w=1.0, col=INK, op=0.7)
+    s.wash([P(0.0, 2.3, 0), P(3.1, 2.3, 0), P(3.1, 2.3, 2.75), P(0.0, 2.3, 2.75)], AMBRE, 0.12)
     # table de réunion et suspension entrevues derrière la baie
     s.blob(P(1.7, 4.0, 2.0), 30, AMBRE, 0.4)
     # buffet-café de Madame
-    boite(s, C, 0.45, 1.0, 0.6, 2.1, 0, 0.95, wash=NOYER, op=0.5)
-    boite(s, C, 0.6, 0.85, 1.0, 1.3, 0.95, 1.38, w=1.0)
-    s.blob(P(0.72, 1.15, 1.5), 50, AMBRE, 0.3)
+    boite(s, C, 0.0, 0.62, 0.25, 2.0, 0, 0.9, wash=NOYER, op=0.4)
+    boite(s, C, 0.15, 0.45, 1.0, 1.3, 0.9, 1.3, w=1.0)
+    boite(s, C, 1.55, 2.2, 0.45, 2.0, 0, 1.05, wash=NOYER, op=0.6)
+    s.blob(P(1.0, 1.15, 1.6), 50, AMBRE, 0.3)
     # le mur de la collection (U)
     rayonnage(s, C, "x", 6.75, 0.3, 3.25, 0, 2.9, 0.32, niv=7, col_bois=NOYER)
     rayonnage(s, C, "x", 6.75, 4.25, 7.25, 0, 2.9, 0.32, niv=7, saut={2, 3}, col_bois=NOYER)
@@ -269,26 +274,27 @@ def croquis_A1():
         s.poly(q, w=1.3, col="#9a6a2c")
         s.line(q[0], q[2], w=0.6, col=GRIS, op=0.5)
     rayonnage(s, C, "y", YB, 3.45, 6.43, 0, 2.9, 0.3, niv=7, col_bois=NOYER)
-    rayonnage(s, C, "x", 3.15, 5.35, 7.29, 0, 2.9, 0.3, niv=7, col_bois=NOYER)
+    rayonnage(s, C, "x", 3.15, 6.45, 7.29, 0, 2.9, 0.3, niv=7, col_bois=NOYER)
     # poteau
     boite(s, C, 5.85, 6.75, 3.30, 4.20, 0, 3.0, w=2.2, wash="#b9ae9c", op=0.9)
     s.note(P(5.85, 3.3, 1.0), (760, 640), "poteau 90 × 90", 22)
     # tapis tissé
-    tapis = [P(3.75, 2.15, 0.01), P(5.85, 2.15, 0.01), P(5.85, 4.25, 0.01), P(3.75, 4.25, 0.01)]
+    tapis = [P(3.7, 4.55, 0.01), P(6.05, 4.55, 0.01), P(6.05, 6.75, 0.01), P(3.7, 6.75, 0.01)]
     s.wash(tapis, MOUTARDE, 0.3)
     s.poly(tapis, w=0.9, col=TERRE, op=0.7)
     for k in range(1, 6):
-        y = 2.15 + 2.1 * k / 6
-        s.line(P(3.75, y, 0.01), P(5.85, y, 0.01), w=0.6, col=TERRE, op=0.45)
+        y = 4.55 + 2.2 * k / 6
+        s.line(P(3.7, y, 0.01), P(6.05, y, 0.01), w=0.6, col=TERRE, op=0.45)
     # fauteuils
-    for (x, y), col in zip([(4.03, 3.64), (5.2, 3.64), (4.03, 2.5), (5.2, 2.5)], [COGNAC, OLIVE, OLIVE, COGNAC]):
+    for (x, y), col in zip([(4.2, 6.3), (5.55, 6.3), (4.2, 5.05), (5.55, 5.05)], [COGNAC, OLIVE, OLIVE, COGNAC]):
         boite(s, C, x - 0.36, x + 0.36, y - 0.36, y + 0.36, 0.18, 0.42, wash=col, op=0.45)
         boite(s, C, x - 0.36, x + 0.36, y + 0.28, y + 0.36, 0.42, 0.9, w=1.2, wash=col, op=0.45)
         for dx in (-0.3, 0.3):
             s.line(P(x + dx, y - 0.3, 0.18), P(x + dx * 1.15, y - 0.34, 0), w=1.1)
-    boite(s, C, 4.35, 4.85, 2.85, 3.3, 0, 0.42, wash=NOYER, op=0.5)
+    boite(s, C, 4.55, 5.2, 5.4, 5.95, 0, 0.42, wash=NOYER, op=0.5)
+    boite(s, C, 5.3, 5.85, 3.3, 4.2, 0.72, 0.76, wash=NOYER, op=0.5)
     # lampadaires et suspensions
-    for x, y in [(5.95, 4.15), (3.6, 2.2)]:
+    for x, y in [(6.05, 5.65), (3.75, 5.65)]:
         s.line(P(x, y, 0), P(x, y, 1.45), w=1.3)
         s.line(P(x, y, 1.45), P(x - 0.25, y, 1.6), w=1.3)
         s.blob(P(x - 0.25, y, 1.5), 34, AMBRE, 0.35)
@@ -298,17 +304,17 @@ def croquis_A1():
         s.cercle(c, 9, w=1.2)
         s.blob(c, 40, AMBRE, 0.25)
     # table d'hôtes près de l'entrée
-    boite(s, C, 3.55, 5.55, 0.9, 1.55, 0.72, 0.78, wash=NOYER, op=0.45)
-    for x in (3.65, 5.45):
-        for y in (0.98, 1.47):
+    boite(s, C, 4.05, 5.65, 1.8, 2.7, 0.72, 0.78, wash=NOYER, op=0.45)
+    for x in (4.15, 5.55):
+        for y in (1.88, 2.62):
             s.line(P(x, y, 0), P(x, y, 0.72), w=1.2)
     # lecteurs
-    u, v = P(5.2, 3.64, 0)
-    s.personne(u, v, P(5.2, 3.64, 0)[1] - P(5.2, 3.64, 1.25)[1], assis=True)
-    u, v = P(4.9, 1.75, 0)
-    s.personne(u, v, P(4.9, 1.75, 0)[1] - P(4.9, 1.75, 1.25)[1], assis=True)
-    u, v = P(4.4, 5.4, 0)
-    s.personne(u, v, v - P(4.4, 5.4, 1.7)[1])
+    u, v = P(5.55, 6.3, 0)
+    s.personne(u, v, P(5.55, 6.3, 0)[1] - P(5.55, 6.3, 1.25)[1], assis=True)
+    u, v = P(4.45, 3.02, 0)
+    s.personne(u, v, P(4.45, 3.02, 0)[1] - P(4.45, 3.02, 1.25)[1], assis=True)
+    u, v = P(3.6, 3.6, 0)
+    s.personne(u, v, v - P(3.6, 3.6, 1.7)[1])
     # plafond en lames de bois et corniche lumineuse
     for k in range(13):
         x = 3.3 + 3.3 * k / 12
@@ -322,115 +328,128 @@ def croquis_A1():
     # annotations
     s.note(P(6.53, 1.2, 2.3), (1040, 120), "le mur de la collection, du sol au plafond", 26)
     s.note(P(6.43, 4.9, 1.25), (1000, 330), "niches-vitrines fermées : livres rares", 22)
-    s.note(P(4.8, 3.6, 0.3), (930, 760), "fauteuils mid-century en velours cognac et olive, tapis", 24)
-    s.note(P(4.2, 1.2, 0.76), (420, 790), "table d'hôtes (premier plan)", 24, ancre="end")
-    s.note(P(0.75, 1.4, 0.95), (110, 540), "le buffet-café de Madame", 24)
+    s.note(P(4.9, 5.6, 0.3), (930, 760), "fauteuils mid-century en velours cognac et olive, tapis", 24)
+    s.note(P(4.85, 2.25, 0.78), (420, 790), "table d'hôtes (premier plan)", 24, ancre="end")
+    s.note(P(1.9, 1.6, 1.05), (110, 560), "accueil ouvert : le comptoir-enfilade de Madame", 24)
     s.note(P(3.15, 3.8, 1.8), (40, 150), "salle de réunion : le mur devient baie vitrée", 24)
     s.note(P(4.85, YB, 2.5), (700, 120), "baie haute du fond", 20)
     s.note(P(5.0, 2.0, 3.0), (720, 60), "plafond en lames de noyer, lumière tamisée", 24)
     s.cartouche("A · Le salon de Madame — un cocon mid-century",
-                "Vue depuis le seuil vers le fond. Largeurs et poteau d'après votre croquis de relevé ; profondeur à relever.", "A1")
+                "Vue depuis la grande porte. Plan E01 : largeurs mesurées, profondeur estimée à 7,60 m.", "A1")
     return s
 
 
 def croquis_A2():
     s = Sk(1400, 900, 22, fond=PAPIER)
-    C = Cam(3.0, -9.0, 1.5, 560, 640, 470)
+    C = Cam(3.4, -10.4, 2.6, 600, 640, 400)
     P = C.P
     # ciel du soir et immeuble
-    s.wash([(0, 0), (1400, 0), (1400, 380), (0, 380)], NUIT, 0.25)
-    imm = [P(-0.6, 0, 0), P(7.6, 0, 0), P(7.6, 0, 9), P(-0.6, 0, 9)]
+    s.wash([(0, 0), (1400, 0), (1400, 420), (0, 420)], NUIT, 0.25)
+    imm = [P(-0.6, 0, 0), P(7.4, 0, 0), P(7.4, 0, 10), P(-0.6, 0, 10)]
     s.wash(imm, "#b9b2a6", 0.45)
-    s.poly([P(-0.6, 0, 0), P(-0.6, 0, 9)], closed=False, w=1.3)
-    s.poly([P(7.6, 0, 0), P(7.6, 0, 9)], closed=False, w=1.3)
-    s.line(P(-0.6, 0, 3.4), P(7.6, 0, 3.4), w=1.6)
+    s.line(P(-0.6, 0, 0), P(-0.6, 0, 10), w=1.3)
+    s.line(P(7.4, 0, 0), P(7.4, 0, 10), w=1.3)
+    s.line(P(-0.6, 0, 3.4), P(7.4, 0, 3.4), w=1.6)
     for z in (4.6, 7.4):
         for x0 in (0.4, 2.9, 5.4):
             q = [P(x0, 0, z), P(x0 + 1.2, 0, z), P(x0 + 1.2, 0, z + 1.1), P(x0, 0, z + 1.1)]
-            s.wash(q, AMBRE if (x0 == 2.9 and z == 4.6) else NUIT, 0.4)
+            s.wash(q, AMBRE if (x0 == 5.4 and z == 4.6) else NUIT, 0.4)
             s.poly(q, w=1.0, op=0.7)
-    s.texte(P(6.9, 0, 6.2)[0], P(6.9, 0, 6.2)[1], "logements au-dessus", 22, GRIS, "end")
-    # façade du local, éclairée
-    s.wash([P(0, 0, 0), P(6.78, 0, 0), P(6.78, 0, 0.5), P(0, 0, 0.5)], TERRE, 0.4)
-    s.line(P(3.07, 0, 0), P(3.07, 0, 3.4), w=1.4)
-    for x0, x1, z0 in [(0.9, 1.9, 0), (4.6, 5.6, 0)]:
-        q = [P(x0, 0, z0), P(x1, 0, z0), P(x1, 0, 2.5), P(x0, 0, 2.5)]
+    s.texte(P(7.2, 0, 8.7)[0], P(7.2, 0, 8.7)[1], "logements au-dessus : musique douce", 22, GRIS, "end")
+    # façade : vitrine, grande porte, fenêtre
+    s.wash([P(0, 0, 0), P(6.75, 0, 0), P(6.75, 0, 0.45), P(0, 0, 0.45)], TERRE, 0.4)
+    for x0, x1, z0 in [(0.6, 2.4, 0.45), (3.6, 5.2, 0.0), (5.6, 6.4, 0.45)]:
+        q = [P(x0, 0, z0), P(x1, 0, z0), P(x1, 0, 2.6), P(x0, 0, 2.6)]
         s.wash(q, AMBRE, 0.75)
         s.poly(q, w=1.5)
-        t = x0 + 0.12
-        while t < x1:
-            s.line(P(t, 0, z0 + 0.1), P(t, 0, z0 + s.R.uniform(0.25, 0.45)), w=0.7, op=0.5)
-            t += 0.07
-    # véranda à créer
-    for x in (0.3, 3.4, 6.5):
-        s.line(P(x, -2.4, 0), P(x, -2.4, 2.75), w=1.3)
-        s.line(P(x, -2.4, 2.75), P(x, 0, 2.75), w=1.0)
-    s.line(P(0.3, -2.4, 2.75), P(6.5, -2.4, 2.75), w=1.4)
+        t = x0 + 0.1
+        while t < x1 - 0.05:
+            s.line(P(t, 0, z0 + 0.1), P(t, 0, z0 + s.R.uniform(0.25, 0.4)), w=0.7, op=0.5)
+            t += 0.08
+    s.line(P(4.4, 0, 0), P(4.4, 0, 2.6), w=1.2)
+    # terrasse dallée
     for k in range(10):
-        x = 0.3 + 6.2 * k / 9
-        s.line(P(x, -2.4, 2.78), P(x, 0, 2.78), w=0.6, op=0.5)
-    s.note(P(5.0, -2.4, 2.75), (1170, 300), "véranda légère, à créer", 22)
-    # muret et grille, portillon ouvert
-    mur = [P(-0.4, -2.66, 0), P(3.3, -2.66, 0), P(3.3, -2.66, 1.0), P(-0.4, -2.66, 1.0)]
-    s.wash(mur, "#d8d2c6", 0.8)
-    s.poly(mur, w=1.6)
-    mur2 = [P(4.4, -2.66, 0), P(7.2, -2.66, 0), P(7.2, -2.66, 1.0), P(4.4, -2.66, 1.0)]
-    s.wash(mur2, "#d8d2c6", 0.8)
-    s.poly(mur2, w=1.6)
-    # banc maçonné côté cour
-    boite(s, C, -0.4, 3.0, -3.1, -2.66, 0, 0.45, wash="#d8d2c6", op=0.6)
-    # grande table familiale et bancs
-    boite(s, C, 0.6, 5.2, -5.0, -4.15, 0.72, 0.78, wash=NOYER, op=0.6)
-    for x in (0.7, 5.1):
-        for y in (-4.95, -4.2):
-            s.line(P(x, y, 0), P(x, y, 0.72), w=1.3)
-    boite(s, C, 0.6, 5.2, -5.6, -5.25, 0.42, 0.46, wash=BOIS, op=0.5)
-    # convives
-    for x in (1.0, 1.9, 2.8, 3.8, 4.7):
-        u, v = P(x, -3.9, 0.0)
-        s.personne(u, v, v - P(x, -3.9, 1.3)[1], assis=True)
-    for x in (1.4, 3.3, 4.3):
-        u, v = P(x, -5.4, 0.0)
-        s.personne(u, v, v - P(x, -5.4, 1.3)[1], assis=True, op=0.95)
-    u, v = P(-0.4, -4.4, 0)
-    s.personne(u, v, v - P(-0.4, -4.4, 1.65)[1])
-    u, v = P(-0.75, -4.4, 0)
-    s.personne(u, v, v - P(-0.75, -4.4, 1.1)[1])
-    # bougies / lampes de table
-    for x in (1.5, 2.9, 4.3):
-        c = P(x, -4.6, 0.85)
-        s.blob(c, 18, AMBRE, 0.6)
-    # l'arbre
-    tronc = P(8.6, -3.6, 0)
-    s.line(tronc, P(8.6, -3.6, 3.2), w=4)
-    s.line(P(8.6, -3.6, 2.6), P(7.0, -3.6, 4.0), w=2.5)
-    s.line(P(8.6, -3.6, 3.0), P(9.8, -3.6, 4.6), w=2.5)
-    for i in range(16):
-        c = P(8.3 + s.j(2.8), -3.6, 4.6 + s.j(1.1))
+        y = -0.5 - k * 0.55
+        s.line(P(-1.2, y, 0), P(8.0, y, 0), w=0.6, op=0.3)
+    # pergola : poteaux, poutre, chevrons, lames
+    xs = (-0.9, 1.25, 3.4, 5.55, 7.7)
+    for x in xs:
+        s.line(P(x, -4.9, 0), P(x, -4.9, 2.9), w=2.0)
+        s.line(P(x, -4.9, 2.9), P(x, 0, 2.95), w=1.4)
+    s.line(P(-1.1, -4.9, 2.9), P(7.9, -4.9, 2.9), w=2.4)
+    s.line(P(-1.1, -4.9, 2.78), P(7.9, -4.9, 2.78), w=1.0)
+    y = -4.75
+    while y < -0.1:
+        s.line(P(-0.9, y, 2.97), P(7.7, y, 2.97), w=0.8, col=NOYER, op=0.8)
+        y += 0.3
+    s.wash([P(-0.9, -4.9, 2.97), P(7.7, -4.9, 2.97), P(7.7, 0, 2.97), P(-0.9, 0, 2.97)], NOYER, 0.18)
+    # suspensions globe sous la pergola
+    for x in (0.2, 2.3, 4.5, 6.6):
+        for y in (-1.6, -3.6):
+            c = P(x, y, 2.35)
+            s.line(P(x, y, 2.95), c, w=0.7)
+            s.cercle(c, 8, w=1.1)
+            s.blob(c, 34, AMBRE, 0.35)
+    # salon gauche : banquette en L, table basse, fauteuils
+    boite(s, C, -0.75, -0.2, -4.6, -1.0, 0, 0.42, wash=NOYER, op=0.55)
+    boite(s, C, -0.75, -0.2, -4.6, -1.0, 0.42, 0.55, w=0.9, wash=CREME, op=0.6)
+    boite(s, C, -0.75, 2.6, -4.6, -4.05, 0, 0.42, wash=NOYER, op=0.55)
+    boite(s, C, -0.75, 2.6, -4.6, -4.25, 0.42, 0.8, w=1.0, wash=CREME, op=0.5)
+    boite(s, C, 0.4, 1.6, -3.4, -2.6, 0.32, 0.38, wash=NOYER, op=0.6)
+    for (x, y), col in zip([(2.2, -2.3), (1.0, -1.7)], [COGNAC, OLIVE]):
+        boite(s, C, x - 0.38, x + 0.38, y - 0.38, y + 0.38, 0.18, 0.42, wash=col, op=0.5)
+        boite(s, C, x - 0.38, x + 0.38, y + 0.25, y + 0.38, 0.42, 0.85, w=1.1, wash=col, op=0.5)
+    s.cercle(P(2.2, -3.3, 0.3), 14, w=1.1)
+    s.blob(P(2.2, -3.3, 0.3), 16, MOUTARDE, 0.6)
+    # salon droit
+    boite(s, C, 7.05, 7.6, -4.6, -1.2, 0, 0.42, wash=NOYER, op=0.55)
+    boite(s, C, 7.35, 7.6, -4.6, -1.2, 0.42, 0.8, w=1.0, wash=CREME, op=0.5)
+    boite(s, C, 5.9, 6.6, -3.2, -2.5, 0.32, 0.38, wash=NOYER, op=0.6)
+    for (x, y), col in zip([(6.25, -1.9), (5.75, -3.9)], [COGNAC, OLIVE]):
+        boite(s, C, x - 0.38, x + 0.38, y - 0.38, y + 0.38, 0.18, 0.42, wash=col, op=0.5)
+        boite(s, C, x - 0.38, x + 0.38, y + 0.25, y + 0.38, 0.42, 0.85, w=1.1, wash=col, op=0.5)
+    # convives assis
+    for (x, y) in [(-0.45, -2.6), (0.5, -4.4), (1.6, -4.4), (2.2, -2.3), (7.3, -2.8), (5.75, -3.9)]:
+        u, v = P(x, y, 0.42)
+        s.personne(u, v, v - P(x, y, 1.3)[1], assis=True)
+    # plantes en pot
+    for (x, y) in [(-0.55, -0.45), (7.4, -0.45), (2.9, -4.55)]:
+        c = P(x, y, 0.9)
+        s.blob(c, 40, VERT, 0.45)
+        s.cercle(c, 26, w=0.8, col=VERT, tours=0.8)
+        boite(s, C, x - 0.2, x + 0.2, y - 0.2, y + 0.2, 0, 0.5, w=1.0, wash=TERRE, op=0.5)
+    # nouvelle limite : claustra bas et jardinières, portillon
+    for (x0, x1) in [(-1.2, 3.4), (5.4, 8.0)]:
+        q = [P(x0, -5.4, 0), P(x1, -5.4, 0), P(x1, -5.4, 0.9), P(x0, -5.4, 0.9)]
+        s.wash(q, "#d9c9a8", 0.7)
+        s.poly(q, w=1.5)
+        x = x0 + 0.2
+        while x < x1:
+            s.line(P(x, -5.4, 0.1), P(x, -5.4, 0.8), w=1.4, op=0.8)
+            x += 0.2
+        for k in range(int((x1 - x0) / 0.5)):
+            s.blob(P(x0 + 0.25 + k * 0.5, -5.4, 1.05), 18, VERT, 0.5)
+    s.line(P(3.4, -5.4, 0), P(4.15, -6.0, 0), w=1.3)
+    s.line(P(4.15, -6.0, 0), P(4.15, -6.0, 0.9), w=1.3)
+    s.line(P(3.4, -5.4, 0.9), P(4.15, -6.0, 0.9), w=1.3)
+    # arbre existant sur le côté
+    tronc = P(9.2, -3.0, 0)
+    s.line(tronc, P(9.2, -3.0, 3.4), w=4)
+    for i in range(14):
+        c = P(9.0 + s.j(2.4), -3.0, 5.0 + s.j(1.1))
         s.blob(c, s.R.uniform(55, 95), VERT, 0.18)
         s.cercle(c, s.R.uniform(30, 55), w=0.8, col=VERT, tours=0.6)
-    # guirlandes
-    for (a, b) in [((0.0, -2.4, 2.75), (7.4, -4.0, 3.6)), ((-0.3, -2.66, 1.0), (7.6, -4.6, 3.2)), ((3.4, -2.4, 2.75), (-0.5, -6.0, 2.2))]:
-        pa, pb = P(*a), P(*b)
-        pts = []
-        for k in range(21):
-            t = k / 20
-            pts.append((pa[0] + (pb[0] - pa[0]) * t, pa[1] + (pb[1] - pa[1]) * t + 60 * math.sin(math.pi * t)))
-        s.courbe(pts, w=1.0)
-        for p in pts[1:-1:2]:
-            s.blob(p, 7, AMBRE, 0.9)
-    # sol
-    for k in range(9):
-        y = -2.7 - k * 0.7
-        s.line(P(-1.5, y, 0), P(7.8, y, 0), w=0.6, op=0.35)
-    s.texte(200, 380, "♪ musique douce", 30, INK)
-    s.note(P(2.9, -4.6, 0.78), (300, 700), "la grande table familiale", 26)
-    s.note(P(-0.2, -2.9, 0.45), (40, 430), "banc maçonné contre le muret", 22)
-    s.note(P(3.85, -2.66, 0.5), (640, 840 - 70), "portillon : la cour ferme à clé", 22)
-    s.note(P(2.0, 0, 2.0), (90, 220), "la façade éclairée, lumière tamisée", 24)
-    s.texte(P(8.6, -3.6, 0)[0], P(8.6, -3.6, 0)[1] + 28, "arbre existant (essence à confirmer)", 20, GRIS, "middle")
-    s.cartouche("A · Le salon de Madame — la cour du soir",
-                "Espace devant le muret : accord écrit à obtenir. La direction doit aussi fonctionner dans le seul parvis clos.", "A2")
+    # annotations
+    s.note(P(3.0, -2.5, 2.97), (470, 130), "pergola en lames de bois, poteaux acier fins", 26)
+    s.note(P(4.5, -1.6, 2.35), (900, 150), "lumière tamisée : globes en verre opalin", 24)
+    s.note(P(0.4, -4.3, 0.6), (40, 330), "banquette en L, coussins crème", 24)
+    s.note(P(6.25, -1.9, 0.6), (1060, 300), "fauteuils bas en velours d'extérieur", 22)
+    s.note(P(4.4, 0, 1.8), (720, 380), "une seule grande porte d'entrée", 22)
+    s.note(P(1.5, 0, 1.6), (40, 420), "vitrine à la place de l'ancienne porte", 22)
+    s.note(P(2.0, -5.4, 0.9), (60, 800), "claustra bas, jardinières et portillon", 24)
+    s.texte(1380, 60, "arbre existant", 20, GRIS, "end")
+    s.cartouche("A · Le salon de Madame — la terrasse-salon sous pergola",
+                "Terrasse prolongée d'environ 2,65 m au-delà du muret actuel : emprise et autorisation à obtenir.", "A2")
     return s
 
 
@@ -648,7 +667,7 @@ def croquis_B2():
 
 if __name__ == "__main__":
     os.makedirs(SORTIE, exist_ok=True)
-    for nom, f in [("A1_cocon_mid_century", croquis_A1), ("A2_la_cour_du_soir", croquis_A2),
+    for nom, f in [("A1_cocon_mid_century", croquis_A1), ("A2_terrasse_pergola", croquis_A2),
                    ("B1_le_ruban_coupe", croquis_B1), ("B2_facade_lanterne", croquis_B2)]:
         chemin = os.path.join(SORTIE, nom + ".svg")
         open(chemin, "w", encoding="utf-8").write(f().svg())
