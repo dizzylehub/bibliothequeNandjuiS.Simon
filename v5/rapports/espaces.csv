@@ -1,0 +1,9 @@
+numero;nom;type;surface_m2;hsp_m
+01;Salle de lecture;SPACE;24.07;3.00
+02;Coin lecture / vitrine;SPACE;6.68;3.00
+03;Salle de réunion;SPACE;7.21;3.00
+04;Rangement;SPACE;1.37;3.00
+05;Placard technique;SPACE;0.24;3.00
+06;Dégagement;SPACE;1.11;3.00
+07;WC;SPACE;2.87;3.00
+08;Terrasse couverte (pergola V4);EXTERNAL;15.74;2.90 (pergola)

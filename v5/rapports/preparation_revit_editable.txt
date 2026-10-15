@@ -1,0 +1,10 @@
+Préparation Revit éditable - DECIMO_ESQ_V5_Revit_editable.ifc
+Contrôle : 231 produits, GlobalId / placements / représentations identiques à la V5
+
+- Projet, site, bâtiment nommés (Default / vide / titre V4-V2 périmés)
+- Niveau N00 _ RDC : cote -1.9e-12 ramenée à 0
+- 94 PredefinedType renseignés (STANDARD / DOOR / WINDOW / NOTDEFINED)
+- 62 génériques V4 renommés « Générique V4 - matériau - ElementId »
+- 58 IfcTypeObject créés pour 60 éléments (familles Revit)
+- 89 éléments sans matériau reçoivent un matériau de repli (À définir, Bois, Béton armé, Mobilier)
+- NON CORRIGÉ (géométrie V4 à ne pas toucher) : IfcDoor « Porte à galandage coin lecture » sans ouverture hôte

@@ -1,0 +1,58 @@
+{
+  "vue": "01_devanture_rue_pieton",
+  "description": "Devanture sur rue, vue piéton depuis le trottoir opposé (œil à 1,60 m)",
+  "source_ifc": "v5/DECIMO_ESQ_V5.ifc",
+  "source_sha256": "985f48d48b54ac23238c42774d7b8b63669e23f919ac7345ce9bac62e21082bc",
+  "repere": "monde IFC, mètres, z vers le haut, origine angle intérieur sud-ouest du RDC (sol fini = 0)",
+  "camera": {
+    "position_m": [
+      1.55,
+      -7.7,
+      1.6
+    ],
+    "cible_m": [
+      3.75,
+      0.0,
+      2.55
+    ],
+    "haut": [
+      0,
+      0,
+      1
+    ],
+    "resolution_px": [
+      2560,
+      1600
+    ],
+    "projection": "perspective",
+    "fov_vertical_deg": 54.0,
+    "fov_horizontal_deg": 78.377,
+    "focale_equivalente_24x36_mm": 22.08,
+    "near_m": 0.05,
+    "far_m": 200
+  },
+  "eclairage": {
+    "shadows": true,
+    "sun_dir": [
+      -0.38,
+      -0.62,
+      0.69
+    ],
+    "sky": [
+      0.8,
+      0.82,
+      0.86
+    ],
+    "ground": [
+      0.5,
+      0.45,
+      0.4
+    ],
+    "fill_k": 0.0,
+    "exposure": 1.0
+  },
+  "masques": [
+    "sol_ext"
+  ],
+  "script": "python3 v5/scripts/vues_rendu.py"
+}
