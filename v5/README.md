@@ -9,6 +9,7 @@ RDC sous logements, Abidjan, un seul niveau (environ 6,78 × 7,68 m hors œuvre)
 | Chemin | Rôle |
 |---|---|
 | `DECIMO_ESQ_V5.ifc` | Maquette IFC4 native : V4 intacte + aménagement (231 produits, 8 `IfcSpace`) |
+| `DECIMO_ESQ_V5_Revit_editable.ifc` | V5 native + corrections non géométriques (noms, types, matériaux, PredefinedType) : meilleur point de départ Revit, voir `rapports/revue_ifc_et_suggestions.md` |
 | `DECIMO_ESQ_V5_maille_Revit.ifc` | Variante maillée pour Revit (`IfcTriangulatedFaceSet` stylés, sans ouvertures booléennes) |
 | `dessins/A01…A08_*.png/pdf/svg` | Planches A3 tirées de l'IFC : plan RDC, plan de faux-plafond et réseaux, coupe AA, élévation devanture, élévations intérieures (×4), vues 3D, axonométries |
 | `vues_rendu/*_ombre.png`, `*_traits.png`, `*_camera.json` | Cinq vues perspectives 2560 × 1600 sans légende (pour les rendus fal) + variante en traits + caméra reproductible |
