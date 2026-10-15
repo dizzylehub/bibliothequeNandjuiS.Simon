@@ -1,0 +1,36 @@
+{
+  "statut": "Illustrations d’intention; distinctes des vues exactes issues de la maquette IFC",
+  "visuels": [
+    {
+      "fichier": "assets/matieres.png",
+      "type": "image générée par IA",
+      "source": "Création originale pour une intention de matières : bois, enduit sable, céramique, textile olive et terre cuite, acier noir, verre",
+      "limites": "Échantillons illustratifs; produits, prix et disponibilité à confirmer auprès des fournisseurs."
+    },
+    {
+      "fichier": "assets/ambiance/seuil_projet.png",
+      "type": "photomontage d’intention généré par IA",
+      "source_photo": "../photos/LE SITE/WhatsApp Image 2026-10-13 at 5.50.23 PM (1).jpeg",
+      "intervention": "Finitions proposées au rez-de-chaussée, enseigne, lumière et usages de la cour; contexte de la photo conservé autant que possible",
+      "limites": "Ne constitue ni un relevé ni une vue exacte de l’IFC; ajustements géométriques et détails de finition à contrôler."
+    },
+    {
+      "fichier": "assets/ambiance/interieur_jour.png",
+      "type": "ambiance intérieure générée par IA depuis une vue de maquette",
+      "reference_geometrique": "assets/ifc/interieur_entree.png",
+      "source_ifc": "DECIMO_PROPOSITION_V7.ifc",
+      "source_ifc_sha256": "826ccd2a023f6a248f1e46bb5b5f80a629be5c8a58212b45fd6914e6930a2391",
+      "reference_matiere": "assets/matieres.png",
+      "limites": "Illustration des finitions, de la lumière et des usages. Livres, personnes, textiles et végétal ajoutés pour l’ambiance; détails de vitrage, quincaillerie et mobilier à confirmer. Les plans et l’IFC priment sur l’illustration."
+    },
+    {
+      "fichier": "assets/ambiance/interieur_soir.png",
+      "type": "ambiance intérieure générée par IA depuis une vue de maquette",
+      "reference_geometrique": "assets/ifc/interieur_accueil.png",
+      "source_ifc": "DECIMO_PROPOSITION_V7.ifc",
+      "source_ifc_sha256": "826ccd2a023f6a248f1e46bb5b5f80a629be5c8a58212b45fd6914e6930a2391",
+      "reference_matiere": "assets/matieres.png",
+      "limites": "Illustration des finitions, de la lumière et des usages. Livres, personnes, textiles et végétal ajoutés pour l’ambiance; détails de vitrage, quincaillerie et mobilier à confirmer. Les plans et l’IFC priment sur l’illustration."
+    }
+  ]
+}

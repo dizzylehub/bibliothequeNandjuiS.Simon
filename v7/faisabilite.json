@@ -1,0 +1,342 @@
+{
+  "projet": "Bibliothèque Nandjui D. Simon — Option C / V7",
+  "statut": "Avis de faisabilité du projet V7, quantités géométriques IFC non recalées sur relevé; aucun visa professionnel",
+  "resume_client": "Une bibliothèque de quartier organisée autour d’un accueil-café tenu par une personne, d’une salle vitrée de six places visées, de rayonnages périphériques et d’une relation à la terrasse. Le parti privilégie des formes droites, modulaires, réparables et fabricables localement.",
+  "choix_de_conception": {
+    "menuiserie": {
+      "principe": "Modules rectangulaires répétitifs, assemblages mécaniques courants, panneaux et pièces remplaçables; profils vitrés et quincaillerie standard.",
+      "fabrication_locale": "Consulter les artisans et fournisseurs d’Abidjan; valider dimensions, disponibilité, entretien et échantillons avant fabrication.",
+      "supports_et_fixations": "À définir après identification des supports et repérage des réseaux; aucun ancrage structurel n’est présumé."
+    },
+    "finitions": {
+      "principe": "Matériaux clairs, minéraux, lavables et réparables; bois ou panneaux remplaçables pour les meubles; profils métalliques courants et finitions d’entretien simple.",
+      "climat": "Choisir les systèmes compatibles avec l’humidité, les nettoyages fréquents et les conditions réelles du local; valider sur échantillons.",
+      "a_confirmer": [
+        "Disponibilité et coût auprès des fournisseurs locaux",
+        "Compatibilité des finitions avec le support existant",
+        "Traitement des zones humides et des joints"
+      ]
+    },
+    "accueil_cafe": {
+      "implantation": "À gauche de l’entrée; poste unique assis dos au mur, tourné vers les livres et avec un regard latéral vers la salle vitrée.",
+      "mobilier": "IFC V7 final : comptoir longitudinal droit de 0,65 × 1,50 m; plan de travail à 0,84 m de principe. Enveloppe maximale de 1,08 m avec les équipements représentés au-dessus du plan. Emprise x=1,35–2,00 m; y=0,20–1,70 m. Passage public est 0,91 m; dégagement staff nord 0,76 m (valeurs théoriques de maquette). Jeu de 0,25–0,32 m devant l’assise pour les genoux, ne constituant pas un cheminement. Posture et dégagements à confirmer sur site.",
+      "equipement_hypothetique": [
+        "1 machine à café",
+        "1 moulin",
+        "1 petit réfrigérateur sous comptoir, optionnel"
+      ],
+      "exploitation": "Café léger sans cuisson ni gaz dans le scénario de base.",
+      "a_confirmer": [
+        "Vérifier passage public est, dégagement staff nord et posture de travail avec l’assise; le jeu pour les genoux ne constitue pas un passage",
+        "Évier, lave-verres et besoin d’eau chaude",
+        "Puissances des appareils",
+        "Alimentation en eau et évacuation",
+        "File d’attente et dégagement des portes"
+      ]
+    },
+    "salle_vitree": {
+      "principe": "IFC V7 : vitrage fixe d’environ 1,14 × 2,46 m et porte vitrée d’environ 0,86 × 2,34 m entre salle 03 et lecture 01. Cloison légère à profils métalliques, vitrage de sécurité et porte intégrée; dimensions à recaler sur site. Joints et traitement acoustique à définir après relevé.",
+      "capacite_visee": 6,
+      "a_confirmer": [
+        "Correspondance de la pièce bleue avec le plan",
+        "Supports, dimensions nettes et débattement de porte",
+        "Acoustique, ventilation et confort thermique",
+        "Dégagements avec les chaises en usage dans 7,21 m² de surface IFC"
+      ]
+    },
+    "bibliotheque": {
+      "principe": "Rayonnages droits et modulaires contre les murs disponibles, notamment au nord et à l’est; centre dégagé, table partagée et petits postes individuels.",
+      "a_confirmer": [
+        "Linéaires disponibles",
+        "Profondeur utile et capacité",
+        "Charges et stabilité",
+        "Fixations et passages"
+      ]
+    },
+    "sanitaires_et_reserve": {
+      "wc": "WC au fond de la pièce bleue avec écran visuel léger; conserver autant que possible la position et le raccordement existants après relevé.",
+      "volume_haut": "Volume de rangement visible en photo, traité comme réserve potentielle de stockage léger; accès, structure, appuis et charge non établis.",
+      "a_confirmer": [
+        "Position et état des appareils",
+        "Sortie WC, diamètres, descentes et ventilation",
+        "Débattement de porte et accès aux visites",
+        "Dimensions, appuis, accès et capacité du volume haut"
+      ]
+    },
+    "confort": {
+      "lumiere": "Préserver la lumière naturelle par les parois vitrées; éclairage LED différencié pour lecture, accueil et réunion.",
+      "ventilation": "Maintenir un renouvellement d’air dans la salle vitrée; définir les ouvrants, ventilateurs ou systèmes mécaniques après relevé.",
+      "climat": "Recalculer le confort thermique et la climatisation après implantation des cloisons et du café; vérifier les condensats et l’entretien.",
+      "humidite": "Choisir des finitions et détails lavables, réparables et adaptés au climat tropical humide; repérer les traces ou causes d’humidité avant recouvrement."
+    },
+    "terrasse": {
+      "base": "Maintenir comme référence la terrasse couverte de la maquette V5.",
+      "extension": "Étudier le dallage extérieur en option seulement après relevé des limites, niveaux, pentes, évacuations et état du support.",
+      "a_confirmer": [
+        "Emprise privative et autorisations",
+        "Relation seuil–terrasse–muret/grille–dallage",
+        "Rôle du muret/grille",
+        "Drainage des pluies et capacité du support"
+      ]
+    }
+  },
+  "donnees_et_statut": {
+    "photographies": [
+      "Pièce bleue allongée, porte et seuil avec marches au fond",
+      "Séparation avec volume haut portant des objets",
+      "Conduits et appareillages apparents",
+      "Entrée avec grille, muret, dallages irréguliers et espace extérieur arboré"
+    ],
+    "mesures_indispensables": [
+      "Plan coté reliant les photos aux pièces IFC; murs, poteaux, baies, portes et orientation",
+      "Niveaux de sol, hauteurs sous plafond, poutres et retombées",
+      "Dimensions, accès, appuis et capacité du volume haut, à vérifier par le BET",
+      "Sanitaires, sortie WC, colonnes, diamètres, ventilation et pentes",
+      "Tableau, arrivée électrique, terre, circuits et puissances disponibles",
+      "Seuils, marches, dallage, pentes, évacuations et limite extérieure privative",
+      "Passage public, accès staff, hauteur de comptoir et posture assise en situation",
+      "Largeur utile, débattement de la porte vitrée et dégagements des six sièges en salle de réunion",
+      "Dégagement ouest du coworking avec quatre sièges tirés, poteau et deux postes individuels"
+    ],
+    "precision_importante": "La V5 est une maquette de projet, pas un relevé de l’existant. La V7 reprend des surfaces et une enveloppe de cette base et ajoute des choix de conception; ses arches, cloisons, baies et ouvertures ne sont pas des existants confirmés. Aucune vérification structurelle de la réserve haute n’est incluse.",
+    "ifc_v7_projet": [
+      "Maquette de conception V7 reprenant les espaces de base V5; surfaces IfcSpace : 43,55 m² intérieur et 15,74 m² terrasse couverte",
+      "Comptoir longitudinal de 1,50 m, plan de travail à 0,84 m de principe; passages théoriques : est 0,91 m public et nord 0,76 m staff; jeu genoux 0,25–0,32 m non compté comme cheminement.",
+      "Deux ensembles de rayonnages droits totalisant environ 5,19 m linéaires",
+      "Vitrage fixe et porte vitrée projetés entre la salle de réunion et la lecture",
+      "Hauteurs IFC de 3,00 m dans les pièces et 2,90 m sous la terrasse : valeurs de projet à mesurer",
+      "Trois ensembles de rayonnages droits, environ 6,688 m de parois équipées : nord/nord-est 2,844 m, est 2,344 m, ouest au fond 1,50 m; quantité de livres non déduite.",
+      "Table coworking 4 places et 2 places sur postes individuels; passage ouest IFC indicatif d’environ 0,90 m",
+      "Plateforme haute de 2,28 × 0,72 m à niveau indicatif +2,08 à +2,28 m, représentée comme hypothèse sans validation structurelle"
+    ]
+  },
+  "phasage": [
+    {
+      "etape": 1,
+      "nom": "Relevé et recalage",
+      "actions": [
+        "Relier les photos au plan",
+        "Mesurer géométrie, niveaux, hauteurs, WC, réseaux et extérieur",
+        "Recaler IFC et plans sur les mesures"
+      ]
+    },
+    {
+      "etape": 2,
+      "nom": "Coordination et réservations",
+      "actions": [
+        "Confirmer équipements et parcours",
+        "Coordonner lots et passages",
+        "Repérer les réseaux et supports",
+        "Exécuter uniquement les réservations confirmées et autorisées"
+      ]
+    },
+    {
+      "etape": 3,
+      "nom": "Menuiseries et cloison vitrée",
+      "actions": [
+        "Valider échantillons et prototypes",
+        "Installer la cloison et la porte",
+        "Fabriquer et poser comptoir et rayonnages modulaires"
+      ]
+    },
+    {
+      "etape": 4,
+      "nom": "Installations et essais",
+      "actions": [
+        "Installer sanitaires, électricité, éclairage, ventilation/climatisation et équipement café coordonnés",
+        "Tester écoulements, protections, confort, portes et passages"
+      ]
+    }
+  ],
+  "priorites_budgetaires": [
+    {
+      "niveau": "Essentiel — ouverture",
+      "contenu": [
+        "Relevé",
+        "Réparations nécessaires",
+        "WC fonctionnel et discret",
+        "Accueil à poste unique",
+        "Éclairage et prises nécessaires",
+        "Cloison vitrée simple",
+        "Premiers rayonnages",
+        "Table de réunion"
+      ],
+      "arbitrage": "Reporter l’extension de terrasse et les équipements café raccordés si les réseaux ne sont pas confirmés."
+    },
+    {
+      "niveau": "Confort — usage quotidien",
+      "contenu": [
+        "Rayonnages complétés",
+        "Amélioration acoustique de la salle vitrée",
+        "Éclairage par zones",
+        "Ventilation et confort thermique adaptés",
+        "Finitions réparables",
+        "Équipement café confirmé"
+      ],
+      "arbitrage": "Choisir les appareils après calcul des puissances et capacités de réseau."
+    },
+    {
+      "niveau": "Déploiement — extension",
+      "contenu": [
+        "Extension de terrasse si autorisée et faisable",
+        "Aménagement de réserve haute après validation",
+        "Compléments de mobilier et d’éclairage"
+      ],
+      "arbitrage": "Programmer après vérification des limites, niveaux, support, accès et avis techniques."
+    }
+  ],
+  "prix_locaux": "Aucun prix local inventé; chiffrage par consultation des entreprises après relevé et choix des fournisseurs.",
+  "applicabilite_reglementaire": "Confirmer localement les règles applicables à l’accueil du public, l’accessibilité, la sécurité et l’hygiène à Abidjan.",
+  "quantites_reference_ifc_v7": {
+    "source": "v7/DECIMO_PROPOSITION_V7.ifc; maquette de conception, non relevé de l’existant; SHA-256 IFC final communiqué par BIM : dc364fa53351ee71889f0053086a9a958480b2d73a4dcbbe4dfa749d7ca7b84d",
+    "unites": "m, m², instances",
+    "objets": [
+      {
+        "element": "Rayonnage droit nord / nord-est",
+        "instances_ifc": 1,
+        "dimensions_enveloppe_m": {
+          "longueur": 2.844,
+          "profondeur": 0.26,
+          "hauteur": 2.05
+        },
+        "statut": "IFC V7 final; linéaire géométrique de paroi équipée, pas une capacité livres."
+      },
+      {
+        "element": "Rayonnage droit est prolongé",
+        "instances_ifc": 1,
+        "dimensions_enveloppe_m": {
+          "longueur": 2.344,
+          "profondeur": 0.27,
+          "hauteur": 2.05
+        },
+        "statut": "IFC V7 final; linéaire géométrique de paroi équipée, pas une capacité livres."
+      },
+      {
+        "element": "Rayonnage droit ouest au fond",
+        "instances_ifc": 1,
+        "dimensions_enveloppe_m": {
+          "longueur": 1.5,
+          "profondeur": 0.32,
+          "hauteur": 2.2
+        },
+        "tablettes": 6,
+        "statut": "IFC V7 final; paroi équipée utile, nombre de livres non déduit sans méthode de comptage et formats de référence."
+      },
+      {
+        "element": "Total parois équipées de rayonnages droits",
+        "instances_ifc": 3,
+        "lineaire_total_m": 6.688,
+        "decomposition_lineaire_m": {
+          "nord_nord_est": 2.844,
+          "est": 2.344,
+          "ouest_fond": 1.5
+        },
+        "statut": "Linéaire de paroi utile selon projet V7 final; ne permet pas de déduire une capacité en livres ni un gain par rapport à V5."
+      },
+      {
+        "element": "Table coworking et sièges",
+        "instances_ifc": 7,
+        "dimensions_enveloppe_m": "Table 1,60 × 0,75 × 0,80 m; quatre sièges autour; deux sièges associés aux postes de lecture individuels. Passage ouest indicatif ≈ 0,90 m.",
+        "statut": "Implantation de projet; recul des chaises, poteau et passage à contrôler en situation."
+      },
+      {
+        "element": "Plateforme réserve haute",
+        "instances_ifc": 1,
+        "dimensions_enveloppe_m": {
+          "longueur": 2.28,
+          "profondeur": 0.72,
+          "epaisseur": 0.2
+        },
+        "niveau_indicatif_m": [
+          2.08,
+          2.28
+        ],
+        "statut": "Hypothèse de stockage léger; aucune capacité, stabilité, structure porteuse ou accès validé."
+      },
+      {
+        "element": "Comptoir accueil-café longitudinal",
+        "instances_ifc": 1,
+        "dimensions_enveloppe_m": {
+          "largeur": 0.65,
+          "longueur": 1.5,
+          "hauteur_maximale_avec_equipements": 1.08
+        },
+        "emprise_principe_m": {
+          "x": [
+            1.35,
+            2.0
+          ],
+          "y": [
+            0.2,
+            1.7
+          ]
+        },
+        "passage_public_theorique_m": 0.91,
+        "statut": "IFC V7 final; jeu pour les genoux devant l’assise, à ne pas compter comme cheminement; dégagements et ergonomie à confirmer sur site.",
+        "hauteur_plan_travail_principe_m": 0.84,
+        "passage_public_est_m": 0.91,
+        "degagement_staff_nord_m": 0.76,
+        "jeu_genoux_devant_assise_m": [
+          0.25,
+          0.32
+        ]
+      },
+      {
+        "element": "Assise accueil",
+        "instances_ifc": 1,
+        "dimensions_enveloppe_m": {
+          "largeur": 0.48,
+          "profondeur": 0.55,
+          "hauteur": 1.05
+        },
+        "statut": "IFC V7 final; l’espace indiqué devant l’assise est un jeu pour les genoux et non un cheminement.",
+        "jeu_genoux_devant_comptoir_m": [
+          0.25,
+          0.32
+        ]
+      },
+      {
+        "element": "Vitrage fixe salle 03 / lecture 01",
+        "instances_ifc": 1,
+        "dimensions_enveloppe_m": {
+          "epaisseur": 0.02,
+          "largeur": 1.14,
+          "hauteur": 2.46
+        },
+        "statut": "Enveloppe géométrique IFC V7, à recaler sur supports relevés."
+      },
+      {
+        "element": "Porte vitrée salle 03 / lecture 01",
+        "instances_ifc": 1,
+        "dimensions_enveloppe_m": {
+          "epaisseur": 0.02,
+          "largeur": 0.86,
+          "hauteur": 2.34
+        },
+        "statut": "Enveloppe géométrique IFC V7, débattement et passage à vérifier."
+      }
+    ],
+    "surfaces_ifc_v7_m2": {
+      "salle_de_lecture_rayonnages_coworking": 24.07,
+      "accueil_et_cafe": 6.68,
+      "salle_de_reunion_vitree": 7.21,
+      "reserve_rangement": 1.37,
+      "placard_technique": 0.24,
+      "degagement_vers_wc": 1.11,
+      "wc": 2.87,
+      "total_interieur": 43.55,
+      "terrasse_couverte": 15.74
+    },
+    "note_sur_surfaces": "Valeurs IfcSpace de la maquette V7, reprises de la géométrie de base V5; surfaces de projet non mesurées sur site. Extension de terrasse non comprise. La validation géométrique annoncée pour le fichier V7 porte sur 218 représentations; elle ne constitue pas une validation des cotes de l’existant ou des dégagements réglementaires. Les linéaires de parois équipées ne donnent pas une capacité en livres et ne permettent pas d’annoncer un gain par rapport à la V5 sans protocole de comptage, gabarits d’ouvrages et nombre de tablettes utilisables.",
+    "passages_indicatifs": {
+      "accueil_public_est_m": 0.91,
+      "accueil_staff_nord_m": 0.76,
+      "coworking_ouest_m": 0.9,
+      "jeu_genoux_devant_assise_m": [
+        0.25,
+        0.32
+      ],
+      "statut": "Valeurs géométriques de principe de la maquette finale; jeu pour les genoux exclu des cheminements. Mesurer et vérifier les usages sur site."
+    }
+  }
+}

@@ -1,0 +1,367 @@
+{
+  "source_ifc": "v7/DECIMO_PROPOSITION_V7.ifc",
+  "sha256": "826ccd2a023f6a248f1e46bb5b5f80a629be5c8a58212b45fd6914e6930a2391",
+  "note": "Surfaces et dimensions calculées depuis les géométries IFC; ne constituent pas un relevé de chantier. Les libellés hérités de la V5 décrivent une maquette de projet, pas un état photographié ou relevé.",
+  "dimensions_visibles": {
+    "enveloppe_murs_m": {
+      "xmin": -0.09,
+      "xmax": 6.69,
+      "ymin": -0.09,
+      "ymax": 7.59,
+      "largeur_m": 6.78,
+      "longueur_m": 7.68
+    },
+    "coupe_longitudinale_x_m": 1.7,
+    "coupe_transversale_y_m": 4.35,
+    "coupe_usage_y_m": 3.75,
+    "niveau_rdc_modele_m": 0.0,
+    "sous_face_dalle_modele_m": 3.3
+  },
+  "surfaces_interieures_modele_m2": 43.548,
+  "espaces": [
+    {
+      "nom": "01",
+      "libelle_ifc": "Bibliothèque, rayonnages et coworking léger",
+      "statut": "désignation de modèle IFC, à vérifier sur site",
+      "surface_m2": 24.069,
+      "emprise_m": {
+        "x": 3.045,
+        "y": 0.09,
+        "largeur": 3.465,
+        "longueur": 7.32
+      },
+      "hauteur_modele_m": 3.0
+    },
+    {
+      "nom": "02",
+      "libelle_ifc": "Accueil et café — poste unique",
+      "statut": "désignation de modèle IFC, à vérifier sur site",
+      "surface_m2": 6.683,
+      "emprise_m": {
+        "x": 0.09,
+        "y": 0.09,
+        "largeur": 2.82,
+        "longueur": 2.37
+      },
+      "hauteur_modele_m": 3.0
+    },
+    {
+      "nom": "03",
+      "libelle_ifc": "Salle de réunion vitrée — zone bleue, usage confirmé",
+      "statut": "désignation de modèle IFC, à vérifier sur site",
+      "surface_m2": 7.207,
+      "emprise_m": {
+        "x": 0.09,
+        "y": 2.52,
+        "largeur": 2.87,
+        "longueur": 2.52
+      },
+      "hauteur_modele_m": 3.0
+    },
+    {
+      "nom": "04",
+      "libelle_ifc": "Réserve / rangement arrière",
+      "statut": "désignation de modèle IFC, à vérifier sur site",
+      "surface_m2": 1.366,
+      "emprise_m": {
+        "x": 0.09,
+        "y": 5.16,
+        "largeur": 1.67,
+        "longueur": 1.08
+      },
+      "hauteur_modele_m": 3.0
+    },
+    {
+      "nom": "05",
+      "libelle_ifc": "Placard technique",
+      "statut": "désignation de modèle IFC, à vérifier sur site",
+      "surface_m2": 0.24,
+      "emprise_m": {
+        "x": 0.53,
+        "y": 5.16,
+        "largeur": 0.6,
+        "longueur": 0.4
+      },
+      "hauteur_modele_m": 3.0
+    },
+    {
+      "nom": "06",
+      "libelle_ifc": "Dégagement vers le WC — retour visuel en option",
+      "statut": "désignation de modèle IFC, à vérifier sur site",
+      "surface_m2": 1.112,
+      "emprise_m": {
+        "x": 1.88,
+        "y": 5.16,
+        "largeur": 1.03,
+        "longueur": 1.08
+      },
+      "hauteur_modele_m": 3.0
+    },
+    {
+      "nom": "07",
+      "libelle_ifc": "WC existant au fond — à réaménager",
+      "statut": "désignation de modèle IFC, à vérifier sur site",
+      "surface_m2": 2.871,
+      "emprise_m": {
+        "x": 0.09,
+        "y": 6.36,
+        "largeur": 2.82,
+        "longueur": 1.05
+      },
+      "hauteur_modele_m": 3.0
+    },
+    {
+      "nom": "08",
+      "libelle_ifc": "Terrasse couverte existante",
+      "statut": "désignation de modèle IFC, à vérifier sur site",
+      "surface_m2": 15.74,
+      "emprise_m": {
+        "x": 0.0,
+        "y": -2.75,
+        "largeur": 6.6,
+        "longueur": 2.66
+      },
+      "hauteur_modele_m": 2.9
+    }
+  ],
+  "objets_selectionnes": [
+    {
+      "nom": "Réservation R5 Ø 0,10 - Passage câbles placard -> réunion (cloison placo 4350621)",
+      "classe": "IfcBuildingElementProxy",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 0.1,
+        "y": 0.12,
+        "z": 0.099
+      },
+      "origine_m": [
+        0.78,
+        5.04,
+        3.19
+      ]
+    },
+    {
+      "nom": "V6 — dallage extension terrasse - emprise optionnelle",
+      "classe": "IfcCovering",
+      "source": "IFC",
+      "hypothese": false,
+      "option": true,
+      "dimensions_m": {
+        "x": 6.2,
+        "y": 1.03,
+        "z": 0.02
+      },
+      "origine_m": [
+        0.15,
+        -3.78,
+        0.005
+      ]
+    },
+    {
+      "nom": "V7 — bandeau acoustique cloison salle 03 / lecture 01",
+      "classe": "IfcCovering",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 0.1,
+        "y": 2.22,
+        "z": 0.7
+      },
+      "origine_m": [
+        2.95,
+        2.82,
+        2.6
+      ]
+    },
+    {
+      "nom": "V7 — cadres et montant cloison vitrée salle 03 / lecture 01",
+      "classe": "IfcMember",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 0.1,
+        "y": 2.22,
+        "z": 2.6
+      },
+      "origine_m": [
+        2.95,
+        2.82,
+        0.0
+      ]
+    },
+    {
+      "nom": "V6 — plateforme réserve haute arrière - hypothèse",
+      "classe": "IfcSlab",
+      "source": "IFC",
+      "hypothese": true,
+      "option": false,
+      "dimensions_m": {
+        "x": 2.28,
+        "y": 0.72,
+        "z": 0.2
+      },
+      "origine_m": [
+        0.48,
+        4.2,
+        2.08
+      ]
+    },
+    {
+      "nom": "Retombée BA13 au-dessus de la cloison vitrée coin lecture / réunion",
+      "classe": "IfcWall",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 2.82,
+        "y": 0.06,
+        "z": 0.4
+      },
+      "origine_m": [
+        0.09,
+        2.46,
+        2.6
+      ]
+    },
+    {
+      "nom": "V7 — vitrage fixe cloison salle 03 / lecture 01",
+      "classe": "IfcWindow",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 0.02,
+        "y": 1.14,
+        "z": 2.46
+      },
+      "origine_m": [
+        2.99,
+        2.88,
+        0.06
+      ]
+    },
+    {
+      "nom": "V7 — vitrage rectangulaire baie A - hypothèse",
+      "classe": "IfcWindow",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 1.13,
+        "y": 0.018,
+        "z": 1.88
+      },
+      "origine_m": [
+        0.585,
+        -0.012,
+        0.485
+      ]
+    },
+    {
+      "nom": "V7 — vitrage rectangulaire baie B - hypothèse",
+      "classe": "IfcWindow",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 0.63,
+        "y": 0.018,
+        "z": 1.28
+      },
+      "origine_m": [
+        2.035,
+        -0.012,
+        0.935
+      ]
+    },
+    {
+      "nom": "V7 — vitrage rectangulaire baie C - hypothèse",
+      "classe": "IfcWindow",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 1.03,
+        "y": 0.018,
+        "z": 1.68
+      },
+      "origine_m": [
+        5.185,
+        -0.012,
+        0.635
+      ]
+    },
+    {
+      "nom": "V6 — rayonnage droit nord-est sous niches",
+      "classe": "IfcFurnishingElement",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 2.844,
+        "y": 0.26,
+        "z": 2.05
+      },
+      "origine_m": [
+        3.258,
+        6.7,
+        0.0
+      ]
+    },
+    {
+      "nom": "V6 — rayonnage droit est prolongé",
+      "classe": "IfcFurnishingElement",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 0.27,
+        "y": 2.344,
+        "z": 2.05
+      },
+      "origine_m": [
+        6.16,
+        4.328,
+        0.0
+      ]
+    },
+    {
+      "nom": "V7 — comptoir accueil-café longitudinal - poste unique",
+      "classe": "IfcFurnishingElement",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 0.65,
+        "y": 1.5,
+        "z": 1.08
+      },
+      "origine_m": [
+        1.35,
+        0.2,
+        0.0
+      ]
+    },
+    {
+      "nom": "V7 — rayonnage droit ouest du fond",
+      "classe": "IfcFurnishingElement",
+      "source": "IFC",
+      "hypothese": false,
+      "option": false,
+      "dimensions_m": {
+        "x": 0.32,
+        "y": 1.5,
+        "z": 2.1
+      },
+      "origine_m": [
+        3.1,
+        5.4,
+        0.1
+      ]
+    }
+  ]
+}

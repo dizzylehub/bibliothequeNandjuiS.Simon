@@ -1,0 +1,13 @@
+{
+  "ifc_sha256": "826ccd2a023f6a248f1e46bb5b5f80a629be5c8a58212b45fd6914e6930a2391",
+  "pages_pdf": 22,
+  "format_pdf_mm": [
+    420.0,
+    297.0
+  ],
+  "slides_pptx": 22,
+  "elements_texte_editables_pptx": 392,
+  "dessins_et_cameras_meme_ifc": true,
+  "geometrie_ifc": "207 produits représentés, 207 géométries réussies, 0 échec; voir validation_ifc_v7.txt",
+  "contenu": "Conception et présentation; mesures de maquette à confirmer sur site."
+}

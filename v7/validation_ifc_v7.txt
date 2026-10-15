@@ -1,0 +1,15 @@
+Fichier : v7/DECIMO_PROPOSITION_V7.ifc
+Schéma : IFC4
+Entités : 27811
+ifcopenshell 0.9.0
+
+== ifcopenshell.validate (schéma + règles EXPRESS) ==
+Erreurs : 0
+Avertissements : 0
+
+== Géométrie (ifcopenshell.geom, tous les IfcProduct avec représentation) ==
+Produits avec représentation : 207
+Géométrie OK : 207
+Échecs : 0
+
+Répartition : IfcBuildingElementProxy 78, IfcCableCarrierSegment 3, IfcCommunicationsAppliance 1, IfcCovering 15, IfcDoor 6, IfcElectricDistributionBoard 1, IfcFlowTerminal 1, IfcFurnishingElement 24, IfcFurniture 1, IfcJunctionBox 1, IfcLightFixture 28, IfcMember 4, IfcOpeningElement 5, IfcPipeSegment 4, IfcPlate 1, IfcProtectiveDevice 1, IfcPump 2, IfcSlab 2, IfcSpace 8, IfcUnitaryEquipment 2, IfcWall 6, IfcWallStandardCase 9, IfcWindow 4

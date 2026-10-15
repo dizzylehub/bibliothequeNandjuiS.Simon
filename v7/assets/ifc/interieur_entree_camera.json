@@ -1,0 +1,550 @@
+{
+  "vue": "interieur_entree",
+  "description": "Depuis le seuil d’entrée vers la bibliothèque : comptoir unique, rayonnages nord/est et coworking.",
+  "source_ifc": "v7/DECIMO_PROPOSITION_V7.ifc",
+  "source_sha256": "826ccd2a023f6a248f1e46bb5b5f80a629be5c8a58212b45fd6914e6930a2391",
+  "reperage": "Coordonnées monde IFC en mètres, z vers le haut; caméra absolue.",
+  "camera": {
+    "position_m": [
+      4.1,
+      0.24,
+      1.58
+    ],
+    "cible_m": [
+      5.42,
+      5.9,
+      1.57
+    ],
+    "haut": [
+      0,
+      0,
+      1
+    ],
+    "resolution_px": [
+      2200,
+      1467
+    ],
+    "projection": "perspective",
+    "fov_vertical_deg": 62.0,
+    "fov_horizontal_deg": 84.043,
+    "focale_equivalente_24x36_mm": 19.98,
+    "near_m": 0.05,
+    "far_m": 80
+  },
+  "rendu": {
+    "shadows": true,
+    "sun_dir": [
+      -0.3,
+      -0.7,
+      0.65
+    ],
+    "sky": [
+      0.98,
+      0.95,
+      0.9
+    ],
+    "ground": [
+      0.86,
+      0.8,
+      0.72
+    ],
+    "sun_col": [
+      1.0,
+      0.9,
+      0.76
+    ],
+    "fill_dir": [
+      0.15,
+      -1.0,
+      0.25
+    ],
+    "fill_k": 0.24,
+    "exposure": 0.92,
+    "emissive": 1.25,
+    "background": [
+      0.95,
+      0.93,
+      0.9
+    ],
+    "supersampling": 1
+  },
+  "coupe_horizontale_z_m": null,
+  "masques": {
+    "roles_exclus": [
+      "arbre",
+      "fenetre_logt",
+      "joint",
+      "logements",
+      "sol_ext",
+      "technique",
+      "trottoir",
+      "voisin"
+    ],
+    "plafonds": "exclus des vues intérieures pour dégager les pièces",
+    "legacy_tree_led": "supprimés dans l’IFC V7",
+    "luminaires_plafond": "anciens downlights masqués lorsque le faux plafond est masqué; intentions V7 montrées",
+    "axo_murs": "façade sud segmentée V7 et mur est coupés à +1,00 m; coupe générale à +2,40 m",
+    "options": "plateforme réserve haute et dallage optionnel d’extension masqués dans toutes les vues",
+    "techniques": "réservations techniques V5 masquées dans les rendus de présentation",
+    "axo_terrain": "proxys sol extérieur 4350705 et terrasse 4350707 masqués",
+    "terrasse_grille": "grille et trames droites masquées au seuil dans cette vue pour lire la continuité terrasse / intérieur",
+    "produits_exclus": [
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350745",
+        "role": "arbre"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350744",
+        "role": "arbre"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350743",
+        "role": "arbre"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350742",
+        "role": "arbre"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350647",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350648",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350649",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350650",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350651",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350652",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350653",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350654",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350655",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350656",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350657",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350698",
+        "role": "logements"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350700",
+        "role": "voisin"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350701",
+        "role": "fenetre_logt"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350702",
+        "role": "fenetre_logt"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350703",
+        "role": "fenetre_logt"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350704",
+        "role": "fenetre_logt"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350705",
+        "role": "sol_ext"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350706",
+        "role": "trottoir"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350636",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350637",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350638",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350639",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350640",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350641",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350642",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350643",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350644",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350645",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "4350646",
+        "role": "joint"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "Réservation R1 Ø 0,10 - Entrée liaisons split 1 dans le doublage V4",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "Réservation R2 Ø 0,10 - Entrée liaisons split 2 dans le doublage V4",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "Réservation R3 Ø 0,10 - Sortie liaisons split 1 - baie arrière existante",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "Réservation R4 Ø 0,10 - Sortie liaisons split 2 - baie arrière existante",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcBuildingElementProxy",
+        "nom": "Réservation R5 Ø 0,10 - Passage câbles placard -> réunion (cloison placo 4350621)",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcCovering",
+        "nom": "Faux-plafond acoustique - Salle de lecture",
+        "role": "plafond"
+      },
+      {
+        "classe": "IfcCovering",
+        "nom": "Faux-plafond acoustique - Coin lecture / vitrine",
+        "role": "plafond"
+      },
+      {
+        "classe": "IfcCovering",
+        "nom": "Faux-plafond acoustique - Salle de réunion",
+        "role": "plafond"
+      },
+      {
+        "classe": "IfcCovering",
+        "nom": "Faux-plafond acoustique - Rangement",
+        "role": "plafond"
+      },
+      {
+        "classe": "IfcCovering",
+        "nom": "Faux-plafond acoustique - Dégagement",
+        "role": "plafond"
+      },
+      {
+        "classe": "IfcCovering",
+        "nom": "Faux-plafond hydrofuge - WC",
+        "role": "plafond"
+      },
+      {
+        "classe": "IfcCovering",
+        "nom": "V6 — dallage extension terrasse - emprise optionnelle",
+        "role": "sol"
+      },
+      {
+        "classe": "IfcPlate",
+        "nom": "Panneau passe-liaisons dans la baie arrière existante",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcSlab",
+        "nom": "V6 — plateforme réserve haute arrière - hypothèse",
+        "role": "mobilier"
+      },
+      {
+        "classe": "IfcUnitaryEquipment",
+        "nom": "Split mural 9 000 BTU/h - unité intérieure 1",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcUnitaryEquipment",
+        "nom": "Split mural 9 000 BTU/h - unité intérieure 2",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcElectricDistributionBoard",
+        "nom": "Tableau divisionnaire (encastré dans l'habillage)",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcProtectiveDevice",
+        "nom": "Coffret arrivée électrique immeuble (disjoncteur de branchement)",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcJunctionBox",
+        "nom": "Coffret liaisons clim (alimentation et bus des 2 splits)",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcPump",
+        "nom": "Mini-pompe de relevage des condensats - split 1",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcPump",
+        "nom": "Mini-pompe de relevage des condensats - split 2",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcCableCarrierSegment",
+        "nom": "Chemin de câbles placard technique -> tableau divisionnaire",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcCableCarrierSegment",
+        "nom": "Chemin de câbles dérivation split 2",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcCableCarrierSegment",
+        "nom": "Chemin de câbles tableau -> salle de lecture / split 1",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcPipeSegment",
+        "nom": "Liaisons frigorifiques et condensats - split 1",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcPipeSegment",
+        "nom": "Liaisons frigorifiques et condensats - split 2",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcPipeSegment",
+        "nom": "Descente EU/EV 1 (WC) Ø 100 (hypothèse)",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcPipeSegment",
+        "nom": "Descente EU/EV 2 (rangement) Ø 100 (hypothèse)",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcCommunicationsAppliance",
+        "nom": "Baie informatique murale 9U",
+        "role": "technique"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Suspension terre cuite - table coin lecture",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Suspension terre cuite - salon de lecture",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Linéaire suspendu - table de réunion",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 1",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 2",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 3",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 4",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 5",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 6",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 7",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 8",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 9",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 10",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 11",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 12",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Salle de lecture 13",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Coin lecture / vitrine 1",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Coin lecture / vitrine 2",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Coin lecture / vitrine 3",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Rangement 1",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré Dégagement 1",
+        "role": "luminaire"
+      },
+      {
+        "classe": "IfcLightFixture",
+        "nom": "Downlight encastré WC 1",
+        "role": "luminaire"
+      }
+    ]
+  },
+  "produits_visibles": 109,
+  "triangles_rendus": 16532,
+  "objets_v7_classes": {
+    "V7 — bandeau acoustique cloison salle 03 / lecture 01": "IfcCovering",
+    "V7 — porte vitrée salle 03 / lecture 01": "IfcDoor",
+    "V7 — porte grille rectangulaire entrée - hypothèse": "IfcDoor",
+    "V7 — cadres et montant cloison vitrée salle 03 / lecture 01": "IfcMember",
+    "V7 — trame droite baie A - hypothèse": "IfcMember",
+    "V7 — trame droite baie B - hypothèse": "IfcMember",
+    "V7 — trame droite baie C - hypothèse": "IfcMember",
+    "V7 — façade rectiligne segmentée autour baies rectangulaires": "IfcWall",
+    "V7 — vitrage fixe cloison salle 03 / lecture 01": "IfcWindow",
+    "V7 — vitrage rectangulaire baie A - hypothèse": "IfcWindow",
+    "V7 — vitrage rectangulaire baie B - hypothèse": "IfcWindow",
+    "V7 — vitrage rectangulaire baie C - hypothèse": "IfcWindow",
+    "V7 — intention lumière linéaire bibliothèque": "IfcLightFixture",
+    "V7 — intention lumière accueil": "IfcLightFixture",
+    "V7 — intention lumière salle 03": "IfcLightFixture",
+    "V7 — comptoir accueil-café longitudinal - poste unique": "IfcFurnishingElement",
+    "V7 — siège accueil face est - poste unique": "IfcFurnishingElement",
+    "V7 — table coworking 4 places ajustée": "IfcFurnishingElement",
+    "V7 — siège coworking sud 1": "IfcFurnishingElement",
+    "V7 — siège coworking sud 2": "IfcFurnishingElement",
+    "V7 — siège coworking nord 1": "IfcFurnishingElement",
+    "V7 — siège coworking nord 2": "IfcFurnishingElement",
+    "V7 — siège bureau individuel 1": "IfcFurnishingElement",
+    "V7 — siège bureau individuel 2": "IfcFurnishingElement",
+    "V7 — rayonnage droit ouest du fond": "IfcFurnishingElement"
+  },
+  "sortie_png": "v7/assets/ifc/interieur_entree.png",
+  "script": "v7/scripts/render_maquette.py"
+}
