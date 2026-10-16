@@ -163,6 +163,9 @@ def glb():
     chemin = os.path.join(SORTIE, "NANDJUI_V8.glb")
     scene.export(chemin)
     print(chemin)
+    # copie glTF JSON (buffers intégrés) pour la visite 3D de la page web
+    js = trimesh.exchange.gltf.export_gltf(scene, embed_buffers=True)["model.gltf"]
+    open(os.path.join(SORTIE, "NANDJUI_V8.gltf.json"), "wb").write(js)
 
 
 if __name__ == "__main__":
