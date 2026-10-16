@@ -1,0 +1,8 @@
+# Versions utilisées pour la V8 (Python 3.13). Rendu sans OpenGL.
+ifcopenshell==0.9.0
+pytest  # requis par la validation EXPRESS d'ifcopenshell
+numpy
+Pillow
+matplotlib
+trimesh
+scipy
