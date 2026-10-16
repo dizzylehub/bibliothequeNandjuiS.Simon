@@ -15,7 +15,7 @@ SORTIE = os.path.join(ICI, "..", "mobilier")
 FONT = "Archivo, Helvetica, Arial, sans-serif"
 INK, GRIS, ORANGE = "#2a2622", "#8b8a86", "#b0582b"
 C = {"noyer": "#7a4a2a", "noyer clair": "#a8754a", "cognac": "#a85f2c", "olive": "#56613a", "creme": "#efe4cc",
-     "laiton": "#c9a227", "verre": "#9cc9d3", "canne": "#d9b878", "acier": "#2b2b2b", "corde": "#3f7a6a", "moutarde": "#c9962e", "contreplaque": "#d8b98a"}
+     "laiton": "#c9a227", "verre": "#9cc9d3", "canne": "#d9b878", "acier": "#2b2b2b", "corde": "#3f7a6a", "moutarde": "#c9962e", "contreplaque": "#d8b98a", "terre": "#b5603a", "livre1": "#2b4c7e", "livre2": "#8a3b2e", "livre3": "#c9962e", "feutre": "#56613a"}
 
 
 def B(x0, y0, z0, x1, y1, z1, m):
@@ -131,30 +131,275 @@ def overallt():
     return v
 
 
+# ------------------------------------------------------------------ variantes (indice B, 16/10)
+LIVRES = ("livre1", "livre2", "livre3", "noyer clair", "creme")
+
+
+def _livres(x0, x1, y0, z0, h, graine, remplissage=0.8):
+    """Rangée de livres vus de dos, en blocs de couleur."""
+    v, x, k = [], x0 + 0.01, graine
+    while x < x0 + (x1 - x0) * remplissage:
+        w = 0.025 + (k * 7 % 5) * 0.008
+        hh = h * (0.72 + (k * 3 % 4) * 0.07)
+        v.append(B(x, y0 + 0.03, z0, x + w, y0 + 0.24, z0 + hh, LIVRES[k % len(LIVRES)]))
+        x += w + 0.003
+        k += 1
+    return v
+
+
+def bibli_kente():
+    """Trois modules de 0,80 : tablettes décalées d'un module à l'autre et fonds colorés en bandes, comme un pagne tissé."""
+    W, D, H = 0.80, 0.35, 2.90
+    niv = {0: [0.08, 0.50, 0.92, 1.34, 1.76, 2.18, 2.60], 1: [0.08, 0.29, 0.71, 1.13, 1.55, 1.97, 2.39], 2: [0.08, 0.50, 0.92, 1.34, 1.76, 2.18, 2.60]}
+    fonds = ["creme", "moutarde", "creme", "olive", "creme", "cognac", "creme"]
+    v = []
+    for i in range(3):
+        x0 = i * W
+        v.append(B(x0, 0.02, 0, x0 + 0.025, D, H, "noyer"))
+        zs = niv[i] + [H - 0.025]
+        for j, z in enumerate(zs):
+            v.append(B(x0 + 0.025, 0.02, z, x0 + W, D - 0.015, z + 0.025, "noyer clair"))
+            if j < len(zs) - 1:
+                z1 = zs[j + 1]
+                v.append(B(x0 + 0.025, D - 0.015, z + 0.025, x0 + W, D, z1, fonds[(j + i * 2) % len(fonds)]))
+                if (i + j) % 3 != 1 and z1 - z > 0.25:
+                    v += _livres(x0 + 0.03, x0 + W - 0.01, 0.02, z + 0.025, min(0.30, z1 - z - 0.06), i * 7 + j)
+    v.append(B(3 * W - 0.025, 0.02, 0, 3 * W, D, H, "noyer"))
+    v.append(B(0, 0.06, 0, 3 * W, D - 0.02, 0.08, "noyer"))
+    # échelle en laiton sur rail
+    v.append(R((0.0, -0.03, 2.72), (3 * W, -0.03, 2.72), "laiton", 0.02))
+    for x in (1.05, 1.45):
+        v.append(R((x, -0.55, 0), (x, -0.04, 2.72), "laiton", 0.03))
+    for k in range(1, 8):
+        t = k / 8
+        v.append(R((1.05, -0.55 + 0.51 * t, 2.72 * t), (1.45, -0.55 + 0.51 * t, 2.72 * t), "noyer", 0.025))
+    return v
+
+
+def bibli_claustra():
+    """Grille de casiers de 0,40 : certaines cases fermées par du cannage ou un claustra en terre cuite."""
+    v = []
+    cols, rows, c = 6, 7, 0.40
+    D = 0.35
+    for i in range(cols + 1):
+        v.append(B(i * c, 0.02, 0.08, i * c + 0.02, D, 0.08 + rows * c + 0.02, "noyer"))
+    for j in range(rows + 1):
+        v.append(B(0, 0.02, 0.08 + j * c, cols * c + 0.02, D, 0.08 + j * c + 0.02, "noyer"))
+    v.append(B(0, D - 0.015, 0.08, cols * c + 0.02, D, 0.08 + rows * c, "creme"))
+    for i in range(cols):
+        for j in range(rows):
+            x0, z0 = i * c + 0.02, 0.08 + j * c + 0.02
+            k = (i * 5 + j * 3) % 7
+            if k == 0:
+                v.append(B(x0 + 0.01, 0.0, z0 + 0.01, x0 + c - 0.03, 0.015, z0 + c - 0.03, "canne"))
+            elif k == 3:
+                v.append(B(x0 + 0.01, 0.0, z0 + 0.01, x0 + c - 0.03, 0.015, z0 + c - 0.03, "terre"))
+            elif k in (1, 4, 6):
+                v += _livres(x0, x0 + c - 0.02, 0.02, z0, 0.28, i + j)
+    v.append(B(0.02, 0.06, 0, cols * c, D - 0.02, 0.08, "noyer"))
+    return v
+
+
+def bibli_lutrin():
+    """Rayonnage continu, bandeau-lutrin à hauteur des yeux pour présenter les livres de face, niches-vitrines."""
+    W, D, H = 2.40, 0.35, 2.90
+    v = [B(0, 0.02, 0, 0.025, D, H, "noyer"), B(W - 0.025, 0.02, 0, W, D, H, "noyer"), B(1.19, 0.02, 0, 1.215, D, H, "noyer"),
+         B(0.025, D - 0.015, 0.08, W - 0.025, D, H, "creme"), B(0.04, 0.06, 0, W - 0.04, D - 0.02, 0.08, "noyer")]
+    for z in (0.08, 0.48, 0.88, 1.75, 2.15, 2.55, H - 0.025):
+        v.append(B(0.025, 0.02, z, W - 0.025, D - 0.015, z + 0.025, "noyer clair"))
+        if z < 2.8:
+            v += _livres(0.03, W - 0.03, 0.02, z + 0.025, 0.30, int(z * 10))
+    # bandeau-lutrin incliné (approché par deux gradins) avec couvertures de face
+    v.append(B(0.025, -0.10, 1.10, W - 0.025, 0.02, 1.14, "noyer"))
+    v.append(B(0.025, -0.04, 1.40, W - 0.025, 0.02, 1.44, "noyer"))
+    for k in range(7):
+        x = 0.10 + k * 0.32
+        v.append(B(x, -0.07, 1.14, x + 0.22, -0.05, 1.42, LIVRES[k % 3]))
+    v.append(B(0.03, 0.0, 1.46, 1.18, 0.012, 1.74, "verre"))
+    v.append(B(1.225, 0.0, 1.46, W - 0.03, 0.012, 1.74, "verre"))
+    return v
+
+
+def accueil_enfilade():
+    return comptoir()
+
+
+def accueil_secretaire():
+    """Comptoir avec gradin à livres côté client et cabinet à rideau à lattes qui ferme le café le soir."""
+    W, D = 1.10, 0.65
+    v = [B(0.02, 0.04, 0.15, W - 0.02, D, 1.01, "noyer"), B(-0.03, -0.02, 1.01, W + 0.03, D + 0.02, 1.05, "noyer clair")]
+    x = 0.04
+    while x < W - 0.06:
+        v.append(B(x, 0.0, 0.17, x + 0.028, 0.04, 0.99, "noyer clair"))
+        x += 0.05
+    for (px, py) in ((0.07, 0.10), (W - 0.12, 0.10), (0.07, D - 0.10), (W - 0.12, D - 0.10)):
+        v.append(B(px, py, 0, px + 0.05, py + 0.05, 0.15, "noyer"))
+    v.append(B(0.0, -0.03, 0.30, W, -0.01, 0.32, "laiton"))
+    # gradin à livres « le livre du jour »
+    v.append(B(0.05, -0.02, 1.05, 0.72, 0.16, 1.09, "noyer"))
+    v.append(B(0.05, 0.10, 1.09, 0.72, 0.16, 1.26, "noyer"))
+    for k in range(3):
+        x = 0.09 + k * 0.21
+        v.append(B(x, 0.06, 1.09, x + 0.16, 0.09, 1.31, LIVRES[k]))
+    # cabinet à rideau à lattes au bout du comptoir (machine à café)
+    v.append(B(0.76, 0.20, 1.05, W + 0.03, D + 0.02, 1.62, "noyer"))
+    x = 0.78
+    while x < W:
+        v.append(B(x, 0.185, 1.08, x + 0.022, 0.20, 1.58, "noyer clair"))
+        x += 0.026
+    v.append(B(0.76, 0.19, 1.60, W + 0.03, 0.20, 1.62, "laiton"))
+    return v
+
+
+def accueil_bibliotheque():
+    """Comptoir en L dont la façade client est une bibliothèque ouverte."""
+    v = [B(0, 0.04, 0, 1.10, 0.65, 1.01, "noyer"), B(-0.03, -0.02, 1.01, 1.13, 0.67, 1.05, "noyer clair"),
+         B(1.10, 0.04, 0, 1.70, 0.45, 0.86, "noyer"), B(1.10, 0.02, 0.86, 1.73, 0.47, 0.90, "noyer clair")]
+    for k in range(3):
+        x0 = 0.04 + k * 0.355
+        v.append(B(x0, 0.0, 0.10, x0 + 0.33, 0.04, 0.95, "creme"))
+        for z in (0.12, 0.54):
+            v += _livres(x0, x0 + 0.33, -0.20, z, 0.36, k * 3 + int(z * 10), 0.95)
+    for z in (0.12, 0.47):
+        v += _livres(1.13, 1.68, -0.20, z, 0.30, 5 + int(z * 10), 0.95)
+    return v
+
+
+def table_compas():
+    v = []
+    tx0, tx1, ty0, ty1 = 0.0, 2.50, 0.0, 0.80
+    v.append(B(tx0, ty0, 0.71, tx1, ty1, 0.75, "noyer clair"))
+    for xa in (0.25, 2.25):
+        v.append(R((xa, 0.08, 0), (xa, 0.40, 0.71), "noyer", 0.045))
+        v.append(R((xa, 0.72, 0), (xa, 0.40, 0.71), "noyer", 0.045))
+        v.append(B(xa - 0.03, 0.08, 0.66, xa + 0.03, 0.72, 0.71, "noyer"))
+    v.append(B(0.25, 0.38, 0.40, 2.25, 0.42, 0.44, "noyer"))
+    return v
+
+
+def table_pirogue():
+    """Plateau 2,50 x 0,80 aux extrémités effilées comme une pirogue de la lagune, filet de laiton, divisible en deux."""
+    v = []
+    z0, z1 = 0.71, 0.75
+    v.append(B(0.35, 0.0, z0, 2.15, 0.80, z1, "noyer clair"))
+    for a, b, y0, y1 in ((0.20, 0.35, 0.05, 0.75), (0.08, 0.20, 0.13, 0.67), (0.0, 0.08, 0.24, 0.56)):
+        v.append(B(a, y0, z0, b, y1, z1, "noyer clair"))
+        v.append(B(2.50 - b, y0, z0, 2.50 - a, y1, z1, "noyer clair"))
+    v.append(B(0.10, 0.392, z1, 2.40, 0.408, z1 + 0.003, "laiton"))
+    v.append(B(1.247, 0.0, z0 - 0.001, 1.253, 0.80, z1 + 0.002, "noyer"))
+    for x in (0.42, 1.12, 1.38, 2.08):
+        v.append(B(x - 0.025, 0.18, 0, x + 0.025, 0.62, z0, "noyer"))
+        v.append(B(x - 0.04, 0.14, 0, x + 0.04, 0.66, 0.03, "laiton"))
+    v.append(B(0.45, 0.36, 0.60, 2.05, 0.44, 0.66, "laiton"))
+    return v
+
+
+def table_treteaux():
+    """Deux tables de 1,25 x 0,80 sur tréteaux, à assembler en long, en T ou en salle de classe."""
+    v = []
+    for dx in (0.0, 1.26):
+        v.append(B(dx, 0.0, 0.71, dx + 1.24, 0.80, 0.75, "noyer clair"))
+        for xa in (dx + 0.15, dx + 1.09):
+            v.append(R((xa, 0.10, 0), (xa, 0.40, 0.71), "acier", 0.03))
+            v.append(R((xa, 0.70, 0), (xa, 0.40, 0.71), "acier", 0.03))
+            v.append(R((xa, 0.20, 0.30), (xa, 0.60, 0.30), "acier", 0.02))
+    return v
+
+
+def poste_poteau():
+    """Le poteau de 90 x 90 habillé de lattes de noyer devient un « arbre à travail » : tablette pour deux, lampe et étagère."""
+    v = [B(0.0, 0.55, 0, 0.90, 1.45, 2.90, "noyer")]
+    x = 0.01
+    while x < 0.90:
+        v.append(B(x, 0.53, 0.10, x + 0.03, 0.55, 2.80, "noyer clair"))
+        x += 0.05
+    v.append(B(-0.15, 0.0, 0.72, 1.05, 0.55, 0.76, "noyer clair"))
+    v.append(B(-0.15, 0.05, 0.68, -0.12, 0.50, 0.72, "noyer"))
+    v.append(B(1.02, 0.05, 0.68, 1.05, 0.50, 0.72, "noyer"))
+    v.append(B(0.43, 0.20, 0.76, 0.47, 0.55, 1.18, "feutre"))
+    v.append(B(-0.15, 0.40, 1.30, 1.05, 0.55, 1.33, "noyer"))
+    for xl in (0.15, 0.75):
+        v.append(R((xl, 0.50, 1.33), (xl, 0.32, 1.55), "laiton", 0.015))
+        v.append(B(xl - 0.07, 0.25, 1.48, xl + 0.07, 0.39, 1.56, "laiton"))
+    v.append(B(0.30, 0.48, 0.80, 0.40, 0.55, 0.86, "creme"))
+    for xc in (0.15, 0.75):
+        for b in chaise():
+            if b[0] == "b":
+                v.append(B(b[1] + xc - 0.24, b[2] - 0.62, b[3], b[4] + xc - 0.24, b[5] - 0.62, b[6], b[7]))
+            else:
+                p, q = b[1], b[2]
+                v.append(R((p[0] + xc - 0.24, p[1] - 0.62, p[2]), (q[0] + xc - 0.24, q[1] - 0.62, q[2]), b[3], b[4]))
+    return v
+
+
+def poste_oreilles():
+    """Petit bureau mid-century à oreilles en feutre pour s'isoler, étagère et lampe."""
+    v = [B(0, 0, 0.71, 0.90, 0.55, 0.75, "noyer clair")]
+    for (x, y) in ((0.05, 0.05), (0.81, 0.05), (0.05, 0.46), (0.81, 0.46)):
+        v.append(R((x + 0.02, y + 0.02, 0), (x + 0.02, y + 0.02, 0.71), "noyer", 0.035))
+    v.append(B(0, 0.05, 0.75, 0.02, 0.55, 1.20, "feutre"))
+    v.append(B(0.88, 0.05, 0.75, 0.90, 0.55, 1.20, "feutre"))
+    v.append(B(0, 0.53, 0.75, 0.90, 0.55, 1.20, "feutre"))
+    v.append(B(0.02, 0.40, 1.00, 0.88, 0.53, 1.02, "noyer"))
+    v.append(B(0.70, 0.42, 1.02, 0.80, 0.50, 1.25, "laiton"))
+    return v
+
+
+def poste_abattant():
+    """Module du mur de la collection avec un abattant : un poste de travail qui se replie dans la bibliothèque."""
+    W, D, H = 0.80, 0.35, 2.20
+    v = [B(0, 0.02, 0, 0.025, D, H, "noyer"), B(W - 0.025, 0.02, 0, W, D, H, "noyer"), B(0.025, D - 0.015, 0.08, W - 0.025, D, H, "creme")]
+    for z in (0.08, 0.46, 1.10, 1.50, 1.90, H - 0.025):
+        v.append(B(0.025, 0.02, z, W - 0.025, D - 0.015, z + 0.025, "noyer clair"))
+        if z > 1.0 and z < 2.1:
+            v += _livres(0.03, W - 0.03, 0.02, z + 0.025, 0.30, int(z * 10))
+    v.append(B(0.03, -0.45, 0.72, W - 0.03, 0.02, 0.75, "noyer clair"))
+    v.append(R((0.04, -0.40, 0.75), (0.04, 0.02, 1.08), "laiton", 0.01))
+    v.append(R((W - 0.04, -0.40, 0.75), (W - 0.04, 0.02, 1.08), "laiton", 0.01))
+    v.append(B(0.03, 0.02, 0.76, W - 0.03, 0.30, 1.08, "feutre"))
+    for b in chaise():
+        if b[0] == "b":
+            v.append(B(b[1] + 0.16, b[2] - 0.75, b[3], b[4] + 0.16, b[5] - 0.75, b[6], b[7]))
+        else:
+            p, q = b[1], b[2]
+            v.append(R((p[0] + 0.16, p[1] - 0.75, p[2]), (q[0] + 0.16, q[1] - 0.75, q[2]), b[3], b[4]))
+    return v
+
+
+def banquette_pirogue():
+    v = [B(0.05, 0.08, 0, 2.75, 0.50, 0.20, "noyer"), B(0, 0.0, 0.20, 2.80, 0.50, 0.45, "cognac"), B(0, 0.38, 0.45, 2.80, 0.50, 0.90, "cognac")]
+    for k in range(1, 5):
+        x = 2.80 * k / 5
+        v.append(B(x - 0.006, 0.37, 0.48, x + 0.006, 0.38, 0.87, "noyer"))
+    for b in table_pirogue():
+        v.append(B(b[1] + 0.15, b[2] - 0.85, b[3], b[4] + 0.15, b[5] - 0.85, b[6], b[7]))
+    return v
+
+
 PIECES = [
-    dict(code="M01", fichier="M01_comptoir_enfilade", nom="Comptoir-enfilade d'accueil", f=comptoir, ech=0.36,
-         cotes=[("W", 1.10), ("D", 0.65), ("H", 1.05)],
-         idee="Un meuble de famille plutôt qu'un bar : l'enfilade mid-century en noyer, posée sur pieds fuselés, accueille Madame et sa machine à café.",
-         mat=["Caisson en contreplaqué marine plaqué noyer (ou bois local : iroko, bété)", "Façade client en tasseaux cannelés de 28 mm",
-              "Plateau en noyer massif huilé, chant arrondi", "Jonc de laiton en repose-pieds, pieds fuselés"],
-         fab=["Ébéniste à Abidjan ; tasseaux usinés en série", "Côté service : niches pour machine, moulin, froid et caisse",
-              "Hauteur de plan 1,05 côté client, 0,90 côté service (à tester sur gabarit)"],
+    dict(code="M01", fichier="M01_accueil_secretaire", nom="Meuble d'accueil « Secrétaire »", f=accueil_secretaire, ech=0.36,
+         cotes=[("W", 1.13), ("D", 0.67), ("H", 1.62)],
+         idee="L'enfilade de Madame devient un secrétaire des années 60 : un gradin présente « le livre du jour » aux visiteurs, un cabinet à rideau à lattes cache la machine à café et se ferme le soir.",
+         mat=["Caisson en contreplaqué marine plaqué noyer (ou bois local : iroko, bété)", "Façade client en tasseaux cannelés de 28 mm, plateau en noyer massif",
+              "Rideau à lattes (tambour) en noyer clair sur toile, guidé en rainure", "Jonc de laiton en repose-pieds, pieds fuselés"],
+         fab=["Ébéniste à Abidjan ; rideau à lattes monté sur gabarit", "Cabinet : machine à café, moulin, prise 20 A, aération en partie haute",
+              "Hauteur de plan 1,05 côté client, 0,90 côté service (à tester sur gabarit)", "Variantes non retenues : Enfilade, Comptoir-bibliothèque (planche V2)"],
          refs=["R01", "R02"]),
-    dict(code="M02", fichier="M02_module_collection", nom="Module du mur de la collection", f=module_collection, ech=0.20,
-         cotes=[("W", 0.80), ("D", 0.35), ("H", 2.90)],
-         idee="Un module de 0,80 m répété sur tout le mur : l'ossature noyer rythme la collection, les niches-vitrines exposent les livres rares de Madame.",
-         mat=["Montants et tablettes en noyer (ou bois local) de 25 mm", "Dos crème mat ; socle en retrait de 4 cm",
-              "Niche-vitrine : portes en verre feuilleté à serrure, fond laiton brossé", "Tablettes réglables, crémaillère invisible"],
-         fab=["Fixation au mur contre le basculement, chevilles adaptées au support", "Charge d'étude : 30 à 40 kg par tablette de 0,80 m",
-              "Fabrication en série par module, pose en ligne"],
+    dict(code="M02", fichier="M02_bibliotheque_kente", nom="Bibliothèque « Kente » du mur de la collection", f=bibli_kente, ech=0.20,
+         cotes=[("W", 2.40), ("D", 0.35), ("H", 2.90)],
+         idee="Des modules de 0,80 m dont les tablettes se décalent d'un module à l'autre, et des fonds en bandes crème, moutarde, olive et cognac : le mur se lit comme un pagne tissé. Une échelle en laiton sur rail dessert le haut.",
+         mat=["Montants et tablettes en noyer (ou bois local) de 25 mm", "Fonds peints en quatre teintes, laque mate lavable",
+              "Niches-vitrines fermées pour les livres rares (module M02 d'origine)", "Échelle et rail en laiton brossé, barreaux en noyer"],
+         fab=["Trois types de modules (A, B, A) répétés sur environ 9 m", "Fixation au mur contre le basculement ; 30 à 40 kg par tablette",
+              "Variantes non retenues : Claustra, Lutrin (planche V1) ; un module lutrin près de l'entrée"],
          refs=["R03", "R04"]),
-    dict(code="M03", fichier="M03_banquette_table_reunion", nom="Banquette et table de réunion", f=banquette_table, ech=0.20,
-         cotes=[("W", 2.80), ("D", 0.50), ("H", 0.90)],
-         idee="Pour loger 9 personnes dans 8,4 m² : une banquette continue de 5 places contre la baie, et une table longue sur piètement en compas.",
-         mat=["Banquette : assise et dossier en mousse haute résilience, velours cognac", "Coutures verticales tous les 0,56 m (5 places)",
-              "Socle en noyer en retrait ; table 2,50 × 0,80, plateau noyer", "Piètement en V « compas », entretoise basse"],
-         fab=["Menuisier pour le socle et la table, tapissier pour la banquette", "Velours traité anti-taches, déhoussable",
-              "Prise et boîte de sol sous la table pour les ordinateurs"],
+    dict(code="M03", fichier="M03_banquette_table_pirogue", nom="Banquette et table de réunion « Pirogue »", f=banquette_pirogue, ech=0.20,
+         cotes=[("W", 2.80), ("D", 1.35), ("H", 0.90)],
+         idee="Pour 9 personnes dans 8,4 m² : une banquette de 5 places contre la baie, et une table de 2,50 × 0,80 m aux extrémités effilées comme une pirogue de la lagune Ébrié. Un filet de laiton cache la jonction : la table se divise en deux pour les ateliers.",
+         mat=["Banquette : mousse haute résilience, velours cognac, coutures tous les 0,56 m", "Plateau en noyer massif ou lamellé, extrémités effilées",
+              "Filet et goulotte à câbles en laiton, pieds-lames en noyer sur sabots laiton", "Deux demi-tables de 1,25 m, ferrures de jonction invisibles"],
+         fab=["Menuisier pour la table, tapissier pour la banquette", "Boîte de sol et goulotte pour les ordinateurs",
+              "Variantes non retenues : Compas, Tréteaux (planche V3)"],
          refs=["R05", "R06"]),
     dict(code="M04", fichier="M04_fauteuil_lecture", nom="Fauteuil de lecture « Madame »", f=fauteuil, ech=0.36,
          cotes=[("W", 0.66), ("D", 0.76), ("H", 0.80)],
@@ -188,6 +433,14 @@ PIECES = [
          fab=["Découpe à la commande numérique, ou à la scie sauteuse sur gabarit", "Atelier de menuiserie à Abidjan ; série de 5 à 6 chaises",
               "Accord d'Issa Diabaté et d'IKEA à obtenir avant toute fabrication locale", "Rentrées la nuit ou protégées de la pluie"],
          refs=["R13", "R14", "R15", "R16"]),
+    dict(code="M08", fichier="M08_poste_arbre_a_travail", nom="Poste de travail « Arbre à travail »", f=poste_poteau, ech=0.30,
+         cotes=[("W", 1.20), ("D", 1.45), ("H", 2.90)],
+         idee="Le poteau existant de 0,90 × 0,90 m est habillé de lattes de noyer et devient un meuble : une tablette pour deux, un séparateur en feutre, une étagère et deux lampes en laiton. Deux à trois abattants dans le mur de la collection ajoutent des places les jours d'affluence.",
+         mat=["Habillage du poteau en lattes de noyer de 30 mm sur tasseaux", "Tablette en noyer de 1,20 × 0,55 m à 0,75 m",
+              "Séparateur en feutre de laine, étagère en noyer", "Lampes en laiton orientables, prises et USB intégrées"],
+         fab=["Menuisier ; habillage démontable pour l'accès au poteau", "Deux places de 0,60 m, chaises M05",
+              "Variantes : Bureau à oreilles (non retenu), Abattant (complément, planche V4)"],
+         refs=["R07", "R09"]),
 ]
 
 REFS = {
@@ -298,7 +551,7 @@ def vues(piece):
     a30 = math.cos(math.radians(30))
     ex = 280 / max(X1 - X0 + Y1 - Y0, (Z1 - Z0) * 1.6 + 0.3)
     def I(p):
-        return (1150 + (p[0] - p[1]) * a30 * ex, 150 + (Z1 + 0.05) * ex + ((p[0] + p[1]) * 0.5 - p[2]) * ex)
+        return (1150 + (p[0] - p[1]) * a30 * ex, 150 + (Z1 + 0.05 + (X1 + Y1) * 0.5) * ex + (-(p[0] + p[1]) * 0.5 - p[2]) * ex)
     def cle(v):
         if v[0] == "b":
             return (v[1] + v[4]) / 2 + (v[2] + v[5]) / 2 - (v[3] + v[6]) / 2 * 0.2

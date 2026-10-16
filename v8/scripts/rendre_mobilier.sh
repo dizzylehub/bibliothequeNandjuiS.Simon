@@ -3,6 +3,7 @@
 set -e
 cd "$(dirname "$0")/../.."
 python3 v8/scripts/mobilier.py
+python3 v8/scripts/mobilier_variantes.py
 B=${CHROME:-$(find /opt/pw-browsers -name chrome -type f | head -1)}
 T=$(mktemp -d)
 for f in v8/mobilier/*.svg; do
