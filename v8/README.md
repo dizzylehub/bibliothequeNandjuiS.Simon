@@ -2,7 +2,7 @@
 
 Stade : esquisse, maquette IFC et plans techniques de principe (indice B). Direction A retenue : cocon mid-century et terrasse-salon sous pergola.
 
-**Dossier de présentation à Madame Nandjui** : `dossier/NANDJUI_V8_Dossier_A3.pdf` (23 pages A3 paysage) et sa version modifiable `dossier/NANDJUI_V8_Dossier_A3.pptx`. Dans le PDF, Century Gothic est remplacée par Questrial, police libre de dessin proche ; le PPTX appelle Century Gothic.
+**Dossier de présentation à Madame Nandjui** : `dossier/NANDJUI_V8_Dossier_A3.pdf` (40 pages A3 paysage : toutes les variantes de mobilier, sans nom ni logo d’agence) et sa version modifiable `dossier/NANDJUI_V8_Dossier_A3.pptx`. Dans le PDF, la police Century Gothic est remplacée par Questrial, police libre de dessin proche ; le PPTX appelle Century Gothic.
 
 - [Plan de travail V8](PLAN_DE_TRAVAIL_V8.html) : page HTML autonome. Elle contient l'analyse du site, la lecture du croquis de relevé, le brief « cocon mid-century », les deux directions de Dizzy avec leurs croquis, le plan de travail coordonné par G-K, les questions à trancher et la relecture de Josiane.
 - `plans/E01_plan_amenagement` (SVG, PNG) : plan d'aménagement, esquisse de Désiré Akai.
@@ -40,4 +40,5 @@ python3 v8/scripts/vues_ifc_v8.py   # vues 3D et GLB
 python3 v8/scripts/preparer_images_dossier.py
 # dossier : pptxgenjs à installer (npm install pptxgenjs), puis
 NODE_PATH=<dossier>/node_modules node v8/scripts/dossier_v8.js
+# puis apply_theme.js (compétence pptx) avec v8/scripts/theme_dossier.json, et conversion PDF
 ```

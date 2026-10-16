@@ -86,7 +86,7 @@ Cette note accompagne le plan E01, les plans T01 à T03 et la maquette `NANDJUI_
 ## 7. Maquette IFC V8 (Manadja)
 
 - **Fichier :** `NANDJUI_ESQ_V8.ifc`, schéma IFC4, unités en mètre. Il est généré par `scripts/generer_ifc_v8.py` à partir de la même géométrie que le plan E01.
-- **Contrôle** (`rapports/validation_ifc_v8.txt`) : 0 erreur et 0 avertissement à la validation EXPRESS, règles incluses. Les 110 représentations géométriques sont calculées sans échec.
+- **Contrôle** (`rapports/validation_ifc_v8.txt`) : 0 erreur et 0 avertissement à la validation EXPRESS, règles incluses. Les 112 représentations géométriques sont calculées sans échec.
 - **Statut des objets :** chaque objet porte le jeu de propriétés `NANDJUI_V8`, qui indique son statut (Mesuré, Estimé, Proposé, Existant à démolir, Hypothèse à vérifier) et sa source. Le mur à démolir porte aussi `Phase = Démolition`.
 - **Espaces :** six espaces `IfcSpace` avec leur surface nette (Qto).
 - **Vues de contrôle :** V01 à V03 et le modèle `vues/NANDJUI_V8.glb`, calculés depuis l'IFC.

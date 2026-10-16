@@ -1,0 +1,196 @@
+[
+ {
+  "fichier": "V1_bibliotheque",
+  "titre": "La bibliothèque : trois modèles pour le mur de la collection",
+  "intro": "Le mur fait environ 9 m de long sur 2,90 m de haut. Il porte toute la collection de Madame : c'est la pièce maîtresse du lieu.",
+  "reco": "Recommandation de l'équipe : « Kente » : c'est la seule qui donne une identité forte au mur tout en restant faite de modules droits. Il y ajoute les niches-vitrines pour les livres rares et le bandeau-lutrin de C sur un module près de l'entrée.",
+  "variantes": [
+   {
+    "cle": "VAR_V1_A",
+    "nom": "A · « Kente »",
+    "recommande": true,
+    "idee": "Les tablettes se décalent d'un module à l'autre et les fonds alternent crème, moutarde, olive et cognac. Le mur se lit comme une bande de pagne tissé, sans une seule courbe à fabriquer. Une échelle en laiton court sur un rail pour atteindre le haut.",
+    "pour": [
+     "Original et propre au lieu",
+     "Modules droits, fabrication en série",
+     "Échelle utile à 2,90 m"
+    ],
+    "contre": [
+     "Fonds peints à entretenir",
+     "Hauteurs de livres limitées par case"
+    ]
+   },
+   {
+    "cle": "VAR_V1_B",
+    "nom": "B · « Claustra »",
+    "recommande": false,
+    "idee": "Une grille de casiers de 0,40 m, dont certaines cases sont fermées par du cannage ou un claustra en terre cuite. L'esprit du modernisme tropical d'Abidjan.",
+    "pour": [
+     "Très graphique",
+     "Cases fermées pour le rangement"
+    ],
+    "contre": [
+     "Cases de 0,40 m trop basses pour les grands livres",
+     "Beaucoup d'assemblages"
+    ]
+   },
+   {
+    "cle": "VAR_V1_C",
+    "nom": "C · « Lutrin »",
+    "recommande": false,
+    "idee": "Un rayonnage continu, avec un bandeau incliné à hauteur des yeux qui présente les livres de face, comme chez un libraire, et des niches vitrées au-dessus.",
+    "pour": [
+     "Met en valeur les livres coups de cœur",
+     "Simple à lire"
+    ],
+    "contre": [
+     "Plus classique",
+     "Le bandeau mange une rangée de livres"
+    ]
+   }
+  ]
+ },
+ {
+  "fichier": "V2_accueil",
+  "titre": "Le meuble d'accueil de la gérante : trois modèles",
+  "intro": "Madame y travaille assise, dos au mur, face aux livres. Le meuble doit accueillir, servir le café et se fermer proprement le soir.",
+  "reco": "Recommandation de l'équipe : « Secrétaire » : il reste un meuble de famille, il présente un livre à chaque visiteur et il transforme le café en salon à la fermeture.",
+  "variantes": [
+   {
+    "cle": "VAR_V2_A",
+    "nom": "A · « Enfilade »",
+    "recommande": false,
+    "idee": "L'enfilade mid-century en noyer sur pieds fuselés, façade cannelée et repose-pieds en laiton (fiche M01 d'origine).",
+    "pour": [
+     "Élégant, simple à fabriquer"
+    ],
+    "contre": [
+     "Les machines restent visibles le soir"
+    ]
+   },
+   {
+    "cle": "VAR_V2_B",
+    "nom": "B · « Secrétaire »",
+    "recommande": true,
+    "idee": "L'enfilade gagne un gradin où Madame expose « le livre du jour », et un cabinet à rideau à lattes, comme un secrétaire des années 60, qui cache la machine à café à la fermeture.",
+    "pour": [
+     "Raconte la bibliothèque dès l'entrée",
+     "Se ferme le soir : le lieu reste un salon",
+     "Rideau à lattes : savoir-faire d'ébéniste"
+    ],
+    "contre": [
+     "Rideau à lattes à soigner (guidage)"
+    ]
+   },
+   {
+    "cle": "VAR_V2_C",
+    "nom": "C · « Comptoir-bibliothèque »",
+    "recommande": false,
+    "idee": "Un comptoir en L dont la façade côté clients est une bibliothèque ouverte : les livres commencent dès l'accueil.",
+    "pour": [
+     "Continuité avec le mur de la collection"
+    ],
+    "contre": [
+     "Livres exposés aux éclaboussures du café",
+     "Plus encombrant"
+    ]
+   }
+  ]
+ },
+ {
+  "fichier": "V3_table_reunion",
+  "titre": "La table de réunion : trois modèles pour 9 places",
+  "intro": "La salle mesure 3,00 × 2,80 m. La table fait 2,50 × 0,80 m, face à une banquette de 5 places et à 4 chaises.",
+  "reco": "Recommandation de l'équipe : « Pirogue » : une table signature, qui se divise quand même en deux pour les ateliers de location, et qui garde les 9 places.",
+  "variantes": [
+   {
+    "cle": "VAR_V3_A",
+    "nom": "A · « Compas »",
+    "recommande": false,
+    "idee": "Plateau noyer sur deux piètements en V, inspirés des meubles de Chandigarh.",
+    "pour": [
+     "Léger, classique mid-century"
+    ],
+    "contre": [
+     "Les pieds en V gênent les genoux aux extrémités"
+    ]
+   },
+   {
+    "cle": "VAR_V3_B",
+    "nom": "B · « Pirogue »",
+    "recommande": true,
+    "idee": "Les extrémités du plateau s'effilent comme une pirogue de la lagune Ébrié. Un filet de laiton court au centre et cache la jonction : la table se divise en deux pour des ateliers. Pieds-lames en retrait, goulotte à câbles en laiton sous le plateau.",
+    "pour": [
+     "Histoire locale, forme mémorable",
+     "Divisible pour la location",
+     "Câbles cachés"
+    ],
+    "contre": [
+     "Extrémités effilées : pas de place en bout de table"
+    ]
+   },
+   {
+    "cle": "VAR_V3_C",
+    "nom": "C · « Tréteaux »",
+    "recommande": false,
+    "idee": "Deux tables de 1,25 m sur tréteaux en acier, à assembler en long, en T ou en salle de classe.",
+    "pour": [
+     "La plus modulable",
+     "Économique"
+    ],
+    "contre": [
+     "Moins de caractère",
+     "Aspect provisoire"
+    ]
+   }
+  ]
+ },
+ {
+  "fichier": "V4_postes_travail",
+  "titre": "Les postes de travail individuels : trois modèles",
+  "intro": "Deux postes sont prévus contre le poteau de 0,90 × 0,90 m. Le lieu doit pouvoir en offrir d'autres les jours d'affluence.",
+  "reco": "Recommandation de l'équipe : « Arbre à travail » pour les deux postes fixes, complété par deux ou trois « Abattants » dans le mur de la collection pour les jours d'affluence.",
+  "variantes": [
+   {
+    "cle": "VAR_V4_A",
+    "nom": "A · « Arbre à travail »",
+    "recommande": true,
+    "idee": "Le poteau est habillé de lattes de noyer et devient un meuble : tablette pour deux, séparateur en feutre, étagère et deux lampes en laiton. On transforme une contrainte en pièce signature.",
+    "pour": [
+     "Valorise le poteau existant",
+     "Deux places sans surface en plus",
+     "Prises intégrées"
+    ],
+    "contre": [
+     "Deux places seulement"
+    ]
+   },
+   {
+    "cle": "VAR_V4_B",
+    "nom": "B · « Bureau à oreilles »",
+    "recommande": false,
+    "idee": "Un petit bureau de 0,90 × 0,55 m avec des joues en feutre qui isolent du bruit, une étagère et une lampe.",
+    "pour": [
+     "Concentration, acoustique",
+     "Mobile"
+    ],
+    "contre": [
+     "Prend de la place au sol"
+    ]
+   },
+   {
+    "cle": "VAR_V4_C",
+    "nom": "C · « Abattant »",
+    "recommande": true,
+    "idee": "Certains modules du mur de la collection cachent un abattant : on l'ouvre, on s'assoit, on travaille au milieu des livres ; on le referme le soir.",
+    "pour": [
+     "Postes en plus sans surface au sol",
+     "Tout à fait dans le concept"
+    ],
+    "contre": [
+     "Places à la demande, sans lampe dédiée"
+    ]
+   }
+  ]
+ }
+]

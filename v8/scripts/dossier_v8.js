@@ -1,4 +1,4 @@
-// Dossier de présentation V8 (Fabrice Sawegnon), charte Koffi & Diabaté.
+// Dossier de présentation V8 (Fabrice Sawegnon, rôle IA). Sans nom ni logo d’agence, à la demande du maître d’œuvre.
 // Usage, depuis la racine du dépôt :
 //   NODE_PATH=<dossier contenant pptxgenjs> node v8/scripts/dossier_v8.js
 // Produit v8/dossier/NANDJUI_V8_Dossier_A3.pptx (format A3 paysage), puis conversion PDF par LibreOffice.
@@ -12,7 +12,8 @@ const DIMS = JSON.parse(fs.readFileSync(path.join(IMG, "dims.json"), "utf8"));
 const SORTIE = path.join(RACINE, "v8", "dossier", "NANDJUI_V8_Dossier_A3.pptx");
 
 const N = " "; // espace insécable
-const K = { noir: "0B0C12", gris: "66747C", vert: "7AB648", blanc: "FFFFFF", grisClair: "F2F2F2", rouge: "C0504D",
+// palette propre au projet (mid-century) : brun noyer pour les titres, cognac pour les accents, olive pour les en-têtes
+const K = { noir: "231C17", gris: "5E5047", vert: "A85F2C", entete: "56613A", blanc: "FFFFFF", grisClair: "F4EFE6", rouge: "B5432C",
             noyer: "7A4A2A", cognac: "A85F2C", olive: "56613A", moutarde: "C9962E", laiton: "C9A227", creme: "EFE4CC" };
 const FONT = "Century Gothic";
 const W = 16.54, H = 11.69; // A3 paysage, en pouces
@@ -21,7 +22,6 @@ const pres = new pptxgen();
 pres.defineLayout({ name: "A3", width: W, height: H });
 pres.layout = "A3";
 pres.author = "L’équipe architecturale (rôles IA)";
-pres.company = "Koffi &amp; Diabaté Architectes";
 pres.title = "Café-bibliothèque Nandjui · esquisse V8";
 pres.theme = { headFontFace: FONT, bodyFontFace: FONT };
 
@@ -30,7 +30,6 @@ pres.defineSlideMaster({
   title: "CONTENU",
   background: { color: K.blanc },
   objects: [
-    { image: { path: path.join(IMG, "logo.jpg"), x: W - 0.6 - 1.85, y: H - 0.72, w: 1.85, h: 1.85 * DIMS.logo[1] / DIMS.logo[0] } },
     { text: { text: PIED, options: { x: 0.6, y: H - 0.66, w: 9, h: 0.3, fontFace: FONT, fontSize: 10, color: K.gris, margin: 0 } } },
     { placeholder: { options: { name: "titre", type: "title", x: 0.6, y: 0.45, w: W - 1.2, h: 0.75, fontFace: FONT, fontSize: 26, bold: true, color: K.gris, margin: 0, valign: "top", align: "left" }, text: "" } },
   ],
@@ -54,7 +53,9 @@ function img(s, key, x, y, w, h, align, nom) {
   s.addImage({ ...o, altText: nom || key, objectName: "image " + key });
   return o;
 }
+function fr(x) { return x.replace(/« /g, "«" + N).replace(/ »/g, N + "»").replace(/ ([:;!?])/g, N + "$1"); }
 function t(s, text, o) {
+  text = typeof text === "string" ? fr(text) : text.map(r => ({ ...r, text: fr(r.text) }));
   s.addText(text, { isTextBox: true, fontFace: FONT, color: K.noir, fontSize: 14, margin: 0, valign: "top", paraSpaceAfter: 6, ...o });
 }
 function puces(s, items, o) {
@@ -69,7 +70,7 @@ function legende(s, text, x, y, w) {
 }
 function nouvelle(titre, section) {
   const s = pres.addSlide({ masterName: "CONTENU", sectionTitle: section });
-  s.addText(titre, { placeholder: "titre" });
+  s.addText(fr(titre), { placeholder: "titre" });
   return s;
 }
 function eyebrow(s, text, x, y, w) {
@@ -84,11 +85,10 @@ function chiffre(s, valeur, libelle, x, y, w) {
 pres.addSection({ title: "Présentation" });
 {
   const s = pres.addSlide({ masterName: "COUVERTURE", sectionTitle: "Présentation" });
-  s.addImage({ path: path.join(IMG, "logo.jpg"), x: 0.6, y: 0.5, w: 3.2, h: 3.2 * DIMS.logo[1] / DIMS.logo[0], altText: "Logo Koffi & Diabaté Architectes" });
   img(s, "P1", 6.3, 0.5, W - 6.9, H - 1.6, "c", "Perspective depuis l’entrée");
-  t(s, "Café-bibliothèque Nandjui", { x: 0.6, y: 4.2, w: 5.4, h: 1.6, fontSize: 40, bold: true, color: K.gris });
-  t(s, "Esquisse d’aménagement intérieur et de terrasse", { x: 0.6, y: 5.95, w: 5.4, h: 0.9, fontSize: 18, color: K.vert });
-  t(s, `Dossier de présentation à Madame Nandjui`, { x: 0.6, y: 6.9, w: 5.4, h: 0.5, fontSize: 14, color: K.noir });
+  t(s, "Café-bibliothèque Nandjui", { x: 0.6, y: 3.2, w: 5.4, h: 1.6, fontSize: 40, bold: true, color: K.gris });
+  t(s, "Esquisse d’aménagement intérieur et de terrasse", { x: 0.6, y: 4.95, w: 5.4, h: 0.9, fontSize: 18, color: K.vert });
+  t(s, `Dossier de présentation à Madame Nandjui`, { x: 0.6, y: 5.9, w: 5.4, h: 0.5, fontSize: 14, color: K.noir });
   t(s, `Abidjan${N}·${N}16 octobre 2026${N}·${N}V8 indice B`, { x: 0.6, y: H - 1.4, w: 5.4, h: 0.4, fontSize: 11, color: K.gris });
   t(s, "Document d’esquisse : cotes à confirmer par un relevé, études techniques de principe.", { x: 0.6, y: H - 1.0, w: 5.4, h: 0.4, fontSize: 10, color: K.gris, italic: true });
 }
@@ -109,7 +109,7 @@ pres.addSection({ title: "Présentation" });
     "Dehors, des assises basses sous une pergola, dont les chaises d’Issa Diabaté.",
   ], { x: 0.6, y: 3.6, w: 7.2, h: 3.6, fontSize: 14 });
   const xs = [0.6, 3.1, 5.6];
-  chiffre(s, `49,6${N}m²`, "intérieur (profondeur estimée)", xs[0], 7.5, 2.4);
+  chiffre(s, `49,2${N}m²`, "intérieur (profondeur estimée)", xs[0], 7.5, 2.4);
   chiffre(s, `≈${N}50${N}m²`, "terrasse proposée, 42 m² sous pergola", xs[1], 7.5, 2.4);
   chiffre(s, "9", "places en salle de réunion", xs[2], 7.5, 2.4);
   chiffre(s, "6", "places de travail (table, poteau) + abattants", xs[0], 9.0, 2.4);
@@ -151,13 +151,13 @@ pres.addSection({ title: "Présentation" });
   { const o = img(s, "releve", 0.6, 1.4, 4.6, 9.0, "t", "Croquis de relevé du 14 octobre");
     legende(s, "Croquis de relevé du 14 octobre, tourné façade en bas.", o.x, o.y + o.h + 0.12, 4.6); }
   const rows = [
-    ["ÉLÉMENT", "VALEUR", "STATUT"].map(v => ({ text: v.normalize("NFD").replace(/[̀-ͯ]/g, ""), options: { bold: true, color: K.blanc, fill: { color: K.vert } } })),
+    ["ÉLÉMENT", "VALEUR", "STATUT"].map(v => ({ text: v.normalize("NFD").replace(/[̀-ͯ]/g, ""), options: { bold: true, color: K.blanc, fill: { color: K.entete } } })),
     ["Bande gauche (accueil, réunion, WC)", "3,00 m", "Mesuré"], ["Grande salle (bibliothèque)", "3,60 m", "Mesuré"],
     ["Mur de séparation", "0,15 m", "Estimé"], ["Largeur intérieure", "6,75 m", "Calculé"],
     ["Façade → face avant du poteau", "3,30 m", "Mesuré"], ["Poteau", "0,90 × 0,90 m", "Mesuré"],
     ["Fond → bloc WC", "2,40 m", "Mesuré"], ["Profondeur totale", "7,60 m (7,20 à 8,00)", "Estimé"],
     ["Parvis existant", "2,75 m", "Mesuré"], ["Mesure prise sur la terrasse", "5,50 m", "À rattacher"],
-  ].map((r, i) => i === 0 ? r : r.map((v, j) => ({ text: v, options: { color: j === 2 && v !== "Mesuré" ? K.rouge : K.noir, bold: j === 2 && v !== "Mesuré" } })));
+  ].map((r, i) => i === 0 ? r : r.map((v, j) => ({ text: v, options: { color: j === 2 && ["Estimé", "À rattacher"].includes(v) ? K.rouge : K.noir, bold: j === 2 && ["Estimé", "À rattacher"].includes(v) } })));
   s.addTable(rows, { x: 5.8, y: 1.5, w: 10.1, colW: [4.9, 3.0, 2.2], fontFace: FONT, fontSize: 13, border: { type: "solid", pt: 0.5, color: "BFBFBF" },
                      rowH: 0.48, valign: "middle" });
   eyebrow(s, "Comment la profondeur a été estimée", 5.8, 7.1);
@@ -232,60 +232,94 @@ pres.addSection({ title: "Aménagement" });
   puces(s, [
     `Terrasse prolongée d’environ 2,65${N}m au-delà du muret actuel, close par un claustra bas, des jardinières et un portillon.`,
     `Pergola en acier noir et lames de bois sur chant ; globes opalins pour une lumière tamisée.`,
-    "Deux salons : banquettes en L, tables basses, chaises ÖVERALLT d’Issa Diabaté et tabourets.",
+    "Deux salons : banquettes en L, tables basses, chaises ÖVERALLT d’Issa Diabaté et Kevin Gouriou, et tabourets.",
     "Les lames ajourées ne protègent pas de la pluie : une couverture translucide est à décider.",
     "L’emprise au-delà du muret doit être autorisée par écrit avant tout chiffrage.",
   ], { x: 0.6, y: 7.0, w: 15.3, h: 3.4, fontSize: 14 });
 }
 
 // ---------------------------------------------------------------- mobilier
+// Toutes les variantes sont présentées, une page chacune : la cliente choisit sur un large éventail.
 pres.addSection({ title: "Mobilier" });
-const mob = [
-  ["V1_bibliotheque", "M02_bibliotheque_kente", "La bibliothèque « Kente »", "Les tablettes se décalent d’un module à l’autre et les fonds alternent crème, moutarde, olive et cognac : le mur se lit comme un pagne tissé, en modules droits faciles à fabriquer."],
-  ["V2_accueil", "M01_accueil_secretaire", "Le meuble d’accueil « Secrétaire »", "Un gradin présente « le livre du jour » aux visiteurs ; un cabinet à rideau à lattes cache la machine à café et ferme le café le soir."],
-  ["V3_table_reunion", "M03_banquette_table_pirogue", "La table de réunion « Pirogue »", "Plateau de 2,50 × 0,80 m aux extrémités effilées comme une pirogue de la lagune Ébrié ; un filet de laiton cache la jonction : la table se divise en deux pour les ateliers."],
-  ["V4_postes_travail", "M08_poste_arbre_a_travail", "Les postes de travail : l’« Arbre à travail »", "Le poteau est habillé de lattes de noyer et porte une tablette pour deux, un séparateur en feutre et deux lampes ; des abattants dans le mur de la collection ajoutent des places."],
-];
-mob.forEach(([planche, fiche, titre, texte]) => {
-  const s = nouvelle(titre + " : trois propositions", "Mobilier");
-  img(s, planche, 0.6, 1.3, 15.3, 9.1, "c", "Planche de variantes " + titre);
-  const s2 = nouvelle(titre, "Mobilier");
-  { const o = img(s2, fiche, 0.6, 1.3, 15.3, 8.7, "t", "Fiche " + titre);
-    legende(s2, texte, o.x, o.y + o.h + 0.12, Math.max(o.w, 6)); }
-});
+const VAR = JSON.parse(fs.readFileSync(path.join(RACINE, "v8", "mobilier", "variantes.json"), "utf8"));
+const FAMILLES = {
+  V1_bibliotheque: ["La bibliothèque", "M02_bibliotheque_kente"],
+  V2_accueil: ["Le meuble d’accueil", "M01_accueil_secretaire"],
+  V3_table_reunion: ["La table de réunion", "M03_banquette_table_pirogue"],
+  V4_postes_travail: ["Les postes de travail", "M08_poste_arbre_a_travail"],
+};
 {
-  const s = nouvelle("Les assises", "Mobilier");
-  [["M04_fauteuil_lecture", "Fauteuil de lecture « Madame »"], ["M05_chaise", "Chaise de table d’hôtes et de réunion"], ["M07_chaise_overallt_issa_diabate", "Chaise ÖVERALLT d’Issa Diabaté (terrasse)"]].forEach(([k, l], i) => {
-    const x = 0.6 + i * 5.15;
-    img(s, k, x, 1.4, 4.95, 7.9, "c", l);
-    t(s, l, { x, y: 9.4, w: 4.95, h: 0.4, fontSize: 13, bold: true, color: K.gris });
+  const s = nouvelle("Le mobilier : douze modèles au choix", "Mobilier");
+  t(s, "Pour chaque meuble, trois modèles sont dessinés. L’équipe en recommande un, mais tous sont réalisables à Abidjan par un ébéniste, un tapissier et un métallier : Madame Nandjui choisit, et peut combiner des idées d’un modèle à l’autre.",
+    { x: 0.6, y: 1.45, w: 15.3, h: 1.0, fontSize: 16 });
+  VAR.forEach((f, r) => {
+    const y = 2.75 + r * 1.95;
+    t(s, FAMILLES[f.fichier][0], { x: 0.6, y: y + 0.6, w: 3.0, h: 0.6, fontSize: 15, bold: true, color: K.gris });
+    f.variantes.forEach((v, c) => {
+      const x = 3.8 + c * 4.05;
+      img(s, v.cle, x, y, 1.9, 1.5, "c", v.nom);
+      t(s, v.nom.replace(" · ", " "), { x: x + 2.0, y: y + 0.45, w: 2.0, h: 0.5, fontSize: 12, bold: v.recommande, color: K.noir });
+      if (v.recommande) t(s, "recommandé", { x: x + 2.0, y: y + 0.9, w: 2.0, h: 0.3, fontSize: 10, italic: true, color: K.vert });
+    });
   });
-  legende(s, "La chaise ÖVERALLT (Issa Diabaté et Kevin Gouriou, IKEA 2019) est figurée par son volume ; sa fabrication à Abidjan demande l’accord de l’auteur et de l’éditeur.", 0.6, 9.95, 15.3);
 }
+VAR.forEach(f => {
+  const [famille, fiche] = FAMILLES[f.fichier];
+  const s = nouvelle(famille + " : trois propositions", "Mobilier");
+  img(s, f.fichier, 0.6, 1.3, 15.3, 9.1, "c", "Planche de variantes : " + famille);
+  f.variantes.forEach(v => {
+    const nom = v.nom.replace(/^[ABC] · /, "");
+    const lettre = v.nom[0];
+    const s = nouvelle(`${famille}, modèle ${lettre} ${nom}`, "Mobilier");
+    img(s, v.cle, 0.6, 1.3, 9.8, 8.9, "c", nom);
+    let y = 1.45;
+    if (v.recommande) {
+      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 10.9, y, w: 2.4, h: 0.42, rectRadius: 0.08, fill: { color: K.vert }, line: { color: K.vert }, objectName: "recommandé" });
+      t(s, "RECOMMANDE PAR L’EQUIPE", { x: 10.9, y: y + 0.09, w: 2.4, h: 0.3, fontSize: 9, bold: true, color: K.blanc, align: "center" });
+      y += 0.7;
+    }
+    t(s, v.idee, { x: 10.9, y, w: 5.0, h: 2.3, fontSize: 14 });
+    eyebrow(s, "Pour", 10.9, y + 2.4, 5);
+    puces(s, v.pour, { x: 10.9, y: y + 2.8, w: 5.0, h: 1.8, fontSize: 13 });
+    eyebrow(s, "Contre", 10.9, y + 4.75, 5);
+    puces(s, v.contre, { x: 10.9, y: y + 5.15, w: 5.0, h: 1.6, fontSize: 13, color: K.gris });
+  });
+  const s2 = nouvelle("Le modèle recommandé en détail : " + famille.toLowerCase(), "Mobilier");
+  img(s2, fiche, 0.6, 1.3, 15.3, 8.9, "t", "Fiche " + famille);
+  t(s2, f.reco, { x: 0.6, y: 10.35, w: 15.3, h: 0.5, fontSize: 12, color: K.gris, italic: true });
+});
+[["M04_fauteuil_lecture", "Les assises : le fauteuil de lecture « Madame »", "Pour le salon de lecture : quatre fauteuils bas, noyer et velours cognac ou olive."],
+ ["M05_chaise", "Les assises : la chaise de table d’hôtes et de réunion", "La même chaise sert à la table d’hôtes et en salle de réunion."],
+ ["M06_fauteuil_terrasse", "Les assises : le fauteuil bas de terrasse (variante)", "Variante dessinée par l’équipe pour la terrasse, si les chaises ÖVERALLT ne peuvent pas être fabriquées."],
+ ["M07_chaise_overallt_issa_diabate", "Les assises : la chaise ÖVERALLT d’Issa Diabaté", "La chaise ÖVERALLT (Issa Diabaté et Kevin Gouriou, IKEA 2019) est une œuvre protégée par le droit d’auteur. Elle est figurée ici par son volume ; sa fabrication à Abidjan demande l’accord de ses auteurs et d’IKEA."],
+].forEach(([k, titre, texte]) => {
+  const s = nouvelle(titre, "Mobilier");
+  const o = img(s, k, 0.6, 1.3, 15.3, 8.9, "t", titre);
+  t(s, texte, { x: o.x, y: o.y + o.h + 0.12, w: 15.3, h: 0.5, fontSize: 12, color: K.gris, italic: true });
+});
 
 // ---------------------------------------------------------------- technique
 pres.addSection({ title: "Technique" });
-{
-  const s = nouvelle("Électricité et éclairage tamisé", "Technique");
-  img(s, "T01", 0.6, 1.3, 11.4, 9.2, "lt", "Plan T01");
-  eyebrow(s, "Principes", 12.3, 1.45, 3.6);
-  puces(s, [
+[["T01", "Électricité et éclairage tamisé", [
     "Installation entièrement neuve, tableau près de l’entrée.",
     "Trois scènes : jour, soir tamisé (≈ 30 %), fermeture.",
     `Lumière 2${N}700${N}K gradable ; ≈${N}300${N}lux sur les tables.`,
-    `≈${N}12${N}kW installés, ≈${N}8,5${N}kW foisonnés : abonnement à voir avec la CIE.`,
-  ], { x: 12.3, y: 1.9, w: 3.65, h: 7, fontSize: 13 });
-}
-{
-  const s = nouvelle("Plomberie, climatisation et ventilation", "Technique");
-  img(s, "T02", 0.6, 1.3, 7.55, 6.8, "lt", "Plan T02");
-  img(s, "T03", 8.35, 1.3, 7.55, 6.8, "lt", "Plan T03");
-  puces(s, [
-    "Les deux WC partagent une évacuation au fond ; l’évier du café, à 6,3 m, passe par une pompe de relevage.",
-    `Trois climatiseurs muraux (≈${N}11,5${N}kW de froid), extraction mécanique des WC, brasseurs d’air sous la pergola.`,
-    "Groupes extérieurs proposés sur le mur nord : accès, bruit et accord de la copropriété à valider.",
-  ], { x: 0.6, y: 8.3, w: 15.3, h: 2.2, fontSize: 14 });
-}
+    `≈${N}12${N}kW installés, ≈${N}8,5${N}kW foisonnés : abonnement à voir avec la CIE.`]],
+ ["T02", "Plomberie", [
+    "Les deux WC partagent une évacuation au fond.",
+    `L’évier du café, à 6,3${N}m de la chute, passe par une pompe de relevage.`,
+    "Évier, pompe et chauffe-eau seulement si l’on prépare et lave sur place."]],
+ ["T03", "Climatisation et ventilation", [
+    `Trois climatiseurs muraux (≈${N}11,5${N}kW de froid).`,
+    "Extraction mécanique des WC ; brasseurs d’air sous la pergola.",
+    "Groupes extérieurs proposés sur le mur nord : accès, bruit et accord de la copropriété à valider."]],
+].forEach(([k, titre, items]) => {
+  const s = nouvelle(titre, "Technique");
+  img(s, k, 0.6, 1.3, 10.6, 9.3, "lt", "Plan " + k);
+  eyebrow(s, "Principes", 11.6, 1.45, 4.3);
+  puces(s, items, { x: 11.6, y: 1.9, w: 4.3, h: 7, fontSize: 14 });
+  t(s, "Schéma de principe à faire valider par un bureau d’études et les concessionnaires.", { x: 11.6, y: 9.6, w: 4.3, h: 0.8, fontSize: 11, italic: true, color: K.gris });
+});
 
 // ---------------------------------------------------------------- suite
 pres.addSection({ title: "Suite" });
@@ -298,7 +332,7 @@ pres.addSection({ title: "Suite" });
     "Relevé au laser : profondeur, façade d’angle à angle, hauteurs, réseaux et descentes existants.",
     "Réglementation locale : accueil du public, sens d’ouverture de la porte, accessibilité du seuil et du WC, licence de boissons, bruit du soir.",
     "Exploitation du café : évier, pompe et chauffe-eau seulement si l’on prépare et lave sur place.",
-    "Chaises ÖVERALLT : accord d’Issa Diabaté et d’IKEA avant fabrication locale.",
+    "Chaises ÖVERALLT : œuvre protégée par le droit d’auteur ; accord d’Issa Diabaté, de Kevin Gouriou et d’IKEA avant toute fabrication locale.",
   ], { x: 0.6, y: 1.9, w: 7.6, h: 8.5, fontSize: 14 });
   eyebrow(s, "Prochaines étapes", 8.9, 1.45, 7);
   const etapes = [["1", "Validation de l’esquisse par Madame Nandjui", "plan E01, mobilier, terrasse"],
@@ -324,13 +358,13 @@ pres.addSection({ title: "Suite" });
     "Ouverture dans Revit non testée ; objets en volumes simples, pas en familles natives.",
     "Les vues sont des rendus de maquette sans textures ni éclairage réaliste ; les croquis sont des dessins de principe.",
   ], { x: 0.6, y: 1.9, w: 7.4, h: 5, fontSize: 13 });
-  eyebrow(s, "L’équipe architecturale", 8.6, 1.45, 7.3);
+  eyebrow(s, "L’équipe architecturale (rôles IA)", 8.6, 1.45, 7.3);
   puces(s, [
     "Guillaume (G-K) : coordination.  Dizzy : direction artistique.",
     "Désiré Akai : aménagement et mobilier.  Manadja : maquette et contrôle DAO.",
     "Le Génie : études techniques.  Fabrice Sawegnon : dossier.  Josiane : relecture.",
   ], { x: 8.6, y: 1.9, w: 7.3, h: 2.2, fontSize: 13 });
-  t(s, "Ces rôles organisent le travail d’une IA ; ils ne remplacent ni un architecte inscrit à l’Ordre, ni un bureau d’études agréé, ni les autorisations administratives.", { x: 8.6, y: 4.2, w: 7.3, h: 0.9, fontSize: 11, color: K.gris, italic: true });
+  t(s, "Ces noms désignent des rôles de travail d’une IA, pas des personnes ; ils ne remplacent ni un architecte inscrit à l’Ordre, ni un bureau d’études agréé, ni les autorisations administratives.", { x: 8.6, y: 4.2, w: 7.3, h: 0.9, fontSize: 11, color: K.gris, italic: true });
   eyebrow(s, "Références mobilier consultées le 16 octobre 2026", 8.6, 5.4, 7.3);
   t(s, "Pierre Jeanneret (Vitra Design Museum, Merit) · Sergio Rodrigues (Metropolitan Museum of Art) · Charlotte Perriand (Cassina, Phillips) · Hans J. Wegner (Skandium) · George Nakashima (Baltimore Museum of Art) · Cheick Diallo (InCollect) · Jean Servais Somian (Forbes Afrique) · Issa Diabaté et IKEA ÖVERALLT (Dezeen, Domus, Chairish) · Pieter Peulen (Gubi). Liste complète et liens : v8/mobilier/REFERENCES.csv.",
     { x: 8.6, y: 5.85, w: 7.3, h: 3, fontSize: 12, color: K.noir });

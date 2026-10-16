@@ -440,7 +440,7 @@ PIECES = [
          mat=["Contreplaqué d'une seule plaque (bouleau à l'origine ; ici contreplaqué marine CTBX)", "Pièces emboîtées sans vis, clou ni colle",
               "Vernis ou peinture d'extérieur, coussins en toile crème", "Volume dessiné d'après les mesures d'une revente : à vérifier sur un exemplaire"],
          fab=["Découpe à la commande numérique, ou à la scie sauteuse sur gabarit", "Atelier de menuiserie à Abidjan ; série de 5 à 6 chaises",
-              "Accord d'Issa Diabaté et d'IKEA à obtenir avant toute fabrication locale", "Rentrées la nuit ou protégées de la pluie"],
+              "Œuvre protégée par le droit d'auteur : accord d'Issa Diabaté, de Kevin Gouriou et d'IKEA avant toute fabrication locale", "Rentrées la nuit ou protégées de la pluie"],
          refs=["R13", "R14", "R15", "R16"]),
     dict(code="M08", fichier="M08_poste_arbre_a_travail", nom="Poste de travail « Arbre à travail »", f=poste_poteau, ech=0.30,
          cotes=[("W", 1.20), ("D", 1.45), ("H", 2.90)],
@@ -490,7 +490,8 @@ REFS = {
 
 # ------------------------------------------------------------------ dessin
 def esc(s):
-    return s.replace("&", "&amp;").replace("<", "&lt;")
+    # typographie française : apostrophe courbe
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace("'", "’")
 
 
 def vues(piece):
@@ -600,7 +601,7 @@ def fiche(piece):
             tx(x, y + i * inter, l, taille, col)
         return y + len(lignes) * inter
     tx(70, 52, f'{piece["code"]} · {piece["nom"]}', 26, poids=700)
-    tx(70, 78, "Désiré Akai · fiche mobilier · V8 indice B · modèle d'étude à prototyper, cotes en mètres", 13, GRIS)
+    tx(70, 78, "Désiré Akai (rôle IA) · fiche mobilier · V8 indice B · modèle d'étude à prototyper, cotes en mètres", 13, GRIS)
     if piece.get("avert"):
         tx(70, 100, piece["avert"], 13, ORANGE, 700)
     X = 920

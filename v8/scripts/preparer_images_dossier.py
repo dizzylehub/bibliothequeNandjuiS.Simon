@@ -3,7 +3,6 @@
 from PIL import Image
 import json, os
 src = {
- "logo": "/root/.claude/skills/synced/68b949f7-29fd-4b06-8f9e-f06c81c76d86_379d4c74-1a32-48bb-81f3-e44f061784b9/charte-kd/assets/Logo KDA.jpg",
  "photo_facade": "photos/interieur/WhatsApp Image 2026-10-13 at 6.12.46 PM (1).jpeg",
  "photo_salle": "photos/interieur/WhatsApp Image 2026-10-13 at 6.12.46 PM (10).jpeg",
  "photo_bleue": "photos/interieur/WhatsApp Image 2026-10-13 at 6.12.46 PM (22).jpeg",

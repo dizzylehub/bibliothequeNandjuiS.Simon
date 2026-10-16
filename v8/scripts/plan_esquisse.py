@@ -11,6 +11,7 @@ Proposées : tout le reste.
 
 Usage : python3 v8/scripts/plan_esquisse.py  ->  v8/plans/E01_plan_amenagement.svg
 """
+import re
 import os
 
 ICI = os.path.dirname(os.path.abspath(__file__))
@@ -368,7 +369,7 @@ def cartouche(surf):
         f'<text x="{x}" y="{y}" font-family="{FONT}" font-size="{taille}" font-weight="{poids}" fill="{col}" text-anchor="{ancre}">{s}</text>')
     t(x0, 90, "CAFÉ-BIBLIOTHÈQUE NANDJUI", 20, poids=700)
     t(x0, 116, "E01 · Plan d'aménagement · esquisse", 15)
-    t(x0, 138, "V8 indice B · 15 octobre 2026 · non coté pour exécution", 11, GRIS)
+    t(x0, 138, "V8 indice B · 16 octobre 2026 · non coté pour exécution", 11, GRIS)
     t(x0, 175, "Direction retenue : A, le salon de Madame", 12, poids=700)
     t(x0, 193, "cocon mid-century et terrasse-salon sous pergola", 12)
     y = 235
@@ -436,7 +437,7 @@ if __name__ == "__main__":
     os.makedirs(SORTIE, exist_ok=True)
     s, surf = svg()
     chemin = os.path.join(SORTIE, "E01_plan_amenagement.svg")
-    open(chemin, "w", encoding="utf-8").write(s)
+    open(chemin, "w", encoding="utf-8").write(re.sub(r">([^<]*)<", lambda m: ">" + m.group(1).replace("'", "’") + "<", s))  # apostrophes courbes
     print(chemin)
     for k, v in surf.items():
         print(f"  {k}: {v:.2f} m²")

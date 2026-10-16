@@ -6,6 +6,7 @@ par un électricien, un plombier et un frigoriste, après relevé des réseaux e
 
 Usage : python3 v8/scripts/plans_techniques.py  ->  v8/plans/T01..T03_*.svg
 """
+import re
 import os
 import sys
 
@@ -116,7 +117,7 @@ def page(nom, titre, sous, calque, legende, notes, bilan=None):
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}">{defs}'
            f'<rect width="{w}" height="{h}" fill="#ffffff"/>{corps}</svg>')
     chemin = os.path.join(ICI, "..", "plans", nom)
-    open(chemin, "w", encoding="utf-8").write(svg)
+    open(chemin, "w", encoding="utf-8").write(re.sub(r">([^<]*)<", lambda m: ">" + m.group(1).replace("'", "’") + "<", svg))  # apostrophes courbes
     print(chemin)
 
 
