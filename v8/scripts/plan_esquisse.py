@@ -147,7 +147,7 @@ def construire():
     rect(X_TER1 - 0.12, Y_TER, X_TER1, -0.3, fill="#d9c9a8", sw=0.8)
     arc_porte(3.40, Y_TER - 0.06, 1.0, sens=1, vers=1)
     texte(4.4, Y_TER - 0.45, "portillon", 10, GRIS)
-    texte((X_TER0 + X_TER1) / 2, Y_TER - 0.75, "nouvelle limite : claustra bas et jardinières · emprise à autoriser", 11, "#b0582b")
+    texte((X_TER0 + X_TER1) / 2, Y_TER - 0.75, "nouvelle limite : claustra bas et jardinières · emprise à autoriser, débords latéraux compris", 11, "#b0582b")
     # pergola (projection)
     rect(-0.9, -4.9, 7.7, -0.05, stroke=INK, sw=1.0, dash="7 4")
     for x in (-0.9, 1.25, 3.40, 5.55, 7.7):
@@ -176,7 +176,7 @@ def construire():
         plante(x, y, 0.28)
     # allée d'entrée
     texte(4.4, -3.7, "allée", 11, GRIS)
-    el.append(f'<path d="M{px(4.4):.1f} {py(-4.9):.1f} L{px(4.4):.1f} {py(-0.4):.1f}" stroke="{GRIS}" stroke-width="1" '
+    el.append(f'<path d="M{px(4.4):.1f} {py(-4.9):.1f} L{px(4.4):.1f} {py(-0.75):.1f}" stroke="{GRIS}" stroke-width="1" '
               f'marker-end="url(#fl)" stroke-dasharray="4 3"/>')
     texte(1.55, -0.85, "TERRASSE COUVERTE · SALONS DU SOIR", 12, INK, poids=700)
 
@@ -185,7 +185,7 @@ def construire():
     rect(0, 0, L_G, Y_REU0 - 0.05, fill="#f3ead9", stroke="none")
     rect(0, Y_REU0, L_G, Y_REU1, fill="#efe2cc", stroke="none")
     # tapis du salon
-    rect(3.7, 4.55, 6.05, 6.75, fill=MOUT, stroke="none", op=0.35)
+    rect(4.25, 4.55, 6.35, 6.75, fill=MOUT, stroke="none", op=0.35)
     # murs existants conservés
     for r in ((-EP_EXT, -EP_EXT, 0, PROF + EP_EXT), (X_FIN, -EP_EXT, X_FIN + EP_EXT, PROF + EP_EXT),
               (-EP_EXT, PROF, X_FIN + EP_EXT, PROF + EP_EXT)):
@@ -198,7 +198,7 @@ def construire():
     texte(6.3, 3.70, "poteau", 9, "#ffffff")
     # mur démoli
     rect(X_SEP0, 0, X_SEP1, Y_REU1, stroke="#b0582b", sw=0.9, dash="4 3")
-    texte(X_SEP0 + 0.07, 1.05, "mur démoli · avis structure", 9, "#b0582b", rot=-90)
+    texte(X_SEP1 + 0.16, 1.05, "mur démoli · avis structure", 9, "#b0582b", rot=-90)
     # baies de façade
     for x0, x1 in ((0.6, 2.4), (5.6, 6.4)):
         rect(x0, -EP_EXT, x1, 0, fill="#ffffff", sw=0.8)
@@ -208,7 +208,7 @@ def construire():
     rect(3.60, -EP_EXT, 5.20, 0, fill="#ffffff", stroke="none")
     arc_porte(3.60, 0.0, 0.80, sens=1, vers=1)
     arc_porte(5.20, 0.0, 0.80, sens=-1, vers=1)
-    texte(4.4, -0.42, "grande porte d'entrée 1,60 m", 9, GRIS)
+    texte(4.4, -0.42, "grande porte proposée 1,60 m", 9, "#b0582b")
     # ---------------- salle de réunion vitrée
     ligne(0, Y_REU0, X_SEP1, Y_REU0, stroke=VERRE, sw=3)
     ligne(X_SEP0 + 0.07, Y_REU0, X_SEP0 + 0.07, 4.05, stroke=VERRE, sw=3)
@@ -217,46 +217,51 @@ def construire():
     arc_porte(X_SEP0 + 0.07, 4.05, 0.95, sens=1, vers=1, axe="y")
     for x in (0.75, 1.5, 2.25):
         rect(x - 0.03, Y_REU0 - 0.03, x + 0.03, Y_REU0 + 0.03, fill=INK, sw=0)
-    rect(0.95, 2.80, 2.05, 4.60, fill=NOYER, sw=1, op=0.85, rx=6)
-    for y in (3.15, 3.70, 4.25):
-        chaise(0.62, y, "o")
-        chaise(2.38, y, "e")
+    rect(0.0, 2.6, 0.5, 4.2, fill=VELOURS, sw=0.9, op=0.85)
+    rect(0.6, 2.6, 1.4, 4.2, fill=NOYER, sw=1, op=0.85, rx=6)
+    for y in (2.95, 3.4, 3.85):
+        chaise(1.65, y, "e")
+    texte(0.25, 3.4, "banquette", 8, "#ffffff", rot=-90)
+    texte(2.45, 3.4, "passage 1,20", 8, GRIS, rot=-90)
     ligne(1.35, Y_REU1 - 0.04, 2.75, Y_REU1 - 0.04, stroke=INK, sw=3)
     texte(2.05, Y_REU1 - 0.25, "écran", 9, GRIS)
     texte(1.5, 2.55, "SALLE DE RÉUNION", 12, INK, poids=700)
     texte(1.5, 2.40, "location · 6 places · rideaux en lin", 9, GRIS)
     # ---------------- bloc WC (deux cabines côte à côte)
     rect(0, Y_REU1, X_SEP0, Y_WC, fill=INK, stroke="none")
-    rect(1.45, Y_WC, 1.55, PROF, fill=INK, stroke="none")
-    rect(0, Y_WC, 1.45, PROF, fill="#eef0ee", stroke="none")
-    rect(1.55, Y_WC, X_SEP0, PROF, fill="#eef0ee", stroke="none")
-    rect(0.30, Y_REU1, 1.10, Y_WC, fill="#ffffff", stroke="none")
-    arc_porte(0.30, Y_WC, 0.80, sens=1, vers=1)
+    rect(1.25, Y_WC, 1.35, PROF, fill=INK, stroke="none")
+    rect(0, Y_WC, 1.25, PROF, fill="#eef0ee", stroke="none")
+    rect(1.35, Y_WC, X_SEP0, PROF, fill="#eef0ee", stroke="none")
+    rect(0.25, Y_REU1, 1.05, Y_WC, fill="#ffffff", stroke="none")
+    arc_porte(0.25, Y_WC, 0.80, sens=1, vers=1)
     rect(X_SEP0, 5.45, X_SEP1, 6.35, fill="#ffffff", stroke="none")
-    arc_porte(X_SEP1, 5.45, 0.90, sens=1, vers=-1, axe="y")
-    for x in (0.72, 2.27):
+    rect(X_SEP1, 5.40, X_SEP1 + 0.05, 6.40, fill=INK, stroke="none")
+    texte(X_SEP1 + 0.18, 5.9, "coulissante", 8, GRIS, "start")
+    for x in (0.62, 2.17):
         el.append(f'<ellipse cx="{px(x):.1f}" cy="{py(PROF - 0.42):.1f}" rx="{0.19 * S:.1f}" ry="{0.30 * S:.1f}" fill="#ffffff" stroke="{INK}" stroke-width="0.9"/>')
         rect(x - 0.22, PROF - 0.15, x + 0.22, PROF, fill="#ffffff", sw=0.9)
     rect(0.05, 6.0, 0.35, 6.45, fill="#ffffff", sw=0.8)
     rect(2.65, 6.6, 2.95, 7.05, fill="#ffffff", sw=0.8)
-    texte(0.72, 6.3, "WC", 11, INK, poids=700, )
-    texte(0.72, 6.15, "réunion", 9, GRIS)
-    texte(2.27, 6.3, "WC", 11, INK, poids=700)
-    texte(2.27, 6.15, "public adapté", 9, GRIS)
+    texte(0.62, 6.3, "WC", 11, INK, poids=700)
+    texte(0.62, 6.15, "réunion 1,25", 9, GRIS)
+    texte(2.17, 6.3, "WC public", 11, INK, poids=700)
+    texte(2.17, 6.15, "1,65 · accessible si exigé", 8, GRIS)
     texte(1.5, PROF + 0.32, "réserve haute existante au-dessus des WC (à vérifier)", 9, GRIS)
     # ---------------- accueil-café ouvert
     rect(0, 0.25, 0.62, 2.0, fill=NOYER, sw=0.9, op=0.75)
     texte(0.31, 1.12, "arrière-bar", 8, "#ffffff", rot=-90)
-    rect(1.55, 0.45, 2.20, 2.0, fill=NOYER, sw=1, op=0.95, rx=4)
-    texte(1.875, 1.22, "comptoir", 9, "#ffffff", rot=-90)
-    cercle(1.15, 1.25, 0.2, fill="#ffffff", sw=0.9)
+    rect(1.55, 0.95, 2.20, 2.05, fill=NOYER, sw=1, op=0.95, rx=4)
+    texte(1.875, 1.5, "comptoir", 9, "#ffffff", rot=-90)
+    cercle(1.15, 1.5, 0.2, fill="#ffffff", sw=0.9)
+    texte(1.15, 1.85, "poste assis", 8, GRIS)
+    texte(1.15, 0.55, "accès service 0,95", 8, GRIS)
     texte(1.5, 0.12, "ACCUEIL-CAFÉ OUVERT", 11, INK, poids=700)
-    for y in (0.75, 1.55):
+    for y in (1.2, 1.8):
         cercle(2.55, y, 0.2, fill=VELOURS, sw=0.8)
     # ---------------- bibliothèque
     # mur de la collection
     for r in ((X_FIN - 0.35, 0.25, X_FIN, POT[1]), (X_FIN - 0.35, POT[3], X_FIN, PROF - 0.35),
-              (X_SEP1, PROF - 0.35, X_FIN, PROF), (X_SEP1, 6.45, X_SEP1 + 0.35, PROF - 0.35)):
+              (X_SEP1, PROF - 0.35, X_FIN, PROF)):
         rect(*r, fill=NOYER, sw=0.8, op=0.9)
     for y in (0.25 + 0.75 * k for k in range(1, 5)):
         ligne(X_FIN - 0.35, y, X_FIN, y, stroke="#ffffff", sw=0.8)
@@ -265,28 +270,28 @@ def construire():
     for x in (X_SEP1 + 0.8 * k for k in range(1, 5)):
         ligne(x, PROF - 0.35, x, PROF, stroke="#ffffff", sw=0.8)
     texte(X_FIN - 0.6, 2.0, "MUR DE LA COLLECTION", 10, NOYER, poids=700, rot=-90)
+    texte(X_FIN - 0.12, 5.7, "niches-vitrines", 8, "#ffffff", rot=-90)
     # banquette de fenêtre
     rect(5.6, 0.0, 6.4, 0.5, fill=VELOURS, sw=0.8, op=0.8)
-    texte(6.0, 0.62, "banquette de fenêtre", 9, GRIS)
+    texte(6.3, 0.65, "banquette de fenêtre", 9, GRIS, "end")
     # table d'hôtes
     rect(4.05, 1.80, 5.65, 2.70, fill=NOYER, sw=1, op=0.85, rx=6)
     for x in (4.45, 5.25):
         chaise(x, 1.48, "s")
         chaise(x, 3.02, "n")
     texte(4.85, 2.18, "table d'hôtes", 10, "#ffffff")
-    texte(4.85, 2.04, "6 places", 9, "#ffffff")
+    texte(4.85, 2.04, "4 places", 9, "#ffffff")
     # postes individuels le long de la baie de la salle de réunion ? non : tablettes au poteau
     rect(POT[0] - 0.55, POT[1], POT[0], POT[3], fill=NOYER, sw=0.8, op=0.7)
     chaise(POT[0] - 0.85, 3.52, "o")
     chaise(POT[0] - 0.85, 4.0, "o")
     texte(POT[0] - 0.3, 4.38, "2 postes", 9, GRIS)
     # salon de lecture
-    for (x, y, o, c) in ((4.20, 5.05, "s", VELOURS), (5.55, 5.05, "s", OLIVE), (4.20, 6.30, "n", OLIVE), (5.55, 6.30, "n", VELOURS)):
+    for (x, y, o, c) in ((4.75, 5.05, "s", VELOURS), (5.95, 5.05, "s", OLIVE), (4.75, 6.30, "n", OLIVE), (5.95, 6.30, "n", VELOURS)):
         fauteuil(x, y, o, c)
-    rect(4.55, 5.40, 5.20, 5.95, fill="#ffffff", sw=0.9, rx=20)
-    cercle(3.75, 5.65, 0.16, fill=MOUT, sw=0.8)
-    cercle(6.05, 5.65, 0.16, fill=MOUT, sw=0.8)
-    texte(4.88, 6.95, "SALON DE LECTURE", 12, INK, poids=700)
+    rect(5.03, 5.40, 5.67, 5.95, fill="#ffffff", sw=0.9, rx=20)
+    texte(3.75, 5.0, "dégagement 1,20", 8, GRIS)
+    texte(5.3, 6.95, "SALON DE LECTURE", 12, INK, poids=700)
     texte(4.85, 1.02, "BIBLIOTHÈQUE", 12, INK, poids=700)
     el.append(f'<path d="M{px(4.4):.1f} {py(0.15):.1f} L{px(3.55):.1f} {py(1.2):.1f} L{px(3.55):.1f} {py(3.9):.1f}" '
               f'stroke="{GRIS}" stroke-width="1" fill="none" stroke-dasharray="4 3" marker-end="url(#fl)"/>')
@@ -300,8 +305,8 @@ def construire():
     cote_v(X_FIN + 0.55, POT[3], PROF, "3,40", statut=" estimé")
     cote_v(X_FIN + 1.0, 0, PROF, "7,60", statut=" estimé (photos)")
     cote_v(-0.65, Y_WC, PROF, "2,40")
-    cote_v(-0.65, Y_REU0, Y_WC, "2,90")
-    cote_v(-0.65, 0, Y_REU0, "2,30")
+    cote_v(-0.65, Y_REU0, Y_WC, "2,90", statut=" estimé")
+    cote_v(-0.65, 0, Y_REU0, "2,30", statut=" estimé")
     cote_v(X_TER1 + 0.25, -PARVIS, 0, "2,75")
     cote_v(X_TER1 + 0.25, Y_TER, -PARVIS, "2,65", statut=" proposé")
 
@@ -309,8 +314,8 @@ def construire():
     surf = {
         "Accueil-café ouvert": L_G * Y_REU0,
         "Salle de réunion": L_G * (Y_REU1 - Y_REU0),
-        "WC réunion": 1.45 * 2.40,
-        "WC public adapté": 1.45 * 2.40,
+        "WC réunion": 1.25 * 2.40,
+        "WC public": 1.65 * 2.40,
         "Bibliothèque et salon": L_D * PROF - 0.81 + EP_SEP * Y_REU1,
     }
     return surf
@@ -339,7 +344,7 @@ def cartouche(surf):
     t(x0, y + 4, "Total intérieur", 12, poids=700)
     t(x0 + 330, y + 4, f"{total:.1f} m²".replace(".", ","), 12, poids=700, ancre="end")
     y += 26
-    t(x0, y, f"Terrasse couverte proposée : {(X_TER1 - X_TER0) * -Y_TER:.0f} m² environ".replace(".", ","), 12)
+    t(x0, y, f"Terrasse proposée : {(X_TER1 - X_TER0) * -Y_TER:.0f} m² environ, dont {8.6 * 4.9:.0f} m² sous pergola".replace(".", ","), 12)
     y += 40
     t(x0, y, "STATUT DES COTES", 11, GRIS, 700)
     y += 22
