@@ -443,7 +443,7 @@ def croquis_A2():
     s.note(P(3.0, -2.5, 2.97), (470, 130), "pergola en lames de bois, poteaux acier fins", 26)
     s.note(P(4.5, -1.6, 2.35), (900, 150), "lumière tamisée : globes en verre opalin", 24)
     s.note(P(0.4, -4.3, 0.6), (40, 330), "banquette en L, coussins crème", 24)
-    s.note(P(6.25, -1.9, 0.6), (1060, 300), "fauteuils bas en velours d'extérieur", 22)
+    s.note(P(6.25, -1.9, 0.6), (1060, 300), "chaises ÖVERALLT d'Issa Diabaté", 22)
     s.note(P(4.4, 0, 1.8), (720, 380), "une seule grande porte d'entrée", 22)
     s.note(P(1.5, 0, 1.6), (40, 420), "vitrine à la place de l'ancienne porte", 22)
     s.note(P(2.0, -5.4, 0.9), (60, 800), "claustra bas, jardinières et portillon", 24)

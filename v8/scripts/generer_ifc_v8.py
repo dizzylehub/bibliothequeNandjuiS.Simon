@@ -70,6 +70,7 @@ COULEURS = {
     "Béton": ((0.70, 0.70, 0.68), 0.0),
     "Claustra terre cuite": ((0.71, 0.38, 0.23), 0.0),
     "Végétal": ((0.30, 0.48, 0.28), 0.0),
+    "Contreplaqué": ((0.85, 0.73, 0.54), 0.0),
 }
 MAT, STY = {}, {}
 for nom, (rgb, tr) in COULEURS.items():
@@ -304,11 +305,18 @@ objet(F, "Banquette extérieure en L (ouest)", [(-0.75, -4.6, -0.2, -1.0, -0.05,
 objet(F, "Banquette extérieure (est)", [(7.05, -4.6, 7.6, -1.2, -0.05, 0.42), (7.45, -4.6, 7.6, -1.2, 0.42, 0.80)], "Crème", PRO, TER)
 table(0.4, -3.4, 1.6, -2.6, 0.38, "Table basse extérieure")
 table(5.9, -3.2, 6.6, -2.5, 0.38, "Table basse extérieure")
-for (x, y, d, m) in ((2.2, -2.3, "e", "Velours cognac"), (1.0, -1.7, "s", "Velours olive"),
-                     (6.25, -1.9, "s", "Velours cognac"), (5.75, -3.9, "o", "Velours olive")):
-    fauteuil(x, y, "Fauteuil bas d'extérieur", m, d)
-for (x, y) in ((2.2, -3.3), (6.4, -4.2)):
-    objet(F, "Pouf", [(x - 0.22, y - 0.22, x + 0.22, y + 0.22, -0.05, 0.40)], "Moutarde", PRO, TER)
+OVA = "Chaise ÖVERALLT, Issa Diabaté et Kevin Gouriou pour IKEA (2019) ; encombrement d'après une revente, pas un relevé du modèle"
+for (x, y, d) in ((2.25, -2.3, "e"), (1.0, -1.65, "n"), (6.25, -1.85, "n"), (5.65, -3.9, "s"), (5.40, -2.85, "o")):
+    w, p_ = (0.70, 0.65) if d in ("n", "s") else (0.65, 0.70)
+    x0, x1, y0, y1 = x - w / 2, x + w / 2, y - p_ / 2, y + p_ / 2
+    dos = {"s": (x0, y0, x1, y0 + 0.10), "n": (x0, y1 - 0.10, x1, y1), "e": (x1 - 0.10, y0, x1, y1), "o": (x0, y0, x0 + 0.10, y1)}[d]
+    joues = [(x0, y0, x0 + 0.02, y1), (x1 - 0.02, y0, x1, y1)] if d in ("n", "s") else [(x0, y0, x1, y0 + 0.02), (x0, y1 - 0.02, x1, y1)]
+    objet(F, "Chaise ÖVERALLT (Issa Diabaté)", [(*j, -0.05, 0.50) for j in joues] + [(x0, y0, x1, y1, 0.26, 0.30), (*dos, 0.30, 0.63),
+                                                (x0 + 0.04, y0 + 0.04, x1 - 0.04, y1 - 0.04, 0.30, 0.38)],
+          "Contreplaqué", PRO, OVA, predef="CHAIR", props={"Auteur": "Issa Diabaté, Kevin Gouriou", "Editeur": "IKEA, collection ÖVERALLT 2019",
+                                                          "Fabrication": "Accord de l'auteur et de l'éditeur à obtenir avant fabrication locale"})
+for (x, y) in ((2.2, -3.3), (6.4, -4.25)):
+    objet(F, "Tabouret (référence Issa Diabaté à documenter)", [(x - 0.19, y - 0.19, x + 0.19, y + 0.19, -0.05, 0.40)], "Moutarde", PRO, TER)
 for (x, y) in ((-0.55, -0.45), (7.4, -0.45), (2.9, -4.55)):
     objet(F, "Jardinière et plante", [(x - 0.22, y - 0.22, x + 0.22, y + 0.22, -0.05, 0.50)], "Claustra terre cuite", PRO, TER, predef="NOTDEFINED")
     objet("IfcGeographicElement", "Plante en pot", [(x - 0.30, y - 0.30, x + 0.30, y + 0.30, 0.50, 1.40)], "Végétal", PRO, TER)

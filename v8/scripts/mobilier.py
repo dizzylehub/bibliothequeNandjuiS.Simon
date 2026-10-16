@@ -15,7 +15,7 @@ SORTIE = os.path.join(ICI, "..", "mobilier")
 FONT = "Archivo, Helvetica, Arial, sans-serif"
 INK, GRIS, ORANGE = "#2a2622", "#8b8a86", "#b0582b"
 C = {"noyer": "#7a4a2a", "noyer clair": "#a8754a", "cognac": "#a85f2c", "olive": "#56613a", "creme": "#efe4cc",
-     "laiton": "#c9a227", "verre": "#9cc9d3", "canne": "#d9b878", "acier": "#2b2b2b", "corde": "#3f7a6a", "moutarde": "#c9962e"}
+     "laiton": "#c9a227", "verre": "#9cc9d3", "canne": "#d9b878", "acier": "#2b2b2b", "corde": "#3f7a6a", "moutarde": "#c9962e", "contreplaque": "#d8b98a"}
 
 
 def B(x0, y0, z0, x1, y1, z1, m):
@@ -122,6 +122,15 @@ def fauteuil_exterieur():
     return v
 
 
+def overallt():
+    """Volume d'encombrement seulement : la géométrie réelle du modèle n'est pas relevée."""
+    W, D = 0.70, 0.65
+    v = [B(0, 0, 0, 0.018, D, 0.50, "contreplaque"), B(W - 0.018, 0, 0, W, D, 0.50, "contreplaque"),
+         B(0.018, 0.04, 0.27, W - 0.018, 0.55, 0.30, "contreplaque"), B(0.018, 0.52, 0.30, W - 0.018, 0.56, 0.63, "contreplaque"),
+         B(0.05, 0.06, 0.30, W - 0.05, 0.50, 0.38, "creme"), B(0.05, 0.44, 0.38, W - 0.05, 0.52, 0.60, "creme")]
+    return v
+
+
 PIECES = [
     dict(code="M01", fichier="M01_comptoir_enfilade", nom="Comptoir-enfilade d'accueil", f=comptoir, ech=0.36,
          cotes=[("W", 1.10), ("D", 0.65), ("H", 1.05)],
@@ -171,6 +180,14 @@ PIECES = [
          fab=["Soudeur pour le cadre, tresseur pour l'assise", "Matériaux résistants aux UV et à la pluie",
               "Rangement de nuit : empilable par deux, ou chaîné"],
          refs=["R11", "R12"]),
+    dict(code="M07", fichier="M07_chaise_overallt_issa_diabate", avert="Volume d'encombrement seulement : la découpe réelle du modèle n'est pas relevée ; à dessiner d'après un exemplaire ou les plans de l'auteur.", nom="Chaise ÖVERALLT d'Issa Diabaté (IKEA, 2019)", f=overallt, ech=0.36,
+         cotes=[("W", 0.70), ("D", 0.65), ("H", 0.63)],
+         idee="Retenue pour la terrasse-salon : un fauteuil bas découpé dans un seul panneau de contreplaqué, sans vis ni colle, dessiné par Issa Diabaté pour inviter à converser. Cinq exemplaires autour des tables basses.",
+         mat=["Contreplaqué d'une seule plaque (bouleau à l'origine ; ici contreplaqué marine CTBX)", "Pièces emboîtées sans vis, clou ni colle",
+              "Vernis ou peinture d'extérieur, coussins en toile crème", "Volume dessiné d'après les mesures d'une revente : à vérifier sur un exemplaire"],
+         fab=["Découpe à la commande numérique, ou à la scie sauteuse sur gabarit", "Atelier de menuiserie à Abidjan ; série de 5 à 6 chaises",
+              "Accord d'Issa Diabaté et d'IKEA à obtenir avant toute fabrication locale", "Rentrées la nuit ou protégées de la pluie"],
+         refs=["R13", "R14", "R15", "R16"]),
 ]
 
 REFS = {
@@ -196,6 +213,14 @@ REFS = {
             "Bois local (cocotier) travaillé à Abidjan : une collaboration possible pour une pièce signature"),
     "R11": ("Cheick Diallo, fauteuil tissé à la main, 2019 (InCollect)", "https://www.incollect.com/listings/furniture/seating/cheick-diallo-hand-woven-armchair-2019-707566",
             "Cadre métallique et fil tressé à la main : design contemporain d'Afrique de l'Ouest"),
+    "R13": ("IKEA et Design Indaba, collection ÖVERALLT, 2019 (Dezeen)", "https://www.dezeen.com/2019/02/28/ikea-design-indaba-african-designers-overallt-furniture-homeware/",
+            "La chaise d'Issa Diabaté : une plaque de contreplaqué, sans fixation, basse pour la conversation"),
+    "R14": ("Fauteuil ÖVERALLT, I. Diabaté et K. Gouriou pour IKEA, 2019 (Chairish)", "https://www.chairish.com/product/26745064/overallt-armchair-by-i-diabate-and-k-gouriou-for-ikea-2019",
+            "Mesures d'une revente : assise à 30 cm, hauteur 63 cm, 70 × 65 cm au sol"),
+    "R15": ("IKEA lance sa collection made in Africa, Design Indaba 2019 (Domus)", "https://domusweb.it/en/speciali/design-indaba/2019/ikea-launches-its-new-collection-made-in-africa-at-design-indaba-2019.html",
+            "Contreplaqué de bouleau, co-conception avec Kevin Gouriou"),
+    "R16": ("Exposition « Local Art Brut », Macline Hien et Issa Diabaté (galerie Louis Simone Guirandou, Abidjan)", "https://www.louisimoneguirandou.gallery/en/exhibitions/12-local-art-brut-macline-hien-issa-diabate/overview/",
+            "Meubles inspirés des tabourets en bois, trônes et chaises de gardien : piste pour les tabourets"),
     "R12": ("Pieter Peulen chez lui, avec le fauteuil F300 de Pierre Paulin (Gubi)", "https://gubi.com/en/us/inspiration/editorials/at-home-with-pieter-peulen",
             "Référence de l'équipe : pièces vintage choisies comme des œuvres dans un intérieur sobre"),
 }
@@ -314,6 +339,8 @@ def fiche(piece):
         return y + len(lignes) * inter
     tx(70, 52, f'{piece["code"]} · {piece["nom"]}', 26, poids=700)
     tx(70, 78, "Désiré Akai · fiche mobilier · V8 indice B · modèle d'étude à prototyper, cotes en mètres", 13, GRIS)
+    if piece.get("avert"):
+        tx(70, 100, piece["avert"], 13, ORANGE, 700)
     X = 920
     y = 620
     y = para(X, y, piece["idee"], 66, 15, INK, 21) + 14

@@ -118,6 +118,25 @@ def fauteuil(x, y, ori, col):
     rect(*d, fill=INK, sw=0, op=0.55)
 
 
+def overallt(x, y, ori):
+    """Chaise ÖVERALLT (I. Diabaté et K. Gouriou, IKEA 2019) : encombrement 0,70 x 0,65 d'après une revente."""
+    w, d = (0.70, 0.65) if ori in ("n", "s") else (0.65, 0.70)
+    rect(x - w / 2, y - d / 2, x + w / 2, y + d / 2, fill="#d8b98a", stroke=INK, sw=0.9, rx=3)
+    b = {"n": (x - w / 2, y + d / 2 - 0.12, x + w / 2, y + d / 2), "s": (x - w / 2, y - d / 2, x + w / 2, y - d / 2 + 0.12),
+         "e": (x + w / 2 - 0.12, y - d / 2, x + w / 2, y + d / 2), "o": (x - w / 2, y - d / 2, x - w / 2 + 0.12, y + d / 2)}[ori]
+    rect(*b, fill="#a8865a", stroke="none")
+    for k in (-1, 1):
+        if ori in ("n", "s"):
+            ligne(x + k * (w / 2 - 0.03), y - d / 2, x + k * (w / 2 - 0.03), y + d / 2, stroke=INK, sw=0.6)
+        else:
+            ligne(x - w / 2, y + k * (d / 2 - 0.03), x + w / 2, y + k * (d / 2 - 0.03), stroke=INK, sw=0.6)
+
+
+def tabouret(x, y):
+    cercle(x, y, 0.19, fill="#c9962e", sw=0.8)
+    cercle(x, y, 0.10, fill="none", sw=0.6)
+
+
 def plante(x, y, r=0.32):
     cercle(x, y, r, fill=VEG, stroke=VEG, sw=0.6)
     el.append(f'<circle cx="{px(x):.1f}" cy="{py(y):.1f}" r="{r * S * 0.55:.1f}" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.7"/>')
@@ -162,16 +181,18 @@ def construire():
     rect(-0.75, -4.6, -0.2, -1.0, fill=NOYER, sw=0.8, op=0.8, rx=4)
     rect(-0.75, -4.6, 2.6, -4.05, fill=NOYER, sw=0.8, op=0.8, rx=4)
     rect(0.4, -3.4, 1.6, -2.6, fill="#ffffff", sw=0.9, rx=30)
-    fauteuil(2.2, -2.3, "e", VELOURS)
-    fauteuil(1.0, -1.7, "s", OLIVE)
-    cercle(2.2, -3.3, 0.24, fill=MOUT, sw=0.8)
+    overallt(2.25, -2.3, "e")
+    overallt(1.0, -1.65, "n")
+    tabouret(2.2, -3.3)
     texte(1.0, -3.95, "banquette en L, coussins", 10, INK)
     # salon extérieur droit
     rect(7.05, -4.6, 7.6, -1.2, fill=NOYER, sw=0.8, op=0.8, rx=4)
     rect(5.9, -3.2, 6.6, -2.5, fill="#ffffff", sw=0.9, rx=30)
-    fauteuil(6.25, -1.9, "s", VELOURS)
-    fauteuil(5.75, -3.9, "o", OLIVE)
-    cercle(6.4, -4.2, 0.22, fill=MOUT, sw=0.8)
+    overallt(6.25, -1.85, "n")
+    overallt(5.65, -3.9, "s")
+    overallt(5.40, -2.85, "o")
+    tabouret(6.4, -4.25)
+    texte(4.4, -1.35, "chaises ÖVERALLT · Issa Diabaté", 9, "#8a6a3a")
     for (x, y) in ((-0.55, -0.45), (7.4, -0.45), (2.9, -4.55)):
         plante(x, y, 0.28)
     # allée d'entrée
@@ -362,7 +383,7 @@ def cartouche(surf):
     t(x0, y, "LÉGENDE", 11, GRIS, 700)
     y += 18
     items = [(INK, "mur existant conservé"), ("#b0582b", "mur démoli (pointillé)"), (VERRE, "baie vitrée"),
-             (NOYER, "menuiserie bois (noyer)"), (VELOURS, "assises velours"), (DALLE, "terrasse dallée")]
+             (NOYER, "menuiserie bois (noyer)"), (VELOURS, "assises velours"), ("#d8b98a", "chaise ÖVERALLT (I. Diabaté)"), (DALLE, "terrasse dallée")]
     for c, s in items:
         out.append(f'<rect x="{x0}" y="{y - 10}" width="22" height="12" fill="{c}" stroke="{INK}" stroke-width="0.5"/>')
         t(x0 + 32, y, s, 12)
