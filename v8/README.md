@@ -1,9 +1,13 @@
 # V8 — café-bibliothèque de Madame Nandjui
 
-Stade : esquisse en cours (indice B). Direction A retenue : cocon mid-century et terrasse-salon sous pergola.
+Stade : esquisse, maquette IFC et plans techniques de principe (indice B). Direction A retenue : cocon mid-century et terrasse-salon sous pergola.
 
 - [Plan de travail V8](PLAN_DE_TRAVAIL_V8.html) : page HTML autonome. Elle contient l'analyse du site, la lecture du croquis de relevé, le brief « cocon mid-century », les deux directions de Dizzy avec leurs croquis, le plan de travail coordonné par G-K, les questions à trancher et la relecture de Josiane.
 - `plans/E01_plan_amenagement` (SVG, PNG) : plan d'aménagement, esquisse de Désiré Akai.
+- `NANDJUI_ESQ_V8.ifc` : maquette IFC4 de Manadja (contrôle dans `rapports/validation_ifc_v8.txt`).
+- `vues/` : vues 3D V01 à V03 et modèle `NANDJUI_V8.glb`, calculés depuis l'IFC.
+- `plans/T01` à `T03` : électricité et éclairage, plomberie, climatisation et ventilation (Le Génie).
+- `NOTE_TECHNIQUE_V8.md` : structure, pergola, réseaux, réglementation à confirmer.
 - `croquis/` : quatre croquis de Dizzy (SVG et PNG).
   - A1 : cocon mid-century vu depuis le seuil.
   - A2 : la terrasse-salon sous pergola.
@@ -20,3 +24,13 @@ Brief du 15 octobre :
 Cotes : largeur intérieure retenue 6,75 m (3,00 + 0,15 estimé + 3,60). Les 5,50 m mesurés dehors restent à rattacher. La profondeur est estimée à 7,60 m (fourchette 7,20 à 8,00 m), à mesurer.
 
 Les croquis sont des dessins de principe générés par script, sans valeur de plan. Les membres de l'équipe sont des rôles de travail d'une IA ; ils ne délivrent aucun visa professionnel.
+
+Régénérer, depuis la racine du dépôt (`pip install -r v8/requirements.txt`) :
+
+```bash
+v8/scripts/rendre_plans.sh          # E01 et T01 à T03
+v8/scripts/rendre_croquis.sh        # croquis de Dizzy
+python3 v8/scripts/generer_ifc_v8.py
+python3 v8/scripts/valider_ifc_v8.py
+python3 v8/scripts/vues_ifc_v8.py   # vues 3D et GLB
+```

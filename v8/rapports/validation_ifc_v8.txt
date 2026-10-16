@@ -1,0 +1,18 @@
+Fichier : NANDJUI_ESQ_V8.ifc · schéma IFC4
+SHA-256 : c640f91411d7f3c56c82473883149780b413e6ff516878d7d4c6fcdb61007ec9
+
+Validation EXPRESS (règles incluses) : 0 erreur(s), 0 avertissement(s)
+Géométrie : 97/97 représentations calculées
+Objets sans jeu NANDJUI_V8 : 0
+Répartition par statut : Estimé 7 ; Existant à démolir 1 ; Hypothèse à vérifier 2 ; Mesuré 4 ; Proposé 83
+
+Espaces :
+  01 Accueil-café ouvert : 6.9 m²
+  02 Salle de réunion (location) : 8.4 m²
+  03 WC réunion : 3.0 m²
+  04 WC public : 3.96 m²
+  05 Bibliothèque et salon de lecture : 27.31 m²
+  06 Terrasse couverte prolongée : 49.68 m²
+
+Limites : la compatibilité Revit n'a pas été testée (logiciel non disponible ici).
+Les hauteurs et la profondeur sont des hypothèses ; la maquette ne remplace pas un relevé.
