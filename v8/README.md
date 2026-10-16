@@ -1,5 +1,9 @@
 # V8 — café-bibliothèque de Madame Nandjui
 
+**[Nouvelle présentation — V8 indice D](indice_d/README.md)** : ambiances retravaillées, mobilier original, axonométries, coupes et esquisses au trait libre. [PDF](indice_d/dossier/NANDJUI_V8_D.pdf) · [PowerPoint modifiable](indice_d/dossier/NANDJUI_V8_D.pptx).
+
+Les éléments ci-dessous documentent la base V8 indice C.
+
 Stade : esquisse, maquette IFC et plans techniques de principe (indice C). Direction A retenue : cocon mid-century et terrasse-salon sous pergola.
 
 **Dossier de présentation à Madame Nandjui** : `dossier/NANDJUI_V8_Dossier_A3.pdf` (52 pages A3 paysage, indice C : rendus réalistes, plan et coupes rendus, toutes les variantes de mobilier et toutes les options, sans nom ni logo d’agence) et sa version modifiable `dossier/NANDJUI_V8_Dossier_A3.pptx`. Typographie : Cormorant Garamond (titres) et Jost (texte), polices libres fournies dans `dossier/polices/` ; le PDF les embarque, le PPTX demande de les installer.

@@ -1,3 +1,6 @@
 v5/cache/
 __pycache__/
 *.pyc
+
+# Archive locale de livraison ; les documents sont versionnés séparément.
+/v8/NANDJUI_V8_D_livraison.zip

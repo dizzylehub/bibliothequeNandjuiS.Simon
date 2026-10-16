@@ -1,0 +1,95 @@
+{
+  "direction": "Modernisme chaleureux à Abidjan ; noyer, olive, cognac, lin et terre cuite ; trait libre architectural et personnages naturels",
+  "assets": [
+    {
+      "file": "images/ambiance_salon.png",
+      "type": "image_gen — intention non métrique",
+      "reference": "v8/rendus/R_P1_soir.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "aba3e382123c4470a940ff12134c80852897136326974a021e1661f917b3067a"
+    },
+    {
+      "file": "images/ambiance_terrasse.png",
+      "type": "image_gen — intention non métrique",
+      "reference": "v8/rendus/R_P3_jour.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "01c540f756de1c3e7a7b8e60d46c01e3aefbb24f42e7bebbdc90a19b97c7580e"
+    },
+    {
+      "file": "images/esquisse_salon.png",
+      "type": "image_gen — intention non métrique",
+      "reference": "v8/indice_d/images/ambiance_salon.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "3d5eec9c2cbc56092f288120cf1ef2b9b81c9c2c6a8096f80c3e22ba084e5c05"
+    },
+    {
+      "file": "images/esquisse_terrasse.png",
+      "type": "image_gen — intention non métrique",
+      "reference": "v8/indice_d/images/ambiance_terrasse.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "deed72f0572dd6147f286ede9ec975b9bc82277ab0b7a4aa7623c5b68538caff"
+    },
+    {
+      "file": "images/esquisse_coupe_A.png",
+      "type": "image_gen — intention non métrique",
+      "reference": "v8/rendus/H_COUPE_AA_jour.png",
+      "size": [
+        1774,
+        887
+      ],
+      "sha256": "e60abdac05a5337840eee67b83e56da342caebe0bd0f6922c082b378a799378b"
+    },
+    {
+      "file": "images/esquisse_coupe_B.png",
+      "type": "image_gen — intention non métrique",
+      "reference": "v8/rendus/H_COUPE_BB_jour.png",
+      "size": [
+        1619,
+        971
+      ],
+      "sha256": "8baf3905cfae091913d5c46cdca91379f6ea81a5be0212434e737dbae67f672c"
+    },
+    {
+      "file": "images/terrasse_soir.png",
+      "type": "image_gen — intention non métrique",
+      "reference": "v8/indice_d/images/ambiance_terrasse.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "60690b85197dfc8bb9858247597a01448628be7908a5f7b89ac2c23276c4847f"
+    },
+    {
+      "file": "images/salon_detail.png",
+      "type": "image_gen — intention non métrique",
+      "reference": "v8/indice_d/images/ambiance_salon.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "d88e164bdcc48e9de3a4235112ecb6a9ec7354770e917aa75eff98549a9f1b8f"
+    },
+    {
+      "file": "images/matieres.png",
+      "type": "image_gen — intention non métrique",
+      "reference": "v8/indice_d/images/ambiance_salon.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "3f89459e8b0a45ca5f5c7bed15b07377fa4016198ea42b247aa754e20bfb4703"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "nandjui-v8-indice-d",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": { "build": "node scripts/presentation.js" },
+  "dependencies": { "pptxgenjs": "4.0.1" }
+}

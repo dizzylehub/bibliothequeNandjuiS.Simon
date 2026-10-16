@@ -1,6 +1,8 @@
 # Bibliothèque Nandjui D. Simon
 
-**[V8 — plan de travail et deux directions (en cours)](v8/README.md)**
+**[V8 — nouvelle présentation, indice D](v8/indice_d/README.md)**
+
+[Plan de travail et base V8](v8/README.md)
 
 **[Voir la proposition V7 en images, directement sur GitHub](v7/VOIR_LE_DOSSIER.md)**
 
