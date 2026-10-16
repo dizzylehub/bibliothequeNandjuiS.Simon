@@ -141,7 +141,7 @@ def main():
     for cle in a.cles or sorted(data) + ["MATERIAUX"]:
         if cle == "MATERIAUX":
             for nom in ECHANTILLONS:
-                echantillon(nom, 600, a.echantillons)
+                echantillon(nom, 420, a.echantillons)
         else:
             rendre(cle, data[cle], a.res, a.echantillons)
 

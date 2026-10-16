@@ -2,7 +2,7 @@
 
 Stade : esquisse, maquette IFC et plans techniques de principe (indice B). Direction A retenue : cocon mid-century et terrasse-salon sous pergola.
 
-**Dossier de présentation à Madame Nandjui** : `dossier/NANDJUI_V8_Dossier_A3.pdf` (40 pages A3 paysage : toutes les variantes de mobilier, sans nom ni logo d’agence) et sa version modifiable `dossier/NANDJUI_V8_Dossier_A3.pptx`. Dans le PDF, la police Century Gothic est remplacée par Questrial, police libre de dessin proche ; le PPTX appelle Century Gothic.
+**Dossier de présentation à Madame Nandjui** : `dossier/NANDJUI_V8_Dossier_A3.pdf` (50 pages A3 paysage, indice C : rendus réalistes, plan et coupes rendus, toutes les variantes de mobilier et toutes les options, sans nom ni logo d’agence) et sa version modifiable `dossier/NANDJUI_V8_Dossier_A3.pptx`. Typographie : Cormorant Garamond (titres) et Jost (texte), polices libres fournies dans `dossier/polices/` ; le PDF les embarque, le PPTX demande de les installer.
 
 - [Plan de travail V8](PLAN_DE_TRAVAIL_V8.html) : page HTML autonome. Elle contient l'analyse du site, la lecture du croquis de relevé, le brief « cocon mid-century », les deux directions de Dizzy avec leurs croquis, le plan de travail coordonné par G-K, les questions à trancher et la relecture de Josiane.
 - `plans/E01_plan_amenagement` (SVG, PNG) : plan d'aménagement, esquisse de Désiré Akai.

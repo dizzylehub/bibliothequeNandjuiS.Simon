@@ -31,6 +31,57 @@ VUES = {
 }
 EXCLURE = ("Mur séparatif à démolir",)
 
+# vues orthographiques « à la Photoshop » : plan coupé à 1,30 m et coupes verticales
+# (plan de coupe, normale vers l'observateur, centre et largeur du cadre, taille en pixels)
+ORTHO = {
+    "PLAN": dict(plan=(0, 0, 1.30), normale=(0, 0, 1), centre=(3.2, 0.55), largeur=11.4, px=(1700, 2500)),
+    "COUPE_AA": dict(plan=(4.20, 0, 0), normale=(1, 0, 0), centre=(1.0, 2.6), largeur=16.0, px=(2600, 1300)),
+    "COUPE_BB": dict(plan=(0, 3.20, 0), normale=(0, -1, 0), centre=(3.4, 2.4), largeur=11.0, px=(2400, 1440)),
+}
+GARDER_ENTIER = ("Chevron de pergola", "Poutre de rive", "Lames de bois de la pergola", "Lisse d'appui")
+
+
+def trancher(plan, normale, plan_seul):
+    """Supprime toute la géométrie du côté de l'observateur, comme un plan de coupe réel :
+    la lumière entre alors par la coupe. Pour le plan, la pergola reste entière (elle porte ombre)."""
+    import bmesh
+    for o in list(bpy.data.objects):
+        if o.type != "MESH" or (plan_seul and o.name.startswith(GARDER_ENTIER)):
+            continue
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        bm.transform(o.matrix_world)
+        bmesh.ops.bisect_plane(bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:], plane_co=plan, plane_no=normale, clear_outer=True)
+        bm.transform(o.matrix_world.inverted())
+        bm.to_mesh(o.data)
+        bm.free()
+        if len(o.data.polygons) == 0:
+            bpy.data.objects.remove(o)
+
+
+def camera_ortho(vue):
+    d = ORTHO[vue]
+    c = bpy.data.cameras.new("cam")
+    c.type = "ORTHO"
+    c.sensor_fit = "HORIZONTAL"
+    c.ortho_scale = d["largeur"]
+    c.clip_start, c.clip_end = 0.01, 200
+    o = bpy.data.objects.new("cam", c)
+    n = Vector(d["normale"])
+    p = Vector(d["plan"])
+    if vue == "PLAN":
+        o.location = (d["centre"][0], d["centre"][1], 30.0)
+        o.rotation_euler = (0, 0, 0)
+    else:
+        cible = Vector((d["centre"][0], p.y, d["centre"][1])) if n.y else Vector((p.x, d["centre"][0], d["centre"][1]))
+        o.location = cible + n * 30.0
+        o.rotation_euler = (-n).to_track_quat("-Z", "Y").to_euler()
+    bpy.context.collection.objects.link(o)
+    sc = bpy.context.scene
+    sc.camera = o
+    sc.render.resolution_x, sc.render.resolution_y = d["px"]
+    sc.render.film_transparent = True
+
 
 def rgb(h):
     h = h.lstrip("#")
@@ -529,10 +580,34 @@ def main():
     soir = a.ambiance == "soir"
     MAT = materiaux()
     construire(MAT)
-    eclairage(soir, MAT)
-    environnement(soir, MAT)
-    monde(soir)
-    camera(a.vue, a.res)
+    if a.vue in ORTHO:
+        d = ORTHO[a.vue]
+        if a.vue == "PLAN":   # sans plafond ni dalle : le soleil éclaire le plan, la pergola porte ombre
+            for o in list(bpy.data.objects):
+                if o.name.startswith(("Plafond", "Dalle haute", "Plancher de la réserve", "Imposte")):
+                    bpy.data.objects.remove(o)
+        trancher(d["plan"], d["normale"], a.vue == "PLAN")
+        avant = set(bpy.data.objects.keys())
+        eclairage(soir, MAT)
+        if a.vue == "PLAN":   # luminaires et pergola : invisibles vus de dessus, mais leurs ombres restent
+            for o in bpy.data.objects:
+                if o.type == "MESH" and (o.name not in avant or o.name.startswith(GARDER_ENTIER)):
+                    o.visible_camera = False
+        monde(soir)
+        soleil = bpy.data.objects.get("soleil")
+        if soleil and a.vue != "PLAN":   # le soleil entre par la coupe, de biais
+            n = Vector(d["normale"])
+            lat = Vector((-n.y, n.x, 0))
+            dirl = (-n * math.cos(math.radians(35)) + lat * 0.45 + Vector((0, 0, -math.sin(math.radians(35))))).normalized()
+            soleil.rotation_euler = dirl.to_track_quat("-Z", "Y").to_euler()
+        camera_ortho(a.vue)
+        if a.vue != "PLAN":
+            bpy.context.scene.view_settings.exposure = -0.9 if soir else -1.2
+    else:
+        eclairage(soir, MAT)
+        environnement(soir, MAT)
+        monde(soir)
+        camera(a.vue, a.res)
     regler(a.echantillons, soir)
     if a.exposition is not None:
         bpy.context.scene.view_settings.exposure = a.exposition

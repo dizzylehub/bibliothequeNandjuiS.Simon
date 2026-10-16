@@ -1,0 +1,2 @@
+Polices du dossier : Cormorant Garamond (titres) et Jost (texte), sous licence SIL Open Font License 1.1 (https://openfontlicense.org).
+Instances statiques tirées des polices variables de google/fonts. Installez-les pour ouvrir le PPTX avec la bonne typographie ; le PDF les embarque déjà.

@@ -15,7 +15,8 @@ const N = " "; // espace insécable
 // palette propre au projet (mid-century) : brun noyer pour les titres, cognac pour les accents, olive pour les en-têtes
 const K = { noir: "231C17", gris: "5E5047", vert: "A85F2C", entete: "56613A", blanc: "FFFFFF", grisClair: "F4EFE6", rouge: "B5432C",
             noyer: "7A4A2A", cognac: "A85F2C", olive: "56613A", moutarde: "C9962E", laiton: "C9A227", creme: "EFE4CC" };
-const FONT = "Century Gothic";
+const FONT = "Jost";
+const TITRE = "Cormorant Garamond";
 const W = 16.54, H = 11.69; // A3 paysage, en pouces
 
 const pres = new pptxgen();
@@ -23,7 +24,7 @@ pres.defineLayout({ name: "A3", width: W, height: H });
 pres.layout = "A3";
 pres.author = "L’équipe architecturale (rôles IA)";
 pres.title = "Café-bibliothèque Nandjui · esquisse V8";
-pres.theme = { headFontFace: FONT, bodyFontFace: FONT };
+pres.theme = { headFontFace: TITRE, bodyFontFace: FONT };
 
 const PIED = `Café-bibliothèque Nandjui${N}·${N}Abidjan${N}·${N}Esquisse V8 indice C${N}·${N}16 octobre 2026`;
 pres.defineSlideMaster({
@@ -31,7 +32,7 @@ pres.defineSlideMaster({
   background: { color: K.blanc },
   objects: [
     { text: { text: PIED, options: { x: 0.6, y: H - 0.66, w: 9, h: 0.3, fontFace: FONT, fontSize: 10, color: K.gris, margin: 0 } } },
-    { placeholder: { options: { name: "titre", type: "title", x: 0.6, y: 0.45, w: W - 1.2, h: 0.75, fontFace: FONT, fontSize: 26, bold: true, color: K.gris, margin: 0, valign: "top", align: "left" }, text: "" } },
+    { placeholder: { options: { name: "titre", type: "title", x: 0.6, y: 0.4, w: W - 1.2, h: 0.8, fontFace: TITRE, fontSize: 34, bold: true, color: K.gris, margin: 0, valign: "top", align: "left" }, text: "" } },
   ],
   slideNumber: { x: W / 2 - 0.3, y: H - 0.66, w: 0.6, h: 0.3, fontFace: FONT, fontSize: 10, color: K.gris, align: "center" },
 });
@@ -85,7 +86,7 @@ function pleine(key, titre, texte, section, note) {
   const s = pres.addSlide({ masterName: "PLEINE", sectionTitle: section });
   couvrir(s, key, 0, 0, W, H, titre);
   s.addShape(pres.shapes.RECTANGLE, { x: 0, y: H - 2.35, w: W, h: 2.35, fill: { color: "1A1410", transparency: 22 }, line: { color: "1A1410", transparency: 100 }, objectName: "bandeau" });
-  t(s, titre, { x: 0.6, y: H - 2.05, w: 11, h: 0.7, fontSize: 30, bold: true, color: "F4EFE6" });
+  t(s, titre, { x: 0.6, y: H - 2.15, w: 11, h: 0.8, fontFace: TITRE, fontSize: 40, bold: true, color: "F4EFE6" });
   t(s, texte, { x: 0.6, y: H - 1.3, w: 11.5, h: 0.9, fontSize: 14, color: "E6DCCB" });
   if (note) t(s, note, { x: 12.4, y: H - 1.3, w: 3.6, h: 0.9, fontSize: 10, italic: true, color: "BFB19B" });
   return s;
@@ -99,7 +100,7 @@ function eyebrow(s, text, x, y, w) {
   t(s, text.toUpperCase(), { x, y, w: w || 8, h: 0.3, fontSize: 11, bold: true, color: K.vert, charSpacing: 1 });
 }
 function chiffre(s, valeur, libelle, x, y, w) {
-  t(s, valeur, { x, y, w, h: 0.75, fontSize: 40, bold: true, color: K.vert });
+  t(s, valeur, { x, y, w, h: 0.75, fontFace: TITRE, fontSize: 46, bold: true, color: K.vert });
   t(s, libelle, { x, y: y + 0.8, w, h: 0.6, fontSize: 13, color: K.gris });
 }
 
@@ -110,9 +111,9 @@ pres.addSection({ title: "Présentation" });
   const cle = A("R_P3_soir") ? "R_P3_soir" : "P1";
   couvrir(s, cle, 5.2, 0, W - 5.2, H, "La terrasse sous pergola, le soir");
   s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 5.2, h: H, fill: { color: "1A1410" }, line: { color: "1A1410" }, objectName: "colonne" });
-  t(s, "Café-bibliothèque Nandjui", { x: 0.6, y: 3.0, w: 4.3, h: 2.0, fontSize: 40, bold: true, color: "F4EFE6" });
-  t(s, "Le salon de Madame : un cocon mid-century ouvert sur une terrasse du soir", { x: 0.6, y: 5.2, w: 4.2, h: 1.2, fontSize: 17, color: "D9A86A" });
-  t(s, "Dossier de présentation à Madame Nandjui, avec toutes les options", { x: 0.6, y: 6.6, w: 4.2, h: 0.8, fontSize: 13, color: "E6DCCB" });
+  t(s, "Café-bibliothèque Nandjui", { x: 0.6, y: 2.0, w: 4.3, h: 3.0, fontFace: TITRE, fontSize: 50, bold: true, color: "F4EFE6" });
+  t(s, "Le salon de Madame : un cocon mid-century ouvert sur une terrasse du soir", { x: 0.6, y: 5.7, w: 4.2, h: 1.2, fontSize: 17, color: "D9A86A" });
+  t(s, "Dossier de présentation à Madame Nandjui, avec toutes les options", { x: 0.6, y: 7.1, w: 4.2, h: 0.8, fontSize: 13, color: "E6DCCB" });
   t(s, `Abidjan${N}·${N}16 octobre 2026${N}·${N}Esquisse V8 indice C`, { x: 0.6, y: H - 1.4, w: 4.3, h: 0.4, fontSize: 11, color: "BFB19B" });
   t(s, "Document d’esquisse : cotes à confirmer par un relevé, études techniques de principe.", { x: 0.6, y: H - 1.0, w: 4.3, h: 0.5, fontSize: 9, color: "BFB19B", italic: true });
 }
@@ -246,6 +247,35 @@ pres.addSection({ title: "Une soirée chez Madame Nandjui" });
   });
   t(s, "Échantillons rendus à partir des matériaux de la maquette. Teintes à confirmer sur échantillons réels chez l’ébéniste et le tapissier.", { x: 0.6, y: 10.3, w: 15.3, h: 0.4, fontSize: 11, italic: true, color: K.gris });
 }
+
+// ---------------------------------------------------------------- plan et coupes rendus
+pres.addSection({ title: "Plans et coupes" });
+if (A("H_PLAN_jour")) {
+  const s = pres.addSlide({ masterName: "PLEINE", sectionTitle: "Plans et coupes" });
+  s.background = { color: "F4EFE6" };
+  img(s, "H_PLAN_jour", 0.3, 0.3, 8.6, H - 0.6, "lt", "Plan rendu");
+  t(s, "Le plan", { x: 9.6, y: 0.9, w: 6.3, h: 1.0, fontFace: TITRE, fontSize: 44, bold: true, color: K.noir });
+  t(s, "Coupé à 1,30 m, au soleil de l’après-midi : le mobilier, les tapis et l’ombre des lames de la pergola sur la terrasse.", { x: 9.6, y: 2.0, w: 6.2, h: 1.2, fontSize: 15, color: K.gris });
+  puces(s, [
+    `Accueil-café ouvert à gauche, face aux livres.`,
+    `Salle de réunion vitrée de 8,4${N}m², 9${N}places, avec son WC.`,
+    "Bibliothèque « Kente » sur trois murs, table d’hôtes et « Arbre à travail » au poteau.",
+    "Salon de lecture au fond : quatre fauteuils, lampadaires.",
+    `Terrasse d’environ 50${N}m² sous pergola : deux salons bas.`,
+  ], { x: 9.6, y: 3.5, w: 6.2, h: 4.5, fontSize: 14 });
+  t(s, "Rendu calculé depuis la maquette IFC, habillé façon planche Photoshop. Lignes de coupe A et B : pages suivantes.", { x: 9.6, y: 10.2, w: 6.2, h: 0.8, fontSize: 11, italic: true, color: K.gris });
+}
+[["H_COUPE_AA_soir", "Coupe A, le soir", "Longitudinale, vers l’ouest : la terrasse sous la pergola, l’accueil, la salle de réunion vitrée et les WC, sous les logements existants."],
+ ["H_COUPE_BB_jour", "Coupe B, le jour", "Transversale, vers le nord : la salle de réunion derrière ses baies vitrées et la bibliothèque, plafond en lames de noyer à 3,00 m."],
+ ["H_COUPE_AA_jour", "Coupe A, le jour", "Longitudinale, vers l’ouest."],
+].forEach(([k, titre, texte]) => {
+  if (!A(k)) return;
+  const s = pres.addSlide({ masterName: "PLEINE", sectionTitle: "Plans et coupes" });
+  s.background = { color: "F4EFE6" };
+  img(s, k, 0.3, 0.3, W - 0.6, H - 2.2, "t", titre);
+  t(s, titre, { x: 0.6, y: H - 1.75, w: 6, h: 0.8, fontFace: TITRE, fontSize: 32, bold: true, color: K.noir });
+  t(s, texte, { x: 6.8, y: H - 1.6, w: 9.1, h: 1.0, fontSize: 13, color: K.gris });
+});
 
 // ---------------------------------------------------------------- 6. plan
 pres.addSection({ title: "Aménagement" });
