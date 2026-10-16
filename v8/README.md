@@ -7,6 +7,7 @@ Stade : esquisse, maquette IFC et plans techniques de principe (indice B). Direc
 - `NANDJUI_ESQ_V8.ifc` : maquette IFC4 de Manadja (contrôle dans `rapports/validation_ifc_v8.txt`).
 - `vues/` : vues 3D V01 à V03 et modèle `NANDJUI_V8.glb`, calculés depuis l'IFC.
 - `plans/T01` à `T03` : électricité et éclairage, plomberie, climatisation et ventilation (Le Génie).
+- `mobilier/` : six fiches mobilier de Désiré Akai (M01 à M06) et répertoire de références `REFERENCES.csv`.
 - `NOTE_TECHNIQUE_V8.md` : structure, pergola, réseaux, réglementation à confirmer.
 - `croquis/` : quatre croquis de Dizzy (SVG et PNG).
   - A1 : cocon mid-century vu depuis le seuil.
@@ -30,6 +31,7 @@ Régénérer, depuis la racine du dépôt (`pip install -r v8/requirements.txt`)
 ```bash
 v8/scripts/rendre_plans.sh          # E01 et T01 à T03
 v8/scripts/rendre_croquis.sh        # croquis de Dizzy
+v8/scripts/rendre_mobilier.sh       # fiches mobilier
 python3 v8/scripts/generer_ifc_v8.py
 python3 v8/scripts/valider_ifc_v8.py
 python3 v8/scripts/vues_ifc_v8.py   # vues 3D et GLB
