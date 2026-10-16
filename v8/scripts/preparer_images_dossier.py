@@ -18,6 +18,12 @@ src = {
 for f in os.listdir("v8/mobilier"):
     if f.endswith(".png"):
         src[f[:-4]] = "v8/mobilier/" + f
+# rendus réalistes (Blender), rendus studio du mobilier, images d'ambiance IA
+for dossier, prefixe in (("v8/rendus", ""), ("v8/rendus/mobilier", "S_"), ("v8/rendus/ia", "")):
+    if os.path.isdir(dossier):
+        for f in os.listdir(dossier):
+            if f.endswith(".png") or f.endswith(".jpg"):
+                src[prefixe + f.rsplit(".", 1)[0]] = os.path.join(dossier, f)
 dims = {}
 for k, p in src.items():
     im = Image.open(p).convert("RGB")
