@@ -1,11 +1,11 @@
 Fichier : NANDJUI_ESQ_V8.ifc · schéma IFC4
-SHA-256 : 7af523832e42f8cd75815f54e69f4b4c8859dc50589b813f1494ebdef84a7950
+SHA-256 : 1f2d4b3f695f61477bd1a23ac8acc08e8565f9e582a8de401771fd8c1e093af1
 
 Validation EXPRESS (règles incluses) : 0 erreur(s), 0 avertissement(s)
-Géométrie : 111/111 représentations calculées
+Géométrie : 112/112 représentations calculées
 Objets sans jeu NANDJUI_V8 : 0
 Ouvertures dans les murs : 6 IfcOpeningElement, 6 remplies par une porte ou une fenêtre
-Répartition par statut : Estimé 11 ; Existant à démolir 1 ; Hypothèse à vérifier 5 ; Mesuré 1 ; Proposé 93
+Répartition par statut : Estimé 11 ; Existant à démolir 1 ; Hypothèse à vérifier 5 ; Mesuré 1 ; Proposé 94
 
 Espaces :
   01 Accueil-café ouvert : 6.9 m²

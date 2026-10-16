@@ -26,6 +26,24 @@ import numpy as np
 ICI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ICI)
 import plan_esquisse as G  # noqa: E402  (géométrie partagée avec le plan E01)
+import mobilier as MOB  # noqa: E402  (meubles dessinés par Désiré Akai)
+
+MAPM = {"noyer": "Noyer", "noyer clair": "Noyer clair", "creme": "Crème", "moutarde": "Moutarde", "olive": "Velours olive",
+        "cognac": "Velours cognac", "laiton": "Laiton", "verre": "Verre", "canne": "Canne", "acier": "Acier noir", "corde": "Végétal",
+        "contreplaque": "Contreplaqué", "terre": "Claustra terre cuite", "livre1": "Livres bleu", "livre2": "Livres rouge",
+        "livre3": "Livres or", "feutre": "Feutre"}
+
+
+def placer(vol, tf, sauf=()):
+    """Volumes d'un meuble (repère local) -> boîtes du plan, via une transformation par quart de tour ; barres ignorées."""
+    out = []
+    for v in vol:
+        if v[0] != "b" or v[7] in sauf:
+            continue
+        pts = [tf((x, y, z)) for x in (v[1], v[4]) for y in (v[2], v[5]) for z in (v[3], v[6])]
+        xs, ys, zs = [p[0] for p in pts], [p[1] for p in pts], [p[2] for p in pts]
+        out.append((min(xs), min(ys), max(xs), max(ys), min(zs), max(zs), MAPM[v[7]]))
+    return out
 
 SORTIE = os.path.join(ICI, "..", "NANDJUI_ESQ_V8.ifc")
 
@@ -71,6 +89,13 @@ COULEURS = {
     "Claustra terre cuite": ((0.71, 0.38, 0.23), 0.0),
     "Végétal": ((0.30, 0.48, 0.28), 0.0),
     "Contreplaqué": ((0.85, 0.73, 0.54), 0.0),
+    "Noyer clair": ((0.66, 0.46, 0.29), 0.0),
+    "Laiton": ((0.79, 0.64, 0.15), 0.0),
+    "Canne": ((0.85, 0.72, 0.47), 0.0),
+    "Feutre": ((0.34, 0.38, 0.23), 0.0),
+    "Livres bleu": ((0.17, 0.30, 0.49), 0.0),
+    "Livres rouge": ((0.54, 0.23, 0.18), 0.0),
+    "Livres or": ((0.79, 0.59, 0.18), 0.0),
 }
 MAT, STY = {}, {}
 for nom, (rgb, tr) in COULEURS.items():
@@ -98,9 +123,11 @@ def objet(classe, nom, boites, materiau, statut, source, predef=None, props=None
     p = api.root.create_entity(f, ifc_class=classe, name=nom, predefined_type=predef)
     api.spatial.assign_container(f, products=[p], relating_structure=conteneur or rdc)
     api.geometry.edit_object_placement(f, product=p, matrix=np.eye(4))
-    items = [solide(*b) for b in boites]
-    for it in items:
-        f.createIfcStyledItem(it, [STY[materiau]], None)
+    items = []
+    for b in boites:
+        it = solide(*b[:6])
+        f.createIfcStyledItem(it, [STY[b[6] if len(b) > 6 else materiau]], None)
+        items.append(it)
     rep = f.createIfcShapeRepresentation(body, "Body", "SweptSolid", items)
     api.geometry.assign_representation(f, product=p, representation=rep)
     api.material.assign_material(f, products=[p], material=MAT[materiau])
@@ -225,8 +252,8 @@ def table(x0, y0, x1, y1, h, nom, mat="Noyer"):
 
 # accueil-café
 objet(F, "Arrière-bar avec évier et machine", [(0, 0.25, 0.62, 2.0, 0, 0.90), (0, 0.25, 0.35, 2.0, 1.45, 2.20)], "Noyer", PRO, E01)
-objet(F, "Comptoir-enfilade d'accueil", [(1.55, 0.95, 2.20, 2.05, 0.10, 1.05), (1.60, 1.0, 1.65, 1.05, 0, 0.10), (2.10, 2.0, 2.15, 1.95, 0, 0.10)],
-      "Noyer", PRO, E01, props={"HauteurPlan": 1.05})
+objet(F, "Meuble d'accueil « Secrétaire » (M01)", placer(MOB.accueil_secretaire(), lambda p: (2.20 - p[1], 0.95 + p[0], p[2])),
+      "Noyer", PRO, "Fiche M01, Désiré Akai", props={"HauteurPlan": 1.05, "Fiche": "M01"})
 chaise(1.15, 1.5, "Siège du poste d'accueil", "Velours cognac")
 for y in (1.2, 1.8):
     objet(F, "Tabouret de comptoir", [(2.37, y - 0.18, 2.73, y + 0.18, 0.70, 0.76), (2.53, y - 0.02, 2.57, y + 0.02, 0, 0.70)],
@@ -234,38 +261,27 @@ for y in (1.2, 1.8):
 # salle de réunion
 objet(F, "Banquette de réunion 5 places le long de la baie sud", [(0.10, 2.33, 2.90, 2.83, 0, 0.45), (0.10, 2.33, 2.90, 2.45, 0.45, 0.90)],
       "Velours cognac", PRO, "Demande du 16/10 : maximum de places", props={"Places": 5})
-table(0.25, 2.88, 2.75, 3.68, 0.75, "Table de réunion 2,50 × 0,80")
+objet(F, "Table de réunion « Pirogue » 2,50 × 0,80 (M03)", placer(MOB.table_pirogue(), lambda p: (0.25 + p[0], 2.88 + p[1], p[2])),
+      "Noyer clair", PRO, "Fiche M03, Désiré Akai", predef="TABLE", props={"Fiche": "M03", "Divisible": True})
 for x in (0.55, 1.18, 1.82, 2.45):
     chaise(x, 3.95, "Chaise de réunion")
 objet(F, "Écran mural", [(0.0, 2.95, 0.04, 3.65, 1.0, 1.60)], "Acier noir", PRO, E01)
-# mur de la collection
-for nom, b in (("Rayonnage est avant", (X1 - 0.35, 0.25, X1, G.POT[1], 0, 2.90)),
-               ("Rayonnage est arrière avec niches-vitrines", (X1 - 0.35, G.POT[3], X1, PROF - 0.35, 0, 2.90)),
-               ("Rayonnage du fond", (G.X_SEP1 + 0.15, PROF - 0.35, X1, PROF, 0, 2.20))):
-    x0, y0, x1, y1, z0, z1 = b
-    bo = [(x0, y0, x1, y1, 0, 0.08)]
-    n = 7
-    for k in range(1, n + 1):
-        z = z0 + (z1 - z0) * k / n
-        bo.append((x0, y0, x1, y1, z - 0.025, z))
-    if x1 - x0 < y1 - y0:
-        for k in range(int((y1 - y0) / 0.8) + 1):
-            yy = min(y0 + k * 0.8, y1 - 0.025)
-            bo.append((x0, yy, x1, yy + 0.025, 0, z1))
-        bo.append((x1 - 0.02, y0, x1, y1, 0, z1))
-    else:
-        for k in range(int((x1 - x0) / 0.8) + 1):
-            xx = min(x0 + k * 0.8, x1 - 0.025)
-            bo.append((xx, y0, xx + 0.025, y1, 0, z1))
-        bo.append((x0, y1 - 0.02, x1, y1, 0, z1))
-    objet(F, nom, bo, "Noyer", PRO, E01, predef="SHELF", props={"Lineaire": round(max(x1 - x0, y1 - y0), 2)})
+# mur de la collection : bibliothèque « Kente » (M02)
+for nom, vol, tf in (("Bibliothèque « Kente » est avant (M02)", MOB.bibli_kente(4, 3.05 / 4, 2.90, False), lambda p: (6.40 + p[1], 0.25 + p[0], p[2])),
+                     ("Bibliothèque « Kente » est arrière (M02)", MOB.bibli_kente(4, 3.05 / 4, 2.90, False), lambda p: (6.40 + p[1], 4.20 + p[0], p[2])),
+                     ("Bibliothèque « Kente » du fond (M02)", MOB.bibli_kente(4, 3.10 / 4, 2.20, False), lambda p: (3.30 + p[0], 7.25 + p[1], p[2]))):
+    objet(F, nom, placer(vol, tf), "Noyer", PRO, "Fiche M02, Désiré Akai", predef="SHELF", props={"Fiche": "M02"})
+objet(F, "Rail et échelle en laiton", [(X1 - 0.08, 4.30, X1 - 0.04, 7.15, 2.70, 2.74), (X1 - 0.60, 5.6, X1 - 0.06, 5.64, 0, 2.72),
+                                       (X1 - 0.60, 6.0, X1 - 0.06, 6.04, 0, 2.72)], "Laiton", PRO, "Fiche M02 ; échelle figurée par ses montants")
 objet(F, "Banquette de fenêtre", [(5.6, 0.0, 6.4, 0.5, 0, 0.45)], "Velours cognac", PRO, E01)
-table(4.05, 1.80, 5.65, 2.70, 0.75, "Table d'hôtes 4 places")
+table(4.05, 1.65, 5.65, 2.55, 0.75, "Table d'hôtes 4 places")
 for x in (4.45, 5.25):
-    chaise(x, 1.48, "Chaise table d'hôtes")
-    chaise(x, 3.02, "Chaise table d'hôtes")
-objet(F, "Tablette de travail contre le poteau", [(G.POT[0] - 0.55, G.POT[1], G.POT[0], G.POT[3], 0.72, 0.76)], "Noyer", PRO, E01, predef="DESK")
-for y in (3.52, 4.0):
+    chaise(x, 1.33, "Chaise table d'hôtes")
+    chaise(x, 2.87, "Chaise table d'hôtes")
+objet(F, "Poste « Arbre à travail » autour du poteau (M08)",
+      placer(MOB.poste_poteau(chaises=False)[1:], lambda p: (5.30 + p[1], 3.30 + p[0], p[2])), "Noyer", PRO, "Fiche M08, Désiré Akai",
+      predef="DESK", props={"Fiche": "M08", "Places": 2})
+for y in (3.45, 4.05):
     chaise(G.POT[0] - 0.85, y, "Chaise poste individuel")
 for (x, y, d, m) in ((4.75, 5.05, "s", "Velours cognac"), (5.95, 5.05, "s", "Velours olive"),
                      (4.75, 6.30, "n", "Velours olive"), (5.95, 6.30, "n", "Velours cognac")):

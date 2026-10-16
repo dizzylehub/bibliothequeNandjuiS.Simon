@@ -135,7 +135,7 @@ def t01():
     c.trace([(6.30, 0.4), (6.30, 3.2)], ECL, 2, "6 3")
     c.trace([(6.30, 4.3), (6.30, 7.15), (3.3, 7.15)], ECL, 2, "6 3")
     # suspensions globe : table d'hôtes, comptoir, salle de réunion
-    for (x, y) in ((4.45, 2.25), (5.25, 2.25), (1.88, 1.2), (1.88, 1.8), (0.9, 3.28), (2.1, 3.28)):
+    for (x, y) in ((4.45, 2.10), (5.25, 2.10), (1.88, 1.2), (1.88, 1.8), (0.9, 3.28), (2.1, 3.28)):
         c.pt(x, y, ECL, 7, "rond")
     # lampadaires du salon et de la banquette (prises de sol commandées)
     for (x, y) in ((4.30, 5.65), (6.30, 5.65), (6.15, 0.75)):
@@ -154,7 +154,7 @@ def t01():
     # prises
     PCs = [(0.65, 0.55, "café 20 A"), (0.65, 1.0, "moulin"), (0.65, 1.95, "froid"), (2.2, 1.0, "caisse"),
            (0.08, 3.85, "écran"), (1.5, 3.28, ""), (2.9, 4.6, ""),
-           (5.35, 3.45, "USB"), (5.35, 4.05, "USB"), (4.85, 2.25, ""),
+           (5.35, 3.45, "USB"), (5.35, 4.05, "USB"), (4.85, 2.10, ""),
            (3.3, 6.9, ""), (3.3, 1.2, "ménage"), (6.55, 0.2, ""),
            (-0.6, -2.0, "IP55"), (7.5, -2.5, "IP55")]
     for x, y, lib in PCs:
@@ -162,7 +162,7 @@ def t01():
         if lib:
             c.t(x + 0.12, y - 0.04, lib, 8, PC, "start")
     c.t(1.5, 3.05, "boîte de sol", 8, PC)
-    c.t(5.72, 2.2, "boîte de sol", 8, PC, "start")
+    c.t(5.72, 2.05, "boîte de sol", 8, PC, "start")
     # commandes : scènes d'éclairage
     c.boite(3.25, 0.02, 3.45, 0.17, CMD, plein=CMD)
     c.t(3.0, 0.52, "scènes jour / soir / fermeture", 8, CMD)
@@ -275,7 +275,7 @@ def t03():
         c.pt(x, y, VMC, 5, "carre", plein=False)
     c.t(1.5, 2.12, "transfert d'air (imposte)", 8, VMC)
     # brasseurs d'air
-    for (x, y) in ((4.85, 2.3), (5.35, 5.7), (1.9, 1.5), (1.3, -2.8), (5.55, -2.8)):
+    for (x, y) in ((4.85, 2.1), (5.35, 5.7), (1.9, 1.5), (1.3, -2.8), (5.55, -2.8)):
         c.pt(x, y, BR, 9, "croix")
     leg = [(CLIM, "carre", "unité intérieure de climatisation (split)"), (CLIM, "tirets", "liaisons frigorifiques et condensats"),
            (GE, "carre", "groupe extérieur"), (VMC, "croix", "bouche d'extraction"), (VMC, "carre", "entrée d'air neuf / transfert"),

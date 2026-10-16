@@ -147,13 +147,18 @@ def _livres(x0, x1, y0, z0, h, graine, remplissage=0.8):
     return v
 
 
-def bibli_kente():
-    """Trois modules de 0,80 : tablettes décalées d'un module à l'autre et fonds colorés en bandes, comme un pagne tissé."""
-    W, D, H = 0.80, 0.35, 2.90
-    niv = {0: [0.08, 0.50, 0.92, 1.34, 1.76, 2.18, 2.60], 1: [0.08, 0.29, 0.71, 1.13, 1.55, 1.97, 2.39], 2: [0.08, 0.50, 0.92, 1.34, 1.76, 2.18, 2.60]}
+def bibli_kente(n=3, W=0.80, H=2.90, echelle=True, livres=True):
+    """Modules de 0,80 : tablettes décalées d'un module à l'autre et fonds colorés en bandes, comme un pagne tissé."""
+    D = 0.35
+    pas = 0.42
+    niv = {}
+    for i in range(n):
+        dec = 0.21 if i % 2 else 0.0
+        zs = [0.08] + [z for z in (0.08 + dec + pas * k for k in range(1, 8)) if z < H - 0.28]
+        niv[i] = zs
     fonds = ["creme", "moutarde", "creme", "olive", "creme", "cognac", "creme"]
     v = []
-    for i in range(3):
+    for i in range(n):
         x0 = i * W
         v.append(B(x0, 0.02, 0, x0 + 0.025, D, H, "noyer"))
         zs = niv[i] + [H - 0.025]
@@ -162,12 +167,14 @@ def bibli_kente():
             if j < len(zs) - 1:
                 z1 = zs[j + 1]
                 v.append(B(x0 + 0.025, D - 0.015, z + 0.025, x0 + W, D, z1, fonds[(j + i * 2) % len(fonds)]))
-                if (i + j) % 3 != 1 and z1 - z > 0.25:
+                if livres and (i + j) % 3 != 1 and z1 - z > 0.25:
                     v += _livres(x0 + 0.03, x0 + W - 0.01, 0.02, z + 0.025, min(0.30, z1 - z - 0.06), i * 7 + j)
-    v.append(B(3 * W - 0.025, 0.02, 0, 3 * W, D, H, "noyer"))
-    v.append(B(0, 0.06, 0, 3 * W, D - 0.02, 0.08, "noyer"))
+    v.append(B(n * W - 0.025, 0.02, 0, n * W, D, H, "noyer"))
+    v.append(B(0, 0.06, 0, n * W, D - 0.02, 0.08, "noyer"))
+    if not echelle:
+        return v
     # échelle en laiton sur rail
-    v.append(R((0.0, -0.03, 2.72), (3 * W, -0.03, 2.72), "laiton", 0.02))
+    v.append(R((0.0, -0.03, 2.72), (n * W, -0.03, 2.72), "laiton", 0.02))
     for x in (1.05, 1.45):
         v.append(R((x, -0.55, 0), (x, -0.04, 2.72), "laiton", 0.03))
     for k in range(1, 8):
@@ -306,7 +313,7 @@ def table_treteaux():
     return v
 
 
-def poste_poteau():
+def poste_poteau(chaises=True):
     """Le poteau de 90 x 90 habillé de lattes de noyer devient un « arbre à travail » : tablette pour deux, lampe et étagère."""
     v = [B(0.0, 0.55, 0, 0.90, 1.45, 2.90, "noyer")]
     x = 0.01
@@ -322,6 +329,8 @@ def poste_poteau():
         v.append(R((xl, 0.50, 1.33), (xl, 0.32, 1.55), "laiton", 0.015))
         v.append(B(xl - 0.07, 0.25, 1.48, xl + 0.07, 0.39, 1.56, "laiton"))
     v.append(B(0.30, 0.48, 0.80, 0.40, 0.55, 0.86, "creme"))
+    if not chaises:
+        return v
     for xc in (0.15, 0.75):
         for b in chaise():
             if b[0] == "b":

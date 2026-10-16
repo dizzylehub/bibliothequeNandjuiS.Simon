@@ -242,7 +242,13 @@ def construire():
     rect(0.10, 2.33, 2.90, 2.83, fill=VELOURS, sw=0.9, op=0.85, rx=4)
     for x in (0.66, 1.22, 1.78, 2.34):
         ligne(x, 2.36, x, 2.80, stroke="#ffffff", sw=0.8)
-    rect(0.25, 2.88, 2.75, 3.68, fill=NOYER, sw=1, op=0.85, rx=6)
+    pts = [(0.25, 3.12), (0.33, 3.0), (0.45, 2.93), (0.60, 2.88), (2.40, 2.88), (2.55, 2.93), (2.67, 3.0), (2.75, 3.12),
+           (2.75, 3.44), (2.67, 3.56), (2.55, 3.63), (2.40, 3.68), (0.60, 3.68), (0.45, 3.63), (0.33, 3.56), (0.25, 3.44)]
+    el.append('<polygon points="' + " ".join(f"{px(a):.1f},{py(b):.1f}" for a, b in pts) +
+              f'" fill="{NOYER}" fill-opacity="0.85" stroke="{INK}" stroke-width="1"/>')
+    ligne(0.35, 3.28, 2.65, 3.28, stroke="#c9a227", sw=1.2)
+    ligne(1.5, 2.88, 1.5, 3.68, stroke=INK, sw=0.6)
+    texte(1.5, 3.42, "table « pirogue » divisible", 8, "#ffffff")
     for x in (0.55, 1.18, 1.82, 2.45):
         chaise(x, 3.95, "n")
     texte(1.5, 2.52, "banquette 5 places", 8, "#ffffff")
@@ -274,7 +280,11 @@ def construire():
     rect(0, 0.25, 0.62, 2.0, fill=NOYER, sw=0.9, op=0.75)
     texte(0.31, 1.12, "arrière-bar", 8, "#ffffff", rot=-90)
     rect(1.55, 0.95, 2.20, 2.05, fill=NOYER, sw=1, op=0.95, rx=4)
-    texte(1.875, 1.5, "comptoir", 9, "#ffffff", rot=-90)
+    rect(1.53, 1.71, 2.03, 2.08, fill="#5c3a22", sw=0.8)
+    for k in range(6):
+        ligne(2.03 - 0.0, 1.73 + k * 0.06, 2.03, 1.73 + k * 0.06, stroke="#c9a227", sw=0.6)
+    texte(1.875, 1.3, "secrétaire", 9, "#ffffff", rot=-90)
+    texte(1.40, 2.22, "cabinet à rideau", 7, GRIS)
     cercle(1.15, 1.5, 0.2, fill="#ffffff", sw=0.9)
     texte(1.15, 1.85, "poste assis", 8, GRIS)
     texte(1.15, 0.55, "accès service 0,95", 8, GRIS)
@@ -292,23 +302,30 @@ def construire():
         ligne(X_FIN - 0.35, y, X_FIN, y, stroke="#ffffff", sw=0.8)
     for x in (X_SEP1 + 0.8 * k for k in range(1, 5)):
         ligne(x, PROF - 0.35, x, PROF, stroke="#ffffff", sw=0.8)
-    texte(X_FIN - 0.6, 2.0, "MUR DE LA COLLECTION", 10, NOYER, poids=700, rot=-90)
+    texte(X_FIN - 0.6, 2.0, "BIBLIOTHÈQUE « KENTE »", 10, NOYER, poids=700, rot=-90)
+    for (ya, yb) in ((0.90, 1.66), (2.40, 3.16)):
+        rect(X_FIN - 0.80, ya, X_FIN - 0.35, yb, stroke=NOYER, sw=0.9, dash="3 2")
+    texte(X_FIN - 0.85, 1.28, "abattant", 7, NOYER, "end")
+    texte(X_FIN - 0.85, 2.78, "abattant", 7, NOYER, "end")
+    el.append(f'<line x1="{px(X_FIN - 0.05):.1f}" y1="{py(4.4):.1f}" x2="{px(X_FIN - 0.05):.1f}" y2="{py(7.1):.1f}" stroke="#c9a227" stroke-width="2"/>')
+    texte(X_FIN - 0.10, 6.6, "rail et échelle laiton", 7, "#8a6a1a", "end")
     texte(X_FIN - 0.12, 5.7, "niches-vitrines", 8, "#ffffff", rot=-90)
     # banquette de fenêtre
     rect(5.6, 0.0, 6.4, 0.5, fill=VELOURS, sw=0.8, op=0.8)
     texte(6.3, 0.65, "banquette de fenêtre", 9, GRIS, "end")
     # table d'hôtes
-    rect(4.05, 1.80, 5.65, 2.70, fill=NOYER, sw=1, op=0.85, rx=6)
+    rect(4.05, 1.65, 5.65, 2.55, fill=NOYER, sw=1, op=0.85, rx=6)
     for x in (4.45, 5.25):
-        chaise(x, 1.48, "s")
-        chaise(x, 3.02, "n")
-    texte(4.85, 2.18, "table d'hôtes", 10, "#ffffff")
-    texte(4.85, 2.04, "4 places", 9, "#ffffff")
+        chaise(x, 1.33, "s")
+        chaise(x, 2.87, "n")
+    texte(4.85, 2.03, "table d'hôtes", 10, "#ffffff")
+    texte(4.85, 1.89, "4 places", 9, "#ffffff")
     # postes individuels le long de la baie de la salle de réunion ? non : tablettes au poteau
-    rect(POT[0] - 0.55, POT[1], POT[0], POT[3], fill=NOYER, sw=0.8, op=0.7)
-    chaise(POT[0] - 0.85, 3.52, "o")
-    chaise(POT[0] - 0.85, 4.0, "o")
-    texte(POT[0] - 0.3, 4.38, "2 postes", 9, GRIS)
+    rect(POT[0] - 0.55, 3.15, POT[0], 4.35, fill=NOYER, sw=0.8, op=0.7)
+    rect(POT[0] - 0.02, POT[1], POT[0], POT[3], fill="#c9a227", stroke="none")
+    chaise(POT[0] - 0.85, 3.45, "o")
+    chaise(POT[0] - 0.85, 4.05, "o")
+    texte(POT[0] - 0.3, 4.48, "arbre à travail · 2 postes", 8, GRIS)
     # salon de lecture
     for (x, y, o, c) in ((4.75, 5.05, "s", VELOURS), (5.95, 5.05, "s", OLIVE), (4.75, 6.30, "n", OLIVE), (5.95, 6.30, "n", VELOURS)):
         fauteuil(x, y, o, c)

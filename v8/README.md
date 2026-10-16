@@ -2,12 +2,14 @@
 
 Stade : esquisse, maquette IFC et plans techniques de principe (indice B). Direction A retenue : cocon mid-century et terrasse-salon sous pergola.
 
+**Dossier de présentation à Madame Nandjui** : `dossier/NANDJUI_V8_Dossier_A3.pdf` (23 pages A3 paysage) et sa version modifiable `dossier/NANDJUI_V8_Dossier_A3.pptx`. Dans le PDF, Century Gothic est remplacée par Questrial, police libre de dessin proche ; le PPTX appelle Century Gothic.
+
 - [Plan de travail V8](PLAN_DE_TRAVAIL_V8.html) : page HTML autonome. Elle contient l'analyse du site, la lecture du croquis de relevé, le brief « cocon mid-century », les deux directions de Dizzy avec leurs croquis, le plan de travail coordonné par G-K, les questions à trancher et la relecture de Josiane.
 - `plans/E01_plan_amenagement` (SVG, PNG) : plan d'aménagement, esquisse de Désiré Akai.
 - `NANDJUI_ESQ_V8.ifc` : maquette IFC4 de Manadja (contrôle dans `rapports/validation_ifc_v8.txt`).
-- `vues/` : vues 3D V01 à V03 et modèle `NANDJUI_V8.glb`, calculés depuis l'IFC.
+- `vues/` : axonométries V01 et V02, perspectives P1 à P3 et modèle `NANDJUI_V8.glb`, calculés depuis l'IFC.
 - `plans/T01` à `T03` : électricité et éclairage, plomberie, climatisation et ventilation (Le Génie).
-- `mobilier/` : six fiches mobilier de Désiré Akai (M01 à M06) et répertoire de références `REFERENCES.csv`.
+- `mobilier/` : fiches mobilier de Désiré Akai (M01 à M08), planches de trois variantes V1 à V4 (bibliothèque, accueil, table de réunion, postes de travail) et répertoire de références `REFERENCES.csv`.
 - `NOTE_TECHNIQUE_V8.md` : structure, pergola, réseaux, réglementation à confirmer.
 - `croquis/` : quatre croquis de Dizzy (SVG et PNG).
   - A1 : cocon mid-century vu depuis le seuil.
@@ -35,4 +37,7 @@ v8/scripts/rendre_mobilier.sh       # fiches mobilier
 python3 v8/scripts/generer_ifc_v8.py
 python3 v8/scripts/valider_ifc_v8.py
 python3 v8/scripts/vues_ifc_v8.py   # vues 3D et GLB
+python3 v8/scripts/preparer_images_dossier.py
+# dossier : pptxgenjs à installer (npm install pptxgenjs), puis
+NODE_PATH=<dossier>/node_modules node v8/scripts/dossier_v8.js
 ```
