@@ -217,16 +217,18 @@ def construire():
     arc_porte(X_SEP0 + 0.07, 4.05, 0.95, sens=1, vers=1, axe="y")
     for x in (0.75, 1.5, 2.25):
         rect(x - 0.03, Y_REU0 - 0.03, x + 0.03, Y_REU0 + 0.03, fill=INK, sw=0)
-    rect(0.0, 2.6, 0.5, 4.2, fill=VELOURS, sw=0.9, op=0.85)
-    rect(0.6, 2.6, 1.4, 4.2, fill=NOYER, sw=1, op=0.85, rx=6)
-    for y in (2.95, 3.4, 3.85):
-        chaise(1.65, y, "e")
-    texte(0.25, 3.4, "banquette", 8, "#ffffff", rot=-90)
-    texte(2.45, 3.4, "passage 1,20", 8, GRIS, rot=-90)
-    ligne(1.35, Y_REU1 - 0.04, 2.75, Y_REU1 - 0.04, stroke=INK, sw=3)
-    texte(2.05, Y_REU1 - 0.25, "écran", 9, GRIS)
-    texte(1.5, 2.55, "SALLE DE RÉUNION", 12, INK, poids=700)
-    texte(1.5, 2.40, "location · 6 places · rideaux en lin", 9, GRIS)
+    # banquette le long de la baie sud (5 places), table 2,50 x 0,80, 4 chaises au nord
+    rect(0.10, 2.33, 2.90, 2.83, fill=VELOURS, sw=0.9, op=0.85, rx=4)
+    for x in (0.66, 1.22, 1.78, 2.34):
+        ligne(x, 2.36, x, 2.80, stroke="#ffffff", sw=0.8)
+    rect(0.25, 2.88, 2.75, 3.68, fill=NOYER, sw=1, op=0.85, rx=6)
+    for x in (0.55, 1.18, 1.82, 2.45):
+        chaise(x, 3.95, "n")
+    texte(1.5, 2.52, "banquette 5 places", 8, "#ffffff")
+    ligne(0.02, 2.95, 0.02, 3.65, stroke=INK, sw=3)
+    texte(0.12, 3.30, "écran", 8, GRIS, "start")
+    texte(1.5, 4.72, "SALLE DE RÉUNION · 9 PLACES", 11, INK, poids=700)
+    texte(1.5, 4.56, "location · circulation 0,90 vers le WC · rideaux en lin", 8, GRIS)
     # ---------------- bloc WC (deux cabines côte à côte)
     rect(0, Y_REU1, X_SEP0, Y_WC, fill=INK, stroke="none")
     rect(1.25, Y_WC, 1.35, PROF, fill=INK, stroke="none")
@@ -261,7 +263,7 @@ def construire():
     # ---------------- bibliothèque
     # mur de la collection
     for r in ((X_FIN - 0.35, 0.25, X_FIN, POT[1]), (X_FIN - 0.35, POT[3], X_FIN, PROF - 0.35),
-              (X_SEP1, PROF - 0.35, X_FIN, PROF)):
+              (X_SEP1 + 0.15, PROF - 0.35, X_FIN, PROF)):
         rect(*r, fill=NOYER, sw=0.8, op=0.9)
     for y in (0.25 + 0.75 * k for k in range(1, 5)):
         ligne(X_FIN - 0.35, y, X_FIN, y, stroke="#ffffff", sw=0.8)
@@ -316,7 +318,7 @@ def construire():
         "Salle de réunion": L_G * (Y_REU1 - Y_REU0),
         "WC réunion": 1.25 * 2.40,
         "WC public": 1.65 * 2.40,
-        "Bibliothèque et salon": L_D * PROF - 0.81 + EP_SEP * Y_REU1,
+        "Bibliothèque et salon": L_D * PROF - 0.81 + EP_SEP * Y_REU0,
     }
     return surf
 

@@ -125,8 +125,8 @@ def t01():
     ECL, PC, CMD, SEC, TER = "#e08a1e", "#2f6fb0", "#3f8a4a", "#c0392b", "#7a4bb0"
     c = Calque()
     # tableau
-    c.boite(0.0, 2.02, 0.22, 2.24, SEC, plein=SEC)
-    c.t(0.30, 2.08, "TD", 10, SEC, "start", 700)
+    c.boite(2.75, 0.0, 3.15, 0.15, SEC, plein=SEC)
+    c.t(2.95, 0.30, "TD", 10, SEC, "middle", 700)
     # éclairage : lignes LED dans le plafond en lames (bibliothèque)
     for x in (3.75, 4.85, 5.95):
         c.trace([(x, 0.6), (x, 3.2)], ECL, 3)
@@ -135,7 +135,7 @@ def t01():
     c.trace([(6.30, 0.4), (6.30, 3.2)], ECL, 2, "6 3")
     c.trace([(6.30, 4.3), (6.30, 7.15), (3.3, 7.15)], ECL, 2, "6 3")
     # suspensions globe : table d'hôtes, comptoir, salle de réunion
-    for (x, y) in ((4.45, 2.25), (5.25, 2.25), (1.88, 1.2), (1.88, 1.8), (1.0, 3.0), (1.0, 3.8)):
+    for (x, y) in ((4.45, 2.25), (5.25, 2.25), (1.88, 1.2), (1.88, 1.8), (0.9, 3.28), (2.1, 3.28)):
         c.pt(x, y, ECL, 7, "rond")
     # lampadaires du salon et de la banquette (prises de sol commandées)
     for (x, y) in ((4.30, 5.65), (6.30, 5.65), (6.15, 0.75)):
@@ -153,24 +153,26 @@ def t01():
         c.pt(x, -5.25, TER, 4, "losange")
     # prises
     PCs = [(0.65, 0.55, "café 20 A"), (0.65, 1.0, "moulin"), (0.65, 1.95, "froid"), (2.2, 1.0, "caisse"),
-           (0.35, 3.1, ""), (0.35, 4.0, ""), (2.0, 5.02, "écran"), (2.95, 3.4, ""),
-           (5.35, 3.45, "USB"), (5.35, 4.05, "USB"), (4.85, 2.25, "boîte de sol"),
-           (3.3, 6.9, ""), (3.3, 0.4, "ménage"), (6.55, 0.2, ""),
+           (0.08, 3.85, "écran"), (1.5, 3.28, ""), (2.9, 4.6, ""),
+           (5.35, 3.45, "USB"), (5.35, 4.05, "USB"), (4.85, 2.25, ""),
+           (3.3, 6.9, ""), (3.3, 1.2, "ménage"), (6.55, 0.2, ""),
            (-0.6, -2.0, "IP55"), (7.5, -2.5, "IP55")]
     for x, y, lib in PCs:
         c.pt(x, y, PC, 5, "carre")
         if lib:
             c.t(x + 0.12, y - 0.04, lib, 8, PC, "start")
+    c.t(1.5, 3.05, "boîte de sol", 8, PC)
+    c.t(5.72, 2.2, "boîte de sol", 8, PC, "start")
     # commandes : scènes d'éclairage
-    c.boite(2.30, 0.05, 2.50, 0.25, CMD, plein=CMD)
-    c.t(2.40, 0.32, "scènes jour / soir / fermeture", 8, CMD)
+    c.boite(3.25, 0.02, 3.45, 0.17, CMD, plein=CMD)
+    c.t(3.0, 0.52, "scènes jour / soir / fermeture", 8, CMD)
     c.pt(3.05, 5.15, CMD, 4, "tri")
     c.pt(3.25, 0.25, CMD, 4, "tri")
     # sécurité : blocs autonomes
     for (x, y) in ((4.4, 0.12), (3.25, 2.4), (0.25, 4.5), (4.4, 7.4)):
         c.pt(x, y, SEC, 5, "losange", plein=False)
     # alimentation des groupes extérieurs (renvoi T03)
-    c.trace([(0.22, 2.12), (0.22, 5.15), (3.0, 5.15)], PC, 1, "3 3")
+    c.trace([(2.75, 0.08), (0.05, 0.08), (0.05, 5.15), (3.0, 5.15)], PC, 1, "3 3")
     leg = [(ECL, "trait", "ligne LED 2 700 K gradable (plafond en lames)"), (ECL, "tirets", "rail lumineux du mur de la collection"),
            (ECL, "rond", "suspension globe opaline"), (ECL, "croix", "lampadaire ou plafonnier"),
            (TER, "rond", "globe d'extérieur IP44 sous pergola"), (TER, "losange", "balise basse du claustra"),
@@ -178,10 +180,11 @@ def t01():
            (SEC, "losange", "bloc autonome d'éclairage de sécurité"), (SEC, "carre", "tableau divisionnaire")]
     bilan = ("BILAN DE PUISSANCE · ORDRE DE GRANDEUR", [
         ("Éclairage intérieur et terrasse (LED)", "0,9 kW"), ("Machine à café et moulin", "3,5 kW"),
-        ("Froid, caisse, prises diverses", "2,0 kW"), ("Climatisation (voir T03)", "3,5 kW"),
-        ("Ventilation des WC, brasseurs d'air", "0,4 kW"), ("Total installé", "10,3 kW"),
-        ("Foisonné (coef. 0,7)", "≈ 7 kW")])
-    notes = [["Tableau neuf avec différentiels 30 mA par groupe :", "éclairage, prises, café, climatisation, extérieur."],
+        ("Froid, caisse, prises diverses", "2,0 kW"), ("Eau chaude 15 L (si retenue)", "1,5 kW"),
+        ("Pompe de relevage de l'évier", "0,4 kW"), ("Climatisation (voir T03)", "3,5 kW"),
+        ("Ventilation des WC, brasseurs d'air", "0,4 kW"), ("Total installé", "12,2 kW"),
+        ("Foisonné (coef. 0,7)", "≈ 8,5 kW")])
+    notes = [["Tableau neuf près de l'entrée, à plus de 2 m de l'évier,", "différentiels 30 mA par groupe."],
              ["Trois scènes : jour (plein), soir (tamisé 30 %),", "fermeture (sécurité seule)."],
              ["!Abonnement à adapter avec la CIE après relevé du", "!compteur et de la mise à la terre existants."],
              ["!Installation existante non réutilisée : fils nus", "!et appareillage vétustes vus sur les photos."]]
@@ -195,7 +198,7 @@ def t02():
     c = Calque()
     # arrivée d'eau supposée au fond (hypothèse) et nourrice
     c.boite(1.30, 7.38, 1.50, 7.58, AEP, plein=AEP)
-    c.t(1.55, 7.40, "compteur / nourrice (hypothèse)", 8, AEP, "start")
+    c.t(-0.2, 8.15, "compteur / nourrice (hypothèse)", 8, AEP, "start")
     c.trace([(1.40, 7.45), (0.62, 7.45), (0.62, 7.3)], AEP, 2)
     c.trace([(1.40, 7.45), (2.17, 7.45), (2.17, 7.3)], AEP, 2)
     c.trace([(0.62, 7.45), (0.10, 7.45), (0.10, 6.2)], AEP, 2)
@@ -207,21 +210,24 @@ def t02():
     c.t(0.29, 0.58, "ECS 15 L", 7, EC)
     # EV : cuvettes vers descente supposée au fond
     c.pt(1.30, PROF_EV, EV, 7, "rond", plein=False)
-    c.t(1.30, PROF_EV + 0.25, "descente EV (à localiser)", 8, EV)
+    c.t(1.9, 8.15, "descente EV (à localiser)", 8, EV, "start")
     c.trace([(0.62, 7.25), (0.62, 7.55), (1.30, 7.55)], EV, 3)
     c.trace([(2.17, 7.25), (2.17, 7.55), (1.30, 7.55)], EV, 3)
     # EU : lave-mains et évier
     c.trace([(0.20, 6.2), (0.20, 7.5), (1.30, 7.5)], EU, 2)
     c.trace([(2.80, 6.8), (2.80, 7.5), (1.30, 7.5)], EU, 2)
-    c.trace([(0.30, 1.65), (0.15, 1.65), (0.15, 5.1)], EU, 2, "6 3")
-    c.trace([(0.15, 5.1), (0.15, 6.0)], EU, 2, "6 3")
-    c.t(0.32, 3.0, "EU évier en chape, pente ≥ 1,5 %", 8, EU, "start", rot=-90)
+    c.boite(0.30, 1.0, 0.55, 1.35, EU, plein=EU)
+    c.t(0.62, 1.12, "pompe de relevage", 8, EU, "start")
+    c.trace([(0.30, 1.35), (0.15, 1.35), (0.15, 6.0)], EU, 2, "6 3")
+    c.t(0.32, 3.4, "refoulement Ø 32 en plinthe, ≈ 6,3 m", 8, EU, "start", rot=-90)
+    c.pt(0.15, 5.3, EU, 4, "carre", plein=False)
+    c.t(0.27, 5.5, "regard", 7, EU, "start")
     c.boite(0.05, 1.45, 0.55, 1.85, EU)
     c.t(0.30, 1.40, "évier", 8, EU)
     # condensats de climatisation
-    for (x, y) in ((3.3, 6.95), (0.2, 4.9), (6.55, 3.25)):
+    for (x, y) in ((3.3, 6.95), (0.2, 4.9), (4.4, 0.35)):
         c.pt(x, y, EU, 3, "rond")
-    c.t(4.6, 6.95, "condensats → EU (T03)", 8, EU)
+    c.t(3.45, 4.45, "condensats des splits → EU (voir T03)", 8, EU, "start")
     # terrasse : robinet de puisage et évacuation des eaux pluviales
     c.pt(7.6, -0.3, AEP, 5, "carre")
     c.t(7.45, -0.55, "robinet de puisage", 8, AEP, "end")
@@ -232,7 +238,7 @@ def t02():
            (EV, "rond", "descente existante supposée"), (AEP, "tirets", "tracé en plinthe ou en chape")]
     notes = [["Les deux WC partagent le mur du fond : une seule", "sortie EV vers la descente existante."],
              ["!Position du compteur SODECI, de la descente et", "!des pentes à relever avant tout tracé."],
-             ["!L'évier du café est à 5,5 m de la descente : chape", "!à reprendre ou pompe de relevage à prévoir."],
+             ["L'évier du café est à environ 6,3 m de la descente :", "pompe de relevage sous l'évier, refoulement en plinthe."],
              ["Évier et ballon : seulement si l'exploitation", "du café le demande (à confirmer avec Madame)."]]
     page("T02_plomberie.svg", "T02 · Plomberie · esquisse", "V8 indice B · eau froide, eau chaude, eaux usées et vannes", c, leg, notes)
 
@@ -246,15 +252,15 @@ def t03():
     c = Calque()
     # unités intérieures murales
     for (x0, y0, x1, y1, lib) in ((3.2, 6.6, 3.4, 7.3, "split 18 000 BTU"), (0.05, 4.2, 0.25, 4.9, "split 9 000 BTU"),
-                                  (6.38, 2.4, 6.58, 3.1, "")):
+                                  (4.0, 0.03, 4.8, 0.23, "")):
         c.boite(x0, y0, x1, y1, CLIM, plein=CLIM)
         if lib:
             c.t(x1 + 0.08, (y0 + y1) / 2, lib, 8, CLIM, "start")
-    c.t(6.2, 2.75, "split 12 000 BTU", 8, CLIM, "end")
+    c.t(4.88, 0.32, "split 12 000 BTU au-dessus de la porte", 8, CLIM, "start")
     # liaisons frigorifiques vers groupes extérieurs (au fond, hypothèse)
     c.trace([(3.3, 7.3), (3.3, 7.62)], CLIM, 2, "5 3")
     c.trace([(0.15, 4.9), (0.15, 5.2), (0.15, 7.62)], CLIM, 2, "5 3")
-    c.trace([(6.48, 3.1), (6.48, 3.25), (6.62, 3.25), (6.62, 7.62)], CLIM, 2, "5 3")
+    c.trace([(4.4, 0.23), (4.4, 0.6), (3.36, 0.6), (3.36, 7.62)], CLIM, 2, "5 3")
     for x in (0.4, 3.3, 6.2):
         c.boite(x - 0.35, PROF_EV + 0.08, x + 0.35, PROF_EV + 0.38, GE, plein="#ffffff")
     c.t(3.3, PROF_EV + 0.6, "groupes extérieurs sur le mur nord (accès à vérifier)", 9, GE)
@@ -263,11 +269,11 @@ def t03():
         c.pt(x, 6.4, VMC, 6, "croix")
     c.trace([(0.62, 6.4), (0.62, 7.0), (2.17, 7.0)], VMC, 2)
     c.trace([(2.17, 6.4), (2.17, 7.0), (2.6, 7.0), (2.6, 7.62)], VMC, 2)
-    c.t(2.65, 7.2, "extraction 2 × 30 m³/h", 8, VMC, "start")
+    c.t(1.5, 8.0, "extraction 2 × 30 m³/h", 8, VMC)
     # air neuf : grilles en façade et imposte
     for (x, y) in ((1.5, 0.05), (5.95, 0.05), (1.5, 2.3)):
         c.pt(x, y, VMC, 5, "carre", plein=False)
-    c.t(1.5, 2.55, "transfert d'air (imposte)", 8, VMC)
+    c.t(1.5, 2.12, "transfert d'air (imposte)", 8, VMC)
     # brasseurs d'air
     for (x, y) in ((4.85, 2.3), (5.35, 5.7), (1.9, 1.5), (1.3, -2.8), (5.55, -2.8)):
         c.pt(x, y, BR, 9, "croix")

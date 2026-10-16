@@ -19,6 +19,7 @@ import ifcopenshell.api as api
 import ifcopenshell.api.aggregate, ifcopenshell.api.context, ifcopenshell.api.geometry  # noqa: E401
 import ifcopenshell.api.material, ifcopenshell.api.project, ifcopenshell.api.pset  # noqa: E401
 import ifcopenshell.api.root, ifcopenshell.api.spatial, ifcopenshell.api.unit  # noqa: E401
+import ifcopenshell.api.feature  # noqa: E401
 import ifcopenshell.guid
 import numpy as np
 
@@ -108,6 +109,26 @@ def objet(classe, nom, boites, materiau, statut, source, predef=None, props=None
     return p
 
 
+def ouverture(mur, remplissage, boite):
+    """Crée une IfcOpeningElement dans le mur et la remplit par la porte ou la fenêtre."""
+    o = api.root.create_entity(f, ifc_class="IfcOpeningElement", name="Ouverture · " + (remplissage.Name or ""))
+    api.geometry.edit_object_placement(f, product=o, matrix=np.eye(4))
+    rep = f.createIfcShapeRepresentation(body, "Body", "SweptSolid", [solide(*boite)])
+    api.geometry.assign_representation(f, product=o, representation=rep)
+    api.feature.add_feature(f, feature=o, element=mur)
+    api.feature.add_filling(f, opening=o, element=remplissage)
+    return o
+
+
+def dims(p, larg, haut, op=None):
+    p.OverallWidth, p.OverallHeight = float(larg), float(haut)
+    if op and p.is_a("IfcDoor"):
+        p.OperationType = op
+    if p.is_a("IfcWindow"):
+        p.PartitioningType = "SINGLE_PANEL"
+    return p
+
+
 MES, EST, PRO = "Mesuré", "Estimé", "Proposé"
 CROQ = "Croquis de relevé du 14/10/2026 et précisions du 15/10"
 PHOTO = "Estimation photos et proportions du croquis"
@@ -117,23 +138,25 @@ HYP = "Hypothèse V5 non relevée"
 X0, X1, PROF = 0.0, G.X_FIN, G.PROF
 
 # ------------------------------------------------------------- enveloppe existante
-objet("IfcWall", "Mur gauche existant", [(-EP, -EP, 0, PROF + EP, 0, H_DALLE)], "Maçonnerie existante", MES, CROQ + " ; hauteur : " + HYP)
-objet("IfcWall", "Mur droit existant", [(X1, -EP, X1 + EP, PROF + EP, 0, H_DALLE)], "Maçonnerie existante", MES, CROQ)
-objet("IfcWall", "Mur du fond existant (baie haute)", [(-EP, PROF, X1 + EP, PROF + EP, 0, 2.20),
-                                                      (-EP, PROF, 4.50, PROF + EP, 2.20, H_DALLE),
-                                                      (5.30, PROF, X1 + EP, PROF + EP, 2.20, H_DALLE),
-                                                      (4.50, PROF, 5.30, PROF + EP, 2.80, H_DALLE)],
-      "Maçonnerie existante", EST, "Profondeur " + PHOTO)
-objet("IfcWindow", "Baie haute du fond existante", [(4.50, PROF + 0.06, 5.30, PROF + 0.14, 2.20, 2.80)], "Verre", MES, "Photos de la grande salle")
-# façade : trumeaux et allèges / impostes
-facade = []
-for xa, xb in ((-EP, 0.6), (2.4, 3.6), (5.2, 5.6), (6.4, X1 + EP)):
-    facade.append((xa, -EP, xb, 0, 0, H_DALLE))
-for xa, xb, za, zb in ((0.6, 2.4, 0, 0.45), (0.6, 2.4, 2.6, H_DALLE), (3.6, 5.2, 2.6, H_DALLE),
-                       (5.6, 6.4, 0, 0.45), (5.6, 6.4, 2.6, H_DALLE)):
-    facade.append((xa, -EP, xb, 0, za, zb))
-objet("IfcWall", "Façade existante reprise", facade, "Maçonnerie existante", PRO, "Baies redessinées en E01 ; ouvertures à vérifier")
-objet("IfcWall", "Mur séparatif bloc WC (conservé)", [(G.X_SEP0, G.Y_WC, G.X_SEP1, PROF, 0, H_DALLE)], "Maçonnerie existante", EST,
+LARG = "Largeur intérieure mesurée ; longueur (profondeur) estimée ; hauteur : " + HYP
+objet("IfcWall", "Mur gauche existant", [(-EP, -EP, 0, PROF + EP, 0, H_DALLE)], "Maçonnerie existante", EST, LARG)
+objet("IfcWall", "Mur droit existant", [(X1, -EP, X1 + EP, PROF + EP, 0, H_DALLE)], "Maçonnerie existante", EST, LARG)
+mur_fond = objet("IfcWall", "Mur du fond existant", [(-EP, PROF, X1 + EP, PROF + EP, 0, H_DALLE)],
+                 "Maçonnerie existante", EST, "Profondeur " + PHOTO)
+baie = dims(objet("IfcWindow", "Baie haute du fond existante", [(4.50, PROF + 0.06, 5.30, PROF + 0.14, 2.20, 2.80)], "Verre", EST,
+                  "Vue sur les photos de la grande salle ; dimensions estimées", predef="WINDOW"), 0.80, 0.60)
+ouverture(mur_fond, baie, (4.50, PROF - 0.05, 5.30, PROF + EP + 0.05, 2.20, 2.80))
+facade = objet("IfcWall", "Façade existante reprise", [(-EP, -EP, X1 + EP, 0, 0, H_DALLE)], "Maçonnerie existante", EST,
+               "Largeur 6,75 m retenue ; baies redessinées en E01, à vérifier")
+porte_entree = dims(objet("IfcDoor", "Grande porte d'entrée deux vantaux 1,60", [(3.6, -0.14, 5.2, -0.06, 0, 2.60)], "Verre", PRO,
+                          "Largeur proposée, à vérifier sur la baie existante", predef="DOOR", props={"Ouverture": "Vers l'extérieur conseillée"}),
+                    1.60, 2.60, "DOUBLE_DOOR_SINGLE_SWING")
+ouverture(facade, porte_entree, (3.6, -EP - 0.05, 5.2, 0.05, 0, 2.60))
+vitrine = dims(objet("IfcWindow", "Vitrine (ancienne porte)", [(0.6, -0.14, 2.4, -0.06, 0.45, 2.60)], "Verre", PRO, E01, predef="WINDOW"), 1.80, 2.15)
+ouverture(facade, vitrine, (0.6, -EP - 0.05, 2.4, 0.05, 0.45, 2.60))
+fen = dims(objet("IfcWindow", "Fenêtre de la banquette", [(5.6, -0.14, 6.4, -0.06, 0.45, 2.60)], "Verre", PRO, E01, predef="WINDOW"), 0.80, 2.15)
+ouverture(facade, fen, (5.6, -EP - 0.05, 6.4, 0.05, 0.45, 2.60))
+mur_wc = objet("IfcWall", "Mur séparatif bloc WC (conservé)", [(G.X_SEP0, G.Y_WC, G.X_SEP1, PROF, 0, H_DALLE)], "Maçonnerie existante", EST,
       "Épaisseur 0,15 estimée")
 objet("IfcWall", "Mur séparatif à démolir", [(G.X_SEP0, 0, G.X_SEP1, G.Y_REU1, 0, H_DALLE)], "Mur à démolir", "Existant à démolir",
       "Brief du 15/10 ; avis structure obligatoire avant travaux", predef="NOTDEFINED", props={"Phase": "Démolition", "AvisStructure": "Requis"})
@@ -143,7 +166,7 @@ objet("IfcSlab", "Dalle haute existante (sous-face supposée)", [(-EP, -EP, X1 +
 objet("IfcSlab", "Sol intérieur refait", [(0, 0, X1, PROF, -0.08, 0)], "Sol intérieur", PRO, E01, predef="FLOOR")
 
 # ------------------------------------------------------------- cloisons, vitrages, portes
-objet("IfcWall", "Cloison WC / salle de réunion", [(0, G.Y_REU1, G.X_SEP0, G.Y_WC, 0, 2.40)], "Cloison neuve", PRO, E01)
+cloison_wc = objet("IfcWall", "Cloison WC / salle de réunion", [(0, G.Y_REU1, G.X_SEP0, G.Y_WC, 0, 2.40)], "Cloison neuve", PRO, E01)
 objet("IfcWall", "Cloison entre les deux WC", [(1.25, G.Y_WC, 1.35, PROF, 0, 2.40)], "Cloison neuve", PRO, E01)
 objet("IfcSlab", "Plancher de la réserve haute au-dessus des WC", [(0, G.Y_REU1, G.X_SEP0, PROF, 2.40, 2.52)], "Cloison neuve",
       "Hypothèse à vérifier", "Volume haut visible sur photo ; appuis et charge non établis", predef="FLOOR")
@@ -153,15 +176,15 @@ objet("IfcCurtainWall", "Baie vitrée est salle de réunion", [(G.X_SEP0 + 0.04,
 objet("IfcWall", "Imposte au-dessus des baies vitrées", [(0, G.Y_REU0 - 0.05, G.X_SEP1, G.Y_REU0 + 0.05, 2.75, H_PLAF),
                                                         (G.X_SEP0 + 0.02, G.Y_REU0, G.X_SEP0 + 0.12, G.Y_REU1, 2.75, H_PLAF)],
       "Cloison neuve", PRO, "Bandeau acoustique")
-objet("IfcDoor", "Porte vitrée salle de réunion 0,95", [(G.X_SEP0 + 0.04, 4.05, G.X_SEP0 + 0.10, 5.0, 0, 2.20)], "Verre", PRO, E01,
-      predef="DOOR", props={"Largeur": 0.95})
-objet("IfcDoor", "Porte WC réunion 0,80", [(0.25, G.Y_REU1 + 0.02, 1.05, G.Y_WC - 0.02, 0, 2.10)], "Noyer", PRO, E01, predef="DOOR")
-objet("IfcDoor", "Porte coulissante WC public 0,90", [(G.X_SEP1, 5.40, G.X_SEP1 + 0.05, 6.40, 0, 2.10)], "Noyer", PRO, E01, predef="DOOR",
-      props={"Manoeuvre": "Coulissante en applique"})
-objet("IfcDoor", "Grande porte d'entrée deux vantaux 1,60", [(3.6, -0.14, 5.2, -0.06, 0, 2.60)], "Verre", PRO,
-      "Largeur proposée, à vérifier sur la baie existante", predef="DOOR", props={"Largeur": 1.60})
-objet("IfcWindow", "Vitrine (ancienne porte)", [(0.6, -0.14, 2.4, -0.06, 0.45, 2.60)], "Verre", PRO, E01, predef="WINDOW")
-objet("IfcWindow", "Fenêtre de la banquette", [(5.6, -0.14, 6.4, -0.06, 0.45, 2.60)], "Verre", PRO, E01, predef="WINDOW")
+dims(objet("IfcDoor", "Porte vitrée salle de réunion 0,95", [(G.X_SEP0 + 0.04, 4.05, G.X_SEP0 + 0.10, 5.0, 0, 2.20)], "Verre", PRO, E01,
+           predef="DOOR", props={"Ouverture": "Vers la bibliothèque"}), 0.95, 2.20, "SINGLE_SWING_RIGHT")
+p_wcr = dims(objet("IfcDoor", "Porte WC réunion 0,80", [(0.25, G.Y_REU1 + 0.02, 1.05, G.Y_WC - 0.02, 0, 2.10)], "Noyer", PRO, E01,
+                   predef="DOOR"), 0.80, 2.10, "SINGLE_SWING_LEFT")
+ouverture(cloison_wc, p_wcr, (0.25, G.Y_REU1 - 0.05, 1.05, G.Y_WC + 0.05, 0, 2.10))
+p_wcp = dims(objet("IfcDoor", "Porte coulissante WC public 0,90", [(G.X_SEP1, 5.40, G.X_SEP1 + 0.05, 6.40, 0, 2.10)], "Noyer", PRO, E01,
+                   predef="DOOR", props={"Manoeuvre": "Coulissante en applique, vantail rangé vers le nord (y 6,40 à 7,30)"}),
+             0.90, 2.10, "SLIDING_TO_LEFT")
+ouverture(mur_wc, p_wcp, (G.X_SEP0 - 0.05, 5.45, G.X_SEP1 + 0.05, 6.35, 0, 2.10))
 objet("IfcCovering", "Plafond en lames de noyer", [(0, 0, X1, G.Y_REU1, H_PLAF, H_PLAF + 0.03), (G.X_SEP1, G.Y_REU1, X1, PROF, H_PLAF, H_PLAF + 0.03)], "Noyer", PRO,
       "Plénum 0,30 pour éclairage et réseaux", predef="CEILING")
 
@@ -208,15 +231,16 @@ for y in (1.2, 1.8):
     objet(F, "Tabouret de comptoir", [(2.37, y - 0.18, 2.73, y + 0.18, 0.70, 0.76), (2.53, y - 0.02, 2.57, y + 0.02, 0, 0.70)],
           "Velours cognac", PRO, E01, predef="CHAIR")
 # salle de réunion
-objet(F, "Banquette murale salle de réunion", [(0, 2.6, 0.5, 4.2, 0, 0.45), (0, 2.6, 0.12, 4.2, 0.45, 0.95)], "Velours cognac", PRO, E01)
-table(0.6, 2.6, 1.4, 4.2, 0.75, "Table de réunion 1,60 × 0,80")
-for y in (2.95, 3.4, 3.85):
-    chaise(1.65, y, "Chaise de réunion")
-objet(F, "Écran mural", [(1.35, G.Y_REU1 - 0.06, 2.75, G.Y_REU1 - 0.02, 1.0, 1.80)], "Acier noir", PRO, E01)
+objet(F, "Banquette de réunion 5 places le long de la baie sud", [(0.10, 2.33, 2.90, 2.83, 0, 0.45), (0.10, 2.33, 2.90, 2.45, 0.45, 0.90)],
+      "Velours cognac", PRO, "Demande du 16/10 : maximum de places", props={"Places": 5})
+table(0.25, 2.88, 2.75, 3.68, 0.75, "Table de réunion 2,50 × 0,80")
+for x in (0.55, 1.18, 1.82, 2.45):
+    chaise(x, 3.95, "Chaise de réunion")
+objet(F, "Écran mural", [(0.0, 2.95, 0.04, 3.65, 1.0, 1.60)], "Acier noir", PRO, E01)
 # mur de la collection
 for nom, b in (("Rayonnage est avant", (X1 - 0.35, 0.25, X1, G.POT[1], 0, 2.90)),
                ("Rayonnage est arrière avec niches-vitrines", (X1 - 0.35, G.POT[3], X1, PROF - 0.35, 0, 2.90)),
-               ("Rayonnage du fond", (G.X_SEP1, PROF - 0.35, X1, PROF, 0, 2.20))):
+               ("Rayonnage du fond", (G.X_SEP1 + 0.15, PROF - 0.35, X1, PROF, 0, 2.20))):
     x0, y0, x1, y1, z0, z1 = b
     bo = [(x0, y0, x1, y1, 0, 0.08)]
     n = 7
@@ -260,17 +284,19 @@ H_PG = 2.90
 for x in (-0.9, 1.25, 3.40, 5.55, 7.7):
     objet("IfcColumn", "Poteau de pergola acier 100 × 100", [(x - 0.05, -4.95, x + 0.05, -4.85, -0.05, H_PG)], "Acier noir", PRO,
           "Section indicative, à dimensionner (Le Génie)", predef="COLUMN")
-    objet("IfcBeam", "Chevron de pergola", [(x - 0.04, -4.95, x + 0.04, 0, H_PG, H_PG + 0.20)], "Acier noir", PRO, "Fixation en façade à vérifier",
-          predef="JOIST")
+for k in range(9):
+    x = -0.9 + k * 8.6 / 8
+    objet("IfcBeam", "Chevron de pergola", [(x - 0.04, -4.95, x + 0.04, -EP - 0.10, H_PG, H_PG + 0.20)], "Acier noir", PRO,
+          "Entraxe 1,075 m ; section à dimensionner", predef="JOIST")
 objet("IfcBeam", "Poutre de rive de pergola", [(-1.0, -4.98, 7.8, -4.82, H_PG, H_PG + 0.20)], "Acier noir", PRO, TER, predef="BEAM")
-objet("IfcBeam", "Lisse d'appui en façade", [(-1.0, -0.10, 7.8, 0, H_PG, H_PG + 0.20)], "Acier noir", PRO, "Fixation en façade à vérifier",
-      predef="BEAM")
+objet("IfcBeam", "Lisse d'appui contre la façade", [(-1.0, -EP - 0.10, 7.8, -EP, H_PG, H_PG + 0.20)], "Acier noir", PRO,
+      "Scellement chimique, support à reconnaître ; accord de la copropriété", predef="BEAM")
 lames = []
 y = -4.8
-while y < -0.15:
-    lames.append((-0.9, y, 7.7, y + 0.10, H_PG + 0.20, H_PG + 0.24))
+while y < -0.35:
+    lames.append((-0.9, y, 7.7, y + 0.045, H_PG + 0.20, H_PG + 0.295))
     y += 0.30
-objet("IfcMember", "Lames de bois de la pergola", lames, "Noyer", PRO, "Lames bois traité classe 4 ou bois composite, à choisir", predef="NOTDEFINED")
+objet("IfcMember", "Lames de bois de la pergola", lames, "Noyer", PRO, "Lames 45 × 95 sur chant, entraxe 0,30 m ; bois classe 4 ou composite", predef="NOTDEFINED")
 # salons extérieurs
 objet(F, "Banquette extérieure en L (ouest)", [(-0.75, -4.6, -0.2, -1.0, -0.05, 0.42), (-0.75, -4.6, 2.6, -4.05, -0.05, 0.42),
                                                (-0.75, -4.6, -0.6, -1.0, 0.42, 0.80), (-0.75, -4.6, 2.6, -4.45, 0.42, 0.80)],
@@ -286,6 +312,18 @@ for (x, y) in ((2.2, -3.3), (6.4, -4.2)):
 for (x, y) in ((-0.55, -0.45), (7.4, -0.45), (2.9, -4.55)):
     objet(F, "Jardinière et plante", [(x - 0.22, y - 0.22, x + 0.22, y + 0.22, -0.05, 0.50)], "Claustra terre cuite", PRO, TER, predef="NOTDEFINED")
     objet("IfcGeographicElement", "Plante en pot", [(x - 0.30, y - 0.30, x + 0.30, y + 0.30, 0.50, 1.40)], "Végétal", PRO, TER)
+
+# ------------------------------------------------------------- équipements techniques (repères des plans T01 à T03)
+TEC = "Plans techniques T01 à T03 (Le Génie) ; puissances à confirmer"
+objet("IfcElectricDistributionBoard", "Tableau divisionnaire", [(2.75, 0.0, 3.15, 0.15, 1.20, 1.90)], "Acier noir", PRO, TEC, predef="DISTRIBUTIONBOARD")
+for nom, b in (("Split 18 000 BTU bibliothèque", (3.15, 6.6, 3.40, 7.3, 2.45, 2.80)),
+               ("Split 12 000 BTU au-dessus de l'entrée", (4.0, 0.0, 4.8, 0.23, 2.62, 2.95)),
+               ("Split 9 000 BTU salle de réunion", (0.0, 4.2, 0.25, 4.9, 2.45, 2.80))):
+    objet("IfcUnitaryEquipment", nom, [b], "Crème", PRO, TEC, predef="SPLITSYSTEM")
+for x in (0.4, 3.3, 6.2):
+    objet("IfcUnitaryEquipment", "Groupe extérieur de climatisation", [(x - 0.40, PROF + EP + 0.02, x + 0.40, PROF + EP + 0.32, 0.30, 0.90)],
+          "Crème", "Hypothèse à vérifier", "Mur nord : accès, bruit et accord de la copropriété à valider", predef="SPLITSYSTEM")
+objet("IfcPump", "Pompe de relevage de l'évier", [(0.30, 1.0, 0.55, 1.35, 0.05, 0.40)], "Crème", PRO, TEC, predef="SUMPPUMP")
 
 # ------------------------------------------------------------- espaces
 ESPACES = (
@@ -303,12 +341,17 @@ for num, nom, (x0, y0, x1, y1) in ESPACES:
     sp.LongName = nom
     api.aggregate.assign_object(f, relating_object=rdc, products=[sp])
     api.geometry.edit_object_placement(f, product=sp, matrix=np.eye(4))
-    rep = f.createIfcShapeRepresentation(body, "Body", "SweptSolid", [solide(x0, y0, x1, y1, z0, z1)])
-    api.geometry.assign_representation(f, product=sp, representation=rep)
-    surf = (x1 - x0) * (y1 - y0)
     if num == "05":
-        surf -= (G.POT[2] - G.POT[0]) * (G.POT[3] - G.POT[1])
-        surf += G.EP_SEP * G.Y_REU1          # emprise du mur démoli rendue à la salle
+        poly = [(G.X_SEP0, 0), (X1, 0), (X1, G.POT[1]), (G.POT[0], G.POT[1]), (G.POT[0], G.POT[3]), (X1, G.POT[3]), (X1, PROF),
+                (G.X_SEP1, PROF), (G.X_SEP1, G.Y_REU0), (G.X_SEP0, G.Y_REU0)]
+        prof = f.createIfcArbitraryClosedProfileDef("AREA", None, f.createIfcPolyline([f.createIfcCartesianPoint(pt) for pt in poly + poly[:1]]))
+        forme = f.createIfcExtrudedAreaSolid(prof, f.createIfcAxis2Placement3D(f.createIfcCartesianPoint((0.0, 0.0, 0.0)), None, None), D_Z, z1 - z0)
+        surf = 0.5 * abs(sum(poly[i][0] * poly[(i + 1) % len(poly)][1] - poly[(i + 1) % len(poly)][0] * poly[i][1] for i in range(len(poly))))
+    else:
+        forme = solide(x0, y0, x1, y1, z0, z1)
+        surf = (x1 - x0) * (y1 - y0)
+    rep = f.createIfcShapeRepresentation(body, "Body", "SweptSolid", [forme])
+    api.geometry.assign_representation(f, product=sp, representation=rep)
     SURF[nom] = surf
     q = api.pset.add_qto(f, product=sp, name="Qto_SpaceBaseQuantities")
     api.pset.edit_qto(f, qto=q, properties={"NetFloorArea": round(surf, 2), "Height": round(z1 - z0, 2)})

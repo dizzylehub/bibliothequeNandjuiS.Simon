@@ -28,7 +28,7 @@ for m in err[:20]:
     lignes.append("  ERREUR " + str(m.get("message"))[:200])
 
 s = ifcopenshell.geom.settings()
-produits = [p for p in f.by_type("IfcProduct") if p.Representation]
+produits = [p for p in f.by_type("IfcProduct") if p.Representation and not p.is_a("IfcOpeningElement")]
 ok, ko = 0, []
 for p in produits:
     try:
@@ -45,6 +45,7 @@ for n in ko:
 
 sans = [p.Name for p in produits if not p.is_a("IfcSpace") and "NANDJUI_V8" not in ue.get_psets(p)]
 lignes.append(f"Objets sans jeu NANDJUI_V8 : {len(sans)}")
+lignes.append(f"Ouvertures dans les murs : {len(f.by_type('IfcOpeningElement'))} IfcOpeningElement, {len(f.by_type('IfcRelFillsElement'))} remplies par une porte ou une fenêtre")
 stat = {}
 for p in produits:
     st = ue.get_psets(p).get("NANDJUI_V8", {}).get("Statut", "—")
@@ -57,6 +58,7 @@ for sp in f.by_type("IfcSpace"):
     lignes.append(f"  {sp.Name} {sp.LongName} : {q.get('NetFloorArea')} m²")
 lignes.append("")
 lignes.append("Limites : la compatibilité Revit n'a pas été testée (logiciel non disponible ici).")
+lignes.append("Les réseaux (câbles, tuyaux, gaines) ne sont pas modélisés : les plans T01 à T03 font référence ; seuls les équipements principaux sont repérés.")
 lignes.append("Les hauteurs et la profondeur sont des hypothèses ; la maquette ne remplace pas un relevé.")
 os.makedirs(os.path.dirname(RAP), exist_ok=True)
 open(RAP, "w", encoding="utf-8").write("\n".join(lignes) + "\n")

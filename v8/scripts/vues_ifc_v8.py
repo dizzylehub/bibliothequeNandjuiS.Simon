@@ -27,7 +27,7 @@ reg.set("use-world-coords", True)
 def maillages():
     out = []
     for p in f.by_type("IfcProduct"):
-        if not p.Representation or p.is_a("IfcSpace"):
+        if not p.Representation or p.is_a("IfcSpace") or p.is_a("IfcOpeningElement"):
             continue
         sh = ifcopenshell.geom.create_shape(reg, p)
         g = sh.geometry
@@ -169,7 +169,4 @@ if __name__ == "__main__":
     vue("V01_axo_coupe_2m60.png", 50, -125, coupe=2.6, titre="V01 · Axonométrie coupée à 2,60 m",
         exclure=("IfcMember", "Plancher de la réserve"))
     vue("V02_axo_terrasse.png", 22, -105, titre="V02 · Vue depuis la terrasse, pergola en place")
-    vue("V03_axo_interieur.png", 48, 55, coupe=2.6, titre="V03 · Intérieur coupé à 2,60 m, vu depuis le fond",
-        exclure=("IfcMember", "Plancher de la réserve", "Dallage", "Claustra", "Portillon", "Poteau de pergola", "Banquette extérieure",
-                 "Table basse extérieure", "Fauteuil bas", "Pouf", "Jardinière", "Plante"))
     glb()

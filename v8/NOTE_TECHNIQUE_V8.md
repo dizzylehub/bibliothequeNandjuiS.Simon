@@ -34,34 +34,40 @@ Cette note accompagne le plan E01, les plans T01 à T03 et la maquette `NANDJUI_
 
 **Rayonnages du mur de la collection.** Sur 2,90 m de haut, un mètre linéaire chargé de livres pèse de l'ordre de 150 à 250 kg. Les modules sont fixés au mur contre le basculement, avec des chevilles adaptées au support reconnu. Le sol doit être plan.
 
-**Réserve haute au-dessus des WC.** Elle est conservée comme hypothèse. Il faut vérifier ses appuis et sa charge admissible, et prévoir un accès sûr. En attendant, elle sert seulement à un stockage léger.
+**Réserve haute au-dessus des WC.** Elle est conservée comme hypothèse. Le plancher est supposé à 2,40 m et la dalle à 3,30 m, ce qui laisse environ 0,78 m de hauteur libre. Il faut vérifier ses appuis et sa charge admissible, et prévoir un accès sûr, par exemple une trappe depuis le WC public. En attendant, elle sert seulement à un stockage léger. Le plafond en lames s'arrête devant le bloc WC.
 
 **Pergola (prédimensionnement indicatif).**
 - **Structure :**
   - 5 poteaux acier carrés d'environ 100 × 100 × 4 mm, espacés d'environ 2,15 m ;
   - une poutre de rive sur les poteaux ;
-  - des chevrons d'environ 4,90 m portant de la façade à la poutre ;
-  - des lames de 100 × 40 mm tous les 30 cm, en bois traité classe 4 ou en composite.
-- **Fixation côté façade :** une lisse ancrée par scellement chimique, après reconnaissance du support. C'est le point le plus sensible, car la façade appartient à la copropriété.
+  - 9 chevrons d'environ 4,75 m, tous les 1,075 m, de la lisse de façade à la poutre ;
+  - des lames de 45 × 95 mm posées sur chant tous les 30 cm, en bois traité classe 4 ou en composite. Sur chant et avec des chevrons rapprochés, la portée des lames reste raisonnable.
+- **Fixation côté façade :** une lisse posée contre le nu extérieur de la façade, ancrée par scellement chimique après reconnaissance du support. C'est le point le plus sensible, car la façade appartient à la copropriété.
 - **Massifs :** un massif béton par poteau, à dimensionner au vent et à l'arrachement.
 - **Pluie :** les lames ajourées ne protègent pas de la pluie. Si Madame veut une terrasse utilisable sous l'averse, il faut une couverture translucide sous les lames (polycarbonate, verre) ou des lames orientables, avec une gouttière et une descente.
 
 ## 3. Électricité et éclairage (T01)
 
-- **Tableau :** un tableau divisionnaire neuf derrière l'arrière-bar, avec des différentiels 30 mA par groupe. L'installation existante n'est pas réutilisée : fils nus et appareillage vétuste visibles sur les photos.
+- **Tableau :** un tableau divisionnaire neuf près de l'entrée, sur le trumeau entre la vitrine et la grande porte, à plus de 2 m de l'évier. Il porte des différentiels 30 mA par groupe. L'installation existante n'est pas réutilisée : fils nus et appareillage vétuste visibles sur les photos.
 - **Éclairage tamisé :** trois scènes, jour, soir (environ 30 %) et fermeture. Lumière à 2 700 K, gradable. Repères d'éclairement : environ 300 lux sur les tables de lecture et de travail, 150 lux en ambiance du soir.
-- **Puissance :** environ 10,3 kW installés, environ 7 kW foisonnés. L'abonnement est à adapter avec la CIE.
+- **Puissance :** environ 12,2 kW installés, dont l'eau chaude (1,5 kW) et la pompe de relevage (0,4 kW). Environ 8,5 kW foisonnés. L'abonnement est à adapter avec la CIE.
 - **Sécurité :** des blocs autonomes d'éclairage de sécurité aux sorties et dans les circulations.
 
 ## 4. Plomberie (T02)
 
 - Les deux WC sont regroupés sur le mur du fond, avec une seule sortie EV vers la descente existante. Cette descente reste à localiser.
-- L'évier du café est à environ 5,5 m de la descente. Il faut soit une évacuation en chape avec une pente d'au moins 1,5 %, soit une petite pompe de relevage. L'évier et le petit chauffe-eau (15 L) ne se justifient que si le café prépare et lave sur place. C'est à confirmer avec Madame.
+- L'évier du café est à environ 6,3 m de la descente. Une évacuation gravitaire demanderait 15 à 18 cm de chape au point bas, alors que le sol prévu fait environ 8 cm. Le Génie retient donc une pompe de relevage sous l'évier, avec un refoulement de Ø 32 en plinthe et un regard de visite avant le WC réunion.
+- L'évier, la pompe et le petit chauffe-eau (15 L) ne se justifient que si le café prépare et lave sur place. C'est à confirmer avec Madame.
 - Terrasse : un robinet de puisage et un caniveau pour les eaux pluviales en bord de dallage.
 
 ## 5. Climatisation et ventilation (T03)
 
-- **Froid :** environ 11,5 kW au total, soit environ 3,5 kW électriques. Deux unités murales dans la bibliothèque (18 000 et 12 000 BTU) et une dans la salle de réunion (9 000 BTU). La base est d'environ 300 W de froid par m², à affiner avec un frigoriste.
+- **Froid :** environ 11,5 kW au total, soit environ 3,5 kW électriques. Base d'environ 300 W de froid par m², à affiner avec un frigoriste. Trois unités murales :
+  - 18 000 BTU sur le mur du bloc WC, côté bibliothèque ;
+  - 12 000 BTU au-dessus de la grande porte, et non sur le mur de la collection ;
+  - 9 000 BTU dans la salle de réunion.
+
+  Les liaisons passent dans le plénum du plafond en lames et contournent le poteau. Variante à étudier : une unité gainable dans le plénum pour la bibliothèque.
 - **Groupes extérieurs :** proposés sur le mur nord. Leur accès, le bruit pour les logements et l'accord de la copropriété sont à valider.
 - **WC aveugles :** extraction mécanique de 30 m³/h chacun, temporisée sur l'éclairage.
 - **Brasseurs d'air :** à pales bois, de style mid-century, dans la salle et sous la pergola.
@@ -80,8 +86,11 @@ Cette note accompagne le plan E01, les plans T01 à T03 et la maquette `NANDJUI_
 ## 7. Maquette IFC V8 (Manadja)
 
 - **Fichier :** `NANDJUI_ESQ_V8.ifc`, schéma IFC4, unités en mètre. Il est généré par `scripts/generer_ifc_v8.py` à partir de la même géométrie que le plan E01.
-- **Contrôle** (`rapports/validation_ifc_v8.txt`) : 0 erreur et 0 avertissement à la validation EXPRESS, règles incluses. Les 97 représentations géométriques sont calculées sans échec.
+- **Contrôle** (`rapports/validation_ifc_v8.txt`) : 0 erreur et 0 avertissement à la validation EXPRESS, règles incluses. Les 110 représentations géométriques sont calculées sans échec.
 - **Statut des objets :** chaque objet porte le jeu de propriétés `NANDJUI_V8`, qui indique son statut (Mesuré, Estimé, Proposé, Existant à démolir, Hypothèse à vérifier) et sa source. Le mur à démolir porte aussi `Phase = Démolition`.
 - **Espaces :** six espaces `IfcSpace` avec leur surface nette (Qto).
 - **Vues de contrôle :** V01 à V03 et le modèle `vues/NANDJUI_V8.glb`, calculés depuis l'IFC.
+- **Ouvertures :** les portes et fenêtres sont posées dans de vraies ouvertures (`IfcOpeningElement` remplies), avec leur largeur, leur hauteur et leur sens d'ouverture.
+- **Équipements :** le tableau, les splits, les groupes extérieurs et la pompe sont repérés. Les réseaux (câbles, tuyaux, gaines) ne sont pas modélisés : les plans T01 à T03 font référence.
+- **Salle de réunion :** 9 places autour d'une table de 2,50 × 0,80 m (banquette de 5 places et 4 chaises), avec une circulation de 0,90 m au nord vers la porte et le WC réunion.
 - **Revit non testé :** l'ouverture dans Revit n'a pas pu être vérifiée ici, faute du logiciel. Les objets sont des extrusions simples, et non des familles Revit natives.
