@@ -1,6 +1,6 @@
 # Note technique V8 — Le Génie, avec Manadja
 
-Café-bibliothèque de Madame Nandjui, Abidjan. Indice B, esquisse.
+Café-bibliothèque de Madame Nandjui, Abidjan. Indice C, esquisse (16 octobre 2026).
 
 Cette note accompagne le plan E01, les plans T01 à T03 et la maquette `NANDJUI_ESQ_V8.ifc`. Elle fixe des principes et des ordres de grandeur. Elle ne remplace ni des calculs d'exécution, ni l'avis d'un ingénieur structure, ni les vérifications des concessionnaires (CIE pour l'électricité, SODECI pour l'eau).
 

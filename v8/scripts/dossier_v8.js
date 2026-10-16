@@ -60,7 +60,7 @@ function img(s, key, x, y, w, h, align, nom) {
   s.addImage({ ...o, altText: nom || key, objectName: "image " + key });
   return o;
 }
-function fr(x) { return x.replace(/« /g, "«" + N).replace(/ »/g, N + "»").replace(/ ([:;!?])/g, N + "$1"); }
+function fr(x) { return x.replace(/'/g, "’").replace(/« /g, "«" + N).replace(/ »/g, N + "»").replace(/ ([:;!?])/g, N + "$1"); }
 function t(s, text, o) {
   text = typeof text === "string" ? fr(text) : text.map(r => ({ ...r, text: fr(r.text) }));
   s.addText(text, { isTextBox: true, fontFace: FONT, color: K.noir, fontSize: 14, margin: 0, valign: "top", paraSpaceAfter: 6, ...o });
@@ -97,7 +97,7 @@ function nouvelle(titre, section) {
   return s;
 }
 function eyebrow(s, text, x, y, w) {
-  t(s, text.toUpperCase(), { x, y, w: w || 8, h: 0.3, fontSize: 11, bold: true, color: K.vert, charSpacing: 1 });
+  t(s, text.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""), { x, y, w: w || 8, h: 0.3, fontSize: 11, bold: true, color: K.vert, charSpacing: 1 });
 }
 function chiffre(s, valeur, libelle, x, y, w) {
   t(s, valeur, { x, y, w, h: 0.75, fontFace: TITRE, fontSize: 46, bold: true, color: K.vert });
@@ -131,7 +131,7 @@ pres.addSection({ title: "Présentation" });
     `Une salle de réunion vitrée à louer, 9${N}places, avec son propre WC.`,
     "Le mur de la collection, une bibliothèque « Kente » du sol au plafond.",
     "Une palette mid-century : noyer, velours cognac et olive, laiton, crème.",
-    "Dehors, des assises basses sous une pergola, dont les chaises d’Issa Diabaté.",
+    "Dehors, des assises basses sous une pergola, dont les chaises ÖVERALLT d’Issa Diabaté et Kevin Gouriou (IKEA).",
   ], { x: 0.6, y: 3.6, w: 7.2, h: 3.6, fontSize: 14 });
   const xs = [0.6, 3.1, 5.6];
   chiffre(s, `49,2${N}m²`, "intérieur (profondeur estimée)", xs[0], 7.5, 2.4);
@@ -153,7 +153,7 @@ pres.addSection({ title: "Une soirée chez Madame Nandjui" });
    ["R_P1_soir", "On entre", "Une seule grande porte. À droite, le mur de la collection ; au fond, le salon de lecture ; à gauche, la salle de réunion derrière ses baies vitrées."],
    ["R_P5_soir", "L’accueil de Madame", "Le meuble « Secrétaire » présente le livre du jour ; à la fermeture, son rideau à lattes cache le café."],
    ["R_P2_soir", "Le salon de lecture", "Quatre fauteuils bas, des lampadaires en laiton, le plafond en lames de noyer et la lumière à 2 700 K."],
-   ["R_P4_soir", "La salle de réunion", "Neuf places autour de la table « Pirogue » : une banquette de cinq places le long de la baie, quatre chaises en face."],
+   ["R_P4_soir", "La salle de réunion", "Neuf places autour de la table « Pirogue » : une banquette de cinq places le long de la baie, quatre chaises en face (figurées par leur volume)."],
    ["R_P3_soir", "La terrasse du soir", "Deux salons sous la pergola, chaises ÖVERALLT et tabourets ; une musique douce pour la famille et les voisins."],
    ["R_P3_jour", "La terrasse le jour", "Les lames de la pergola dessinent l’ombre ; le dallage et le claustra en terre cuite restent frais."],
    ["R_P6_jour", "Vue d’ensemble, le jour", "La terrasse prolongée, close par un claustra bas, des jardinières et un portillon."],
@@ -213,7 +213,7 @@ pres.addSection({ title: "Une soirée chez Madame Nandjui" });
 {
   const s = nouvelle("Le parti : le salon de Madame, un cocon mid-century", "Présentation");
   { const o = img(s, "A1", 0.6, 1.4, 9.8, 6.3, "t", "Croquis A1, le cocon mid-century");
-    legende(s, "Croquis A1 de Dizzy : entrer dans le cocon.", o.x, o.y + o.h + 0.12, Math.max(o.w, 6)); }
+    legende(s, "Croquis A1 de Dizzy : entrer dans le cocon. Dessin de principe généré par script (rôle IA).", o.x, o.y + o.h + 0.12, Math.max(o.w, 6)); }
   eyebrow(s, "Le geste fondateur", 10.9, 1.45, 5);
   t(s, "« Et si l’on entrait dans la bibliothèque de Madame Nandjui comme on entre chez elle ? »", { x: 10.9, y: 1.9, w: 5.0, h: 1.6, fontSize: 18, italic: true, color: K.gris });
   puces(s, [
@@ -261,9 +261,9 @@ if (A("H_PLAN_jour")) {
     `Salle de réunion vitrée de 8,4${N}m², 9${N}places, avec son WC.`,
     "Bibliothèque « Kente » sur trois murs, table d’hôtes et « Arbre à travail » au poteau.",
     "Salon de lecture au fond : quatre fauteuils, lampadaires.",
-    `Terrasse d’environ 50${N}m² sous pergola : deux salons bas.`,
+    `Terrasse d’environ 50${N}m², dont 42${N}m² sous pergola : deux salons bas.`,
   ], { x: 9.6, y: 3.5, w: 6.2, h: 4.5, fontSize: 14 });
-  t(s, "Rendu calculé depuis la maquette IFC, habillé façon planche Photoshop. Lignes de coupe A et B : pages suivantes.", { x: 9.6, y: 10.2, w: 6.2, h: 0.8, fontSize: 11, italic: true, color: K.gris });
+  t(s, "Rendu calculé depuis la maquette IFC, avec habillage graphique (étiquettes, ombres, échelle). Coupes A et B : pages suivantes ; orientation à confirmer.", { x: 9.6, y: 10.2, w: 6.2, h: 0.8, fontSize: 11, italic: true, color: K.gris });
 }
 [["H_COUPE_AA_soir", "Coupe A, le soir", "Longitudinale, vers l’ouest : la terrasse sous la pergola, l’accueil, la salle de réunion vitrée et les WC, sous les logements existants."],
  ["H_COUPE_BB_jour", "Coupe B, le jour", "Transversale, vers le nord : la salle de réunion derrière ses baies vitrées et la bibliothèque, plafond en lames de noyer à 3,00 m."],
@@ -302,7 +302,7 @@ pres.addSection({ title: "Aménagement" });
   const s = nouvelle("La terrasse-salon sous pergola", "Aménagement");
   img(s, "A2", 0.6, 1.3, 7.6, 5.0, "lt", "Croquis A2");
   { const o = img(s, "V02", 8.5, 1.3, 7.4, 5.0, "t", "Axonométrie depuis la terrasse");
-    legende(s, "Croquis A2 de Dizzy et vue calculée depuis la maquette.", o.x, o.y + o.h + 0.12, Math.max(o.w, 6)); }
+    legende(s, "Croquis A2 de Dizzy (dessin de principe généré par script, rôle IA) et vue calculée depuis la maquette.", o.x, o.y + o.h + 0.12, Math.max(o.w, 6)); }
   puces(s, [
     `Terrasse prolongée d’environ 2,65${N}m au-delà du muret actuel, close par un claustra bas, des jardinières et un portillon.`,
     `Pergola en acier noir et lames de bois sur chant ; globes opalins pour une lumière tamisée.`,
@@ -347,9 +347,10 @@ VAR.forEach(f => {
     f.variantes.forEach((v, c) => {
       const x = 0.6 + c * 5.2;
       couvrir(s, vue(v.cle), x, 2.25, 4.95, 3.75, v.nom);
+      const complement = f.fichier === "V4_postes_travail" && v.nom[0] === "C";
       if (v.recommande) {
-        s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: x + 0.15, y: 2.4, w: 1.6, h: 0.36, rectRadius: 0.06, fill: { color: K.vert }, line: { color: K.vert }, objectName: "recommandé" });
-        t(s, "RECOMMANDE", { x: x + 0.15, y: 2.47, w: 1.6, h: 0.25, fontSize: 9, bold: true, color: K.blanc, align: "center" });
+        s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: x + 0.15, y: 2.4, w: complement ? 2.2 : 1.6, h: 0.36, rectRadius: 0.06, fill: { color: K.vert }, line: { color: K.vert }, objectName: "recommandé" });
+        t(s, complement ? "EN COMPLEMENT" : "RECOMMANDE", { x: x + 0.15, y: 2.47, w: complement ? 2.2 : 1.6, h: 0.25, fontSize: 9, bold: true, color: K.blanc, align: "center" });
       }
       t(s, v.nom.replace(" · ", " "), { x, y: 6.15, w: 4.95, h: 0.45, fontSize: 16, bold: true, color: K.gris });
       t(s, v.idee, { x, y: 6.65, w: 4.95, h: 2.6, fontSize: 12 });
@@ -368,8 +369,8 @@ VAR.forEach(f => {
     }
     let y = 1.45;
     if (v.recommande) {
-      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 10.9, y, w: 2.4, h: 0.42, rectRadius: 0.08, fill: { color: K.vert }, line: { color: K.vert }, objectName: "recommandé" });
-      t(s, "RECOMMANDE PAR L’EQUIPE", { x: 10.9, y: y + 0.09, w: 2.4, h: 0.3, fontSize: 9, bold: true, color: K.blanc, align: "center" });
+      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 10.9, y, w: (f.fichier === "V4_postes_travail" && lettre === "C") ? 3.2 : 2.4, h: 0.42, rectRadius: 0.08, fill: { color: K.vert }, line: { color: K.vert }, objectName: "recommandé" });
+      t(s, f.fichier === "V4_postes_travail" && lettre === "C" ? "EN COMPLEMENT DU MODELE A" : "RECOMMANDE PAR L’EQUIPE", { x: 10.9, y: y + 0.09, w: (f.fichier === "V4_postes_travail" && lettre === "C") ? 3.2 : 2.4, h: 0.3, fontSize: 9, bold: true, color: K.blanc, align: "center" });
       y += 0.7;
     } else {
       t(s, "OPTION AU CHOIX", { x: 10.9, y: y + 0.05, w: 3, h: 0.3, fontSize: 10, bold: true, color: K.gris, charSpacing: 1 });
@@ -424,7 +425,8 @@ pres.addSection({ title: "Options" });
     "Un modernisme tropical : claustras, bois clair, plantes et lumière filtrée, comme sous le grand arbre du site.",
     "Un ruban de rayonnages court de la salle jusqu’à la terrasse ; la façade devient une lanterne la nuit.",
     "Étudiée et non retenue pour l’ambiance générale ; son claustra en dos de livres peut s’intégrer à la direction A.",
-  ], { x: 0.6, y: 8.0, w: 15.3, h: 2.4, fontSize: 14 });
+  ], { x: 0.6, y: 8.0, w: 15.3, h: 2.0, fontSize: 14 });
+  legende(s, "Croquis B1 et B2 de Dizzy : dessins de principe générés par script (rôle IA), sans valeur de plan.", 0.6, 10.2, 15.3);
 }
 
 // ---------------------------------------------------------------- technique
@@ -485,7 +487,7 @@ pres.addSection({ title: "Suite" });
     "Plans, coupes, vues 3D, perspectives et fiches mobilier sont calculés depuis les mêmes scripts.",
     `Maquette NANDJUI_ESQ_V8.ifc (IFC4) : 0${N}erreur à la validation, 112${N}objets géométriques, statut de chaque objet (mesuré, estimé, proposé, à démolir).`,
     "Ouverture dans Revit non testée ; objets en volumes simples, pas en familles natives.",
-    "Les rendus réalistes sont calculés depuis la maquette (Blender Cycles) : matériaux et éclairage de principe. Les images d’ambiance générées par IA sont signalées et non contractuelles.",
+    "Les rendus réalistes sont calculés depuis la maquette (Blender Cycles) : matériaux et éclairage de principe, mobilier figuré par ses volumes. Les croquis sont des dessins de principe générés par script.",
   ], { x: 0.6, y: 1.9, w: 7.4, h: 5, fontSize: 13 });
   eyebrow(s, "L’équipe architecturale (rôles IA)", 8.6, 1.45, 7.3);
   puces(s, [

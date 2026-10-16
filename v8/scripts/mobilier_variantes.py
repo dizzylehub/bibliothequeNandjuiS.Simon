@@ -92,7 +92,7 @@ PLANCHES = [
               "Un rayonnage continu, avec un bandeau incliné à hauteur des yeux qui présente les livres de face, comme chez un libraire, et des niches vitrées au-dessus.",
               ["Met en valeur les livres coups de cœur", "Simple à lire"],
               ["Plus classique", "Le bandeau mange une rangée de livres"])],
-         reco="Recommandation de l'équipe : « Kente » : c'est la seule qui donne une identité forte au mur tout en restant faite de modules droits. Il y ajoute les niches-vitrines pour les livres rares et le bandeau-lutrin de C sur un module près de l'entrée."),
+         reco="Recommandation de l'équipe : « Kente », la seule qui donne une identité forte au mur tout en restant faite de modules droits. Elle y ajoute les niches-vitrines pour les livres rares et le bandeau-lutrin de C sur un module près de l'entrée."),
     dict(fichier="V2_accueil", titre="Le meuble d'accueil de la gérante : trois modèles",
          intro="Madame y travaille assise, dos au mur, face aux livres. Le meuble doit accueillir, servir le café et se fermer proprement le soir.",
          variantes=[
@@ -106,7 +106,7 @@ PLANCHES = [
              ("C · « Comptoir-bibliothèque »", M.accueil_bibliotheque, False,
               "Un comptoir en L dont la façade côté clients est une bibliothèque ouverte : les livres commencent dès l'accueil.",
               ["Continuité avec le mur de la collection"], ["Livres exposés aux éclaboussures du café", "Plus encombrant"])],
-         reco="Recommandation de l'équipe : « Secrétaire » : il reste un meuble de famille, il présente un livre à chaque visiteur et il transforme le café en salon à la fermeture."),
+         reco="Recommandation de l'équipe : « Secrétaire », qui reste un meuble de famille, il présente un livre à chaque visiteur et il transforme le café en salon à la fermeture."),
     dict(fichier="V3_table_reunion", titre="La table de réunion : trois modèles pour 9 places",
          intro="La salle mesure 3,00 × 2,80 m. La table fait 2,50 × 0,80 m, face à une banquette de 5 places et à 4 chaises.",
          variantes=[
@@ -120,7 +120,7 @@ PLANCHES = [
              ("C · « Tréteaux »", M.table_treteaux, False,
               "Deux tables de 1,25 m sur tréteaux en acier, à assembler en long, en T ou en salle de classe.",
               ["La plus modulable", "Économique"], ["Moins de caractère", "Aspect provisoire"])],
-         reco="Recommandation de l'équipe : « Pirogue » : une table signature, qui se divise quand même en deux pour les ateliers de location, et qui garde les 9 places."),
+         reco="Recommandation de l'équipe : « Pirogue », une table signature, qui se divise quand même en deux pour les ateliers de location, et qui garde les 9 places."),
     dict(fichier="V4_postes_travail", titre="Les postes de travail individuels : trois modèles",
          intro="Deux postes sont prévus contre le poteau de 0,90 × 0,90 m. Le lieu doit pouvoir en offrir d'autres les jours d'affluence.",
          variantes=[

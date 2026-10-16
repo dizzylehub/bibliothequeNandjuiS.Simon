@@ -191,8 +191,13 @@ def coupe(vue, ambiance, etiquettes, personnes, assis, arbres, batiment_u, titre
     # étiquettes et niveaux
     clair = (246, 238, 226) if soir else ENCRE
     for (u, z, s) in etiquettes:
+        if not s:
+            continue
         x, y = R(u, z)
-        texte_espace(dr, (x, y), s, SANS_B(24), clair, 0.22, "ma")
+        f = SANS_B(24)
+        l = sum(dr.textlength(c, font=f) for c in s) + 0.22 * 24 * (len(s) - 1) + 28
+        dr.rounded_rectangle([x - l / 2, y - 6, x + l / 2, y + 36], radius=8, fill=(250, 246, 238, 225))
+        texte_espace(dr, (x, y), s, f, ENCRE, 0.22, "ma")
     for (u, z, s) in niveaux_u:
         niveau(dr, R, u, z, s, clair)
     titre(dr, 70, 60, titre_txt, sous_txt, clair)
@@ -244,6 +249,12 @@ def plan():
     for (p, q, lettre) in (((4.2, -5.9), (4.2, 7.9), "A"), ((-1.6, 3.2), (8.3, 3.2), "B")):
         a, b = R(*p), R(*q)
         dr.line([a, b], fill=(176, 88, 43, 230), width=4)
+        # sens du regard : A vers l'ouest (gauche du plan), B vers le nord (haut du plan)
+        for c in (a, b):
+            if lettre == "A":
+                dr.polygon([(c[0] - 34, c[1]), (c[0] - 64, c[1] - 16), (c[0] - 64, c[1] + 16)], fill=(176, 88, 43, 255))
+            else:
+                dr.polygon([(c[0], c[1] - 34), (c[0] - 16, c[1] - 64), (c[0] + 16, c[1] - 64)], fill=(176, 88, 43, 255))
         for (c, autre) in ((a, b), (b, a)):
             dr.ellipse([c[0] - 26, c[1] - 26, c[0] + 26, c[1] + 26], fill=(176, 88, 43, 255))
             w = dr.textlength(lettre, font=SANS_B(30))
@@ -265,14 +276,14 @@ if __name__ == "__main__":
     # coupe AA : longitudinale dans la bibliothèque, regard vers l'ouest (accueil, salle de réunion)
     for amb in ("soir", "jour"):
         coupe("COUPE_AA", amb,
-              etiquettes=[(-2.6, 3.35, "TERRASSE"), (1.2, 3.25, "ACCUEIL"), (3.7, 3.25, "SALLE DE REUNION"), (6.4, 3.25, "WC")],
+              etiquettes=[(-2.6, 3.35, "TERRASSE"), (1.1, 2.55, "ACCUEIL"), (3.75, 2.55, "SALLE DE REUNION"), (6.4, 2.55, "WC")],
               personnes=[-4.3, 0.9, 5.4], assis=[(-2.0, 1), (2.6, -1)],
               arbres=[(-6.6, 3.0, 7.0, 4), (8.6, 2.2, 5.5, 9)], batiment_u=(-0.3, 7.75),
-              titre_txt="Coupe A", sous_txt="longitudinale, vers l’ouest · terrasse, accueil, salle de réunion, WC",
+              titre_txt="Coupe A", sous_txt="longitudinale, dans la bibliothèque, regard vers l’ouest (orientation à confirmer) : au-delà, l’accueil, la salle de réunion et les WC",
               niveaux_u=[(-5.0, 0.0, "± 0,00"), (7.4, 3.0, "+ 3,00 plafond"), (-0.6, 2.9, "+ 2,90 pergola")])
     coupe("COUPE_BB", "jour",
-          etiquettes=[(1.5, 3.25, "SALLE DE REUNION"), (4.9, 3.25, "BIBLIOTHEQUE"), (6.4, 3.6, "")],
+          etiquettes=[(1.5, 2.55, "SALLE DE REUNION"), (4.9, 2.55, "BIBLIOTHEQUE"), (6.4, 3.6, "")],
           personnes=[3.6], assis=[(1.0, 1), (4.6, -1)],
           arbres=[(-1.6, 1.6, 4.5, 2), (8.3, 1.6, 4.0, 5)], batiment_u=(-0.15, 6.9),
-          titre_txt="Coupe B", sous_txt="transversale, vers le nord · salle de réunion vitrée et bibliothèque",
+          titre_txt="Coupe B", sous_txt="transversale, regard vers le nord (orientation à confirmer) : salle de réunion vitrée et bibliothèque",
           niveaux_u=[(-1.0, 0.0, "± 0,00"), (6.95, 3.0, "+ 3,00")])

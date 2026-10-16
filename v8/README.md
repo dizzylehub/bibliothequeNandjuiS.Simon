@@ -1,9 +1,10 @@
 # V8 — café-bibliothèque de Madame Nandjui
 
-Stade : esquisse, maquette IFC et plans techniques de principe (indice B). Direction A retenue : cocon mid-century et terrasse-salon sous pergola.
+Stade : esquisse, maquette IFC et plans techniques de principe (indice C). Direction A retenue : cocon mid-century et terrasse-salon sous pergola.
 
-**Dossier de présentation à Madame Nandjui** : `dossier/NANDJUI_V8_Dossier_A3.pdf` (50 pages A3 paysage, indice C : rendus réalistes, plan et coupes rendus, toutes les variantes de mobilier et toutes les options, sans nom ni logo d’agence) et sa version modifiable `dossier/NANDJUI_V8_Dossier_A3.pptx`. Typographie : Cormorant Garamond (titres) et Jost (texte), polices libres fournies dans `dossier/polices/` ; le PDF les embarque, le PPTX demande de les installer.
+**Dossier de présentation à Madame Nandjui** : `dossier/NANDJUI_V8_Dossier_A3.pdf` (52 pages A3 paysage, indice C : rendus réalistes, plan et coupes rendus, toutes les variantes de mobilier et toutes les options, sans nom ni logo d’agence) et sa version modifiable `dossier/NANDJUI_V8_Dossier_A3.pptx`. Typographie : Cormorant Garamond (titres) et Jost (texte), polices libres fournies dans `dossier/polices/` ; le PDF les embarque, le PPTX demande de les installer.
 
+- [Historique, relecture et reste à faire](HISTORIQUE.md)
 - [Plan de travail V8](PLAN_DE_TRAVAIL_V8.html) : page HTML autonome. Elle contient l'analyse du site, la lecture du croquis de relevé, le brief « cocon mid-century », les deux directions de Dizzy avec leurs croquis, le plan de travail coordonné par G-K, les questions à trancher et la relecture de Josiane.
 - `plans/E01_plan_amenagement` (SVG, PNG) : plan d'aménagement, esquisse de Désiré Akai.
 - `NANDJUI_ESQ_V8.ifc` : maquette IFC4 de Manadja (contrôle dans `rapports/validation_ifc_v8.txt`).
@@ -17,7 +18,7 @@ Stade : esquisse, maquette IFC et plans techniques de principe (indice B). Direc
   - A2 : la terrasse-salon sous pergola.
   - B1 : coupe du ruban.
   - B2 : façade-lanterne.
-- `scripts/` : `croquis_dizzy.py` et `plan_esquisse.py` génèrent les SVG ; `rendre_croquis.sh` et `rendre_plans.sh` en font les aperçus PNG. La police Caveat est sous licence OFL.
+- `scripts/` : `croquis_dizzy.py` et `plan_esquisse.py` génèrent les SVG ; `rendu_blender.py`, `rendu_mobilier_blender.py` et `habillage_ortho.py` produisent les rendus réalistes, le plan et les coupes rendus (`rendre_blender.sh`, `rendre_ortho.sh`) ; `rendre_croquis.sh` et `rendre_plans.sh` en font les aperçus PNG. La police Caveat est sous licence OFL.
 - Croquis de relevé : `../photos/releve/` (PDF d'origine et image tournée façade en bas).
 
 Brief du 15 octobre :

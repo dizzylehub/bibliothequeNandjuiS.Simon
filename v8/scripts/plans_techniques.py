@@ -189,7 +189,7 @@ def t01():
              ["Trois scènes : jour (plein), soir (tamisé 30 %),", "fermeture (sécurité seule)."],
              ["!Abonnement à adapter avec la CIE après relevé du", "!compteur et de la mise à la terre existants."],
              ["!Installation existante non réutilisée : fils nus", "!et appareillage vétustes vus sur les photos."]]
-    page("T01_electricite_eclairage.svg", "T01 · Électricité et éclairage · esquisse", "V8 indice B · courants forts, éclairage tamisé, sécurité",
+    page("T01_electricite_eclairage.svg", "T01 · Électricité et éclairage · esquisse", "V8 indice C · courants forts, éclairage tamisé, sécurité",
          c, leg, notes, bilan)
 
 
@@ -241,7 +241,7 @@ def t02():
              ["!Position du compteur SODECI, de la descente et", "!des pentes à relever avant tout tracé."],
              ["L'évier du café est à environ 6,3 m de la descente :", "pompe de relevage sous l'évier, refoulement en plinthe."],
              ["Évier et ballon : seulement si l'exploitation", "du café le demande (à confirmer avec Madame)."]]
-    page("T02_plomberie.svg", "T02 · Plomberie · esquisse", "V8 indice B · eau froide, eau chaude, eaux usées et vannes", c, leg, notes)
+    page("T02_plomberie.svg", "T02 · Plomberie · esquisse", "V8 indice C · eau froide, eau chaude, eaux usées et vannes", c, leg, notes)
 
 
 PROF_EV = 7.75
@@ -290,7 +290,7 @@ def t03():
              ["Terrasse : brasseurs d'air sous la pergola, sans clim."],
              ["!Emplacement des groupes extérieurs, bruit pour les", "!logements et accord de la copropriété à valider."]]
     page("T03_climatisation_ventilation.svg", "T03 · Climatisation et ventilation · esquisse",
-         "V8 indice B · confort d'été, renouvellement d'air", c, leg, notes, bilan)
+         "V8 indice C · confort d'été, renouvellement d'air", c, leg, notes, bilan)
 
 
 if __name__ == "__main__":

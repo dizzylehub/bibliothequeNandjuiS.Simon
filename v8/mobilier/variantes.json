@@ -3,7 +3,7 @@
   "fichier": "V1_bibliotheque",
   "titre": "La bibliothèque : trois modèles pour le mur de la collection",
   "intro": "Le mur fait environ 9 m de long sur 2,90 m de haut. Il porte toute la collection de Madame : c'est la pièce maîtresse du lieu.",
-  "reco": "Recommandation de l'équipe : « Kente » : c'est la seule qui donne une identité forte au mur tout en restant faite de modules droits. Il y ajoute les niches-vitrines pour les livres rares et le bandeau-lutrin de C sur un module près de l'entrée.",
+  "reco": "Recommandation de l'équipe : « Kente », la seule qui donne une identité forte au mur tout en restant faite de modules droits. Elle y ajoute les niches-vitrines pour les livres rares et le bandeau-lutrin de C sur un module près de l'entrée.",
   "variantes": [
    {
     "cle": "VAR_V1_A",
@@ -54,7 +54,7 @@
   "fichier": "V2_accueil",
   "titre": "Le meuble d'accueil de la gérante : trois modèles",
   "intro": "Madame y travaille assise, dos au mur, face aux livres. Le meuble doit accueillir, servir le café et se fermer proprement le soir.",
-  "reco": "Recommandation de l'équipe : « Secrétaire » : il reste un meuble de famille, il présente un livre à chaque visiteur et il transforme le café en salon à la fermeture.",
+  "reco": "Recommandation de l'équipe : « Secrétaire », qui reste un meuble de famille, il présente un livre à chaque visiteur et il transforme le café en salon à la fermeture.",
   "variantes": [
    {
     "cle": "VAR_V2_A",
@@ -101,7 +101,7 @@
   "fichier": "V3_table_reunion",
   "titre": "La table de réunion : trois modèles pour 9 places",
   "intro": "La salle mesure 3,00 × 2,80 m. La table fait 2,50 × 0,80 m, face à une banquette de 5 places et à 4 chaises.",
-  "reco": "Recommandation de l'équipe : « Pirogue » : une table signature, qui se divise quand même en deux pour les ateliers de location, et qui garde les 9 places.",
+  "reco": "Recommandation de l'équipe : « Pirogue », une table signature, qui se divise quand même en deux pour les ateliers de location, et qui garde les 9 places.",
   "variantes": [
    {
     "cle": "VAR_V3_A",

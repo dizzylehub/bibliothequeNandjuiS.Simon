@@ -460,7 +460,7 @@ def eclairage(soir, MAT):
 def environnement(soir, MAT):
     """Contexte hors maquette, figuré simplement : sol du quartier, immeuble au-dessus, grand arbre."""
     # sol au-delà de la terrasse
-    bpy.ops.mesh.primitive_plane_add(size=60, location=(3.5, -20, -0.16))
+    bpy.ops.mesh.primitive_plane_add(size=900, location=(3.5, -20, -0.16))
     herbe = uni("Sol du quartier", "#6f6a58", 0.95, 0, 0.15, 0.8, 0)
     bpy.context.active_object.data.materials.append(herbe)
     # étages de l'immeuble habité au-dessus du local (volume simple)
@@ -600,6 +600,8 @@ def main():
             lat = Vector((-n.y, n.x, 0))
             dirl = (-n * math.cos(math.radians(35)) + lat * 0.45 + Vector((0, 0, -math.sin(math.radians(35))))).normalized()
             soleil.rotation_euler = dirl.to_track_quat("-Z", "Y").to_euler()
+        if soleil and a.vue == "PLAN":   # soleil haut : l'ombre de la pergola reste sur la terrasse
+            soleil.rotation_euler = (math.radians(14), 0, math.radians(200))
         camera_ortho(a.vue)
         if a.vue != "PLAN":
             bpy.context.scene.view_settings.exposure = -0.9 if soir else -1.2

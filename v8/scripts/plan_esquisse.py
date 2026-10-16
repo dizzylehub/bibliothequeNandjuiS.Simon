@@ -1,4 +1,4 @@
-"""Plan d'aménagement, esquisse V8 indice B (Désiré Akai, contrôle Manadja).
+"""Plan d'aménagement, esquisse V8 indice C (Désiré Akai, contrôle Manadja).
 
 Repère : X de gauche à droite vu depuis la terrasse (0 = nu intérieur du mur gauche),
 Y depuis la façade (0 = nu intérieur de façade) vers le fond, au nord.
@@ -193,7 +193,7 @@ def construire():
     overallt(5.65, -3.9, "s")
     overallt(5.40, -2.85, "o")
     tabouret(6.4, -4.25)
-    texte(4.4, -1.35, "chaises ÖVERALLT · Issa Diabaté", 9, "#8a6a3a")
+    texte(4.4, -1.35, "chaises ÖVERALLT · I. Diabaté et K. Gouriou", 9, "#8a6a3a")
     for (x, y) in ((-0.55, -0.45), (7.4, -0.45), (2.9, -4.55)):
         plante(x, y, 0.28)
     # allée d'entrée
@@ -369,7 +369,7 @@ def cartouche(surf):
         f'<text x="{x}" y="{y}" font-family="{FONT}" font-size="{taille}" font-weight="{poids}" fill="{col}" text-anchor="{ancre}">{s}</text>')
     t(x0, 90, "CAFÉ-BIBLIOTHÈQUE NANDJUI", 20, poids=700)
     t(x0, 116, "E01 · Plan d'aménagement · esquisse", 15)
-    t(x0, 138, "V8 indice B · 16 octobre 2026 · non coté pour exécution", 11, GRIS)
+    t(x0, 138, "V8 indice C · 16 octobre 2026 · non coté pour exécution", 11, GRIS)
     t(x0, 175, "Direction retenue : A, le salon de Madame", 12, poids=700)
     t(x0, 193, "cocon mid-century et terrasse-salon sous pergola", 12)
     y = 235

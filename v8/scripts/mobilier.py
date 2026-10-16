@@ -601,7 +601,7 @@ def fiche(piece):
             tx(x, y + i * inter, l, taille, col)
         return y + len(lignes) * inter
     tx(70, 52, f'{piece["code"]} · {piece["nom"]}', 26, poids=700)
-    tx(70, 78, "Désiré Akai (rôle IA) · fiche mobilier · V8 indice B · modèle d'étude à prototyper, cotes en mètres", 13, GRIS)
+    tx(70, 78, "Désiré Akai (rôle IA) · fiche mobilier · V8 indice C · modèle d'étude à prototyper, cotes en mètres", 13, GRIS)
     if piece.get("avert"):
         tx(70, 100, piece["avert"], 13, ORANGE, 700)
     X = 920
